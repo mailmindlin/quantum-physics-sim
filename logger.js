@@ -17,7 +17,7 @@ window['Logger'] = {
     }
     self.err=function(stuff){
       if(window['Logger'].allow(self.file,self.obj, 'err')){
-        console.err(window['Logger'].getPrefix(self.file, self.obj, 'err')+stuff);
+        console.error(window['Logger'].getPrefix(self.file, self.obj, 'err')+stuff);
       }
     }
     return self;
