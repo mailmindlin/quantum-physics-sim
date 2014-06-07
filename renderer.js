@@ -17,7 +17,7 @@ window['Scene'] = function() {
    * @see Scene#update(ticks)
    */
   self.registerPhysicsHandler = function(handler, seniority/*optional*/) {
-    self.registry.physicsHandlers.push({handler:handler, seniority:(ISSET(seniority)?seniority:-1));
+    self.registry.physicsHandlers.push({handler:handler, seniority:(ISSET(seniority)?seniority:-1)});
     return self;//allow for chaining
   };
   /**
