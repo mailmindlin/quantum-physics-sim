@@ -2,7 +2,7 @@
 Logger.js
 Versatile logger. Create a logger for something, and log with it, and you can determine what to let through at runtime
 */
-if(!disableLogger) {
+if((!ISSET(disableLogger))||(!disableLogger)) {
   window['Logger'] = {
     allow: function(file, obj, method) {
       return true;//Add something in here to filter it.
