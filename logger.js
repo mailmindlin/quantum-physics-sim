@@ -23,6 +23,6 @@ window['Logger'] = {
     return self;
   },
   getPrefix: function(file, obj, method) {
-    return (method==log?"":method)+file+">"+obj+":";
+    return (method=='log'?"":method)+file+">"+obj+":";
   }
 };
