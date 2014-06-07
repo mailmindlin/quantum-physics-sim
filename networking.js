@@ -15,7 +15,7 @@ window['Network'] = function() {
   
   self.process=function() {
     //Abstract
-    throw(new Error("Someone tried to use an abstract function in Network.\nUse a non abstract version (i.e., ManagedNetwork or DynamicNetwork)!");
+    throw(new Error("Someone tried to use an abstract function in Network.\nUse a non abstract version (i.e., ManagedNetwork or DynamicNetwork)!"));
   };
   return self;
 };
