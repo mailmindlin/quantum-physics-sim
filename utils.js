@@ -9,4 +9,11 @@ window['ISSET']=function(a,b) {
 		return typeof a === b;
 	}
 	throw(new Error("How did I get here?"));
-}
+};
+//std. string functions
+String.prototype.startsWith = function(needle) {
+	return this.indexOf(needle) == 0;
+};
+String.prototype.contains = function(needle) {
+	return this.indexOf(needle) >= 0;
+};
