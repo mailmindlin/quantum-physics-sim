@@ -3,8 +3,21 @@ Logger.js
 Versatile logger. Create a logger for something, and log with it, and you can determine what to let through at runtime
 */
 window['Logger'] = {
+  whitelist: [],
+  blacklist: [],
+  useWhitelist: false,
   allow: function(file, obj, method) {
-    return true;//Add something in here to filter it.
+    for(var item in Logger.blacklist ) {
+      if(item.matches(file, obj, method)) return false;
+    }
+    if(Logger.useWhitelist) {
+      for(var item in Logger.whitelist) {
+        if(item.matches(file, obj, method)) return true;
+      }
+    }else{
+      return true;
+    }
+    return false;
   },
   create: function(file, obj){
     var self=this;
