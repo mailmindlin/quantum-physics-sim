@@ -48,7 +48,7 @@ function Input(args) {
 			var tr=$(td).parent();
 			if($($(tr).parent()).children().size()>1)tr.remove();
 		});
-		var el_update = function(ev) {
+		$('.input-element').bind('keyup blur', function(ev) {
 			var text=$(this).val();
 			for(var i=0; i < elements.length; i++) {
 				if(elements[i]==text){
@@ -57,9 +57,8 @@ function Input(args) {
 				}
 			}
 			$(this).removeClass('element-valid').addClass('element-invalid');
-		}
-		$('.input-element').bind('keyup blur', el_update);//.on('keyup', el_update).blur(el_update);
-		var num_update = function(ev) {
+		});
+		$('.input-numeric').bind('keyup blur', function(ev) {
 			var text = $(this).val();
 			var check = parseFloat(text).toString();
 			if(check == text || check + "." == text) {
@@ -67,8 +66,7 @@ function Input(args) {
 			} else {
 				$(this).removeClass('element-valid').addClass('element-invalid');
 			}
-		};
-		$('.input-numeric').bind('keyup blur', num_update);
+		});
 	};
 	//set custom vars
 	//set name var
