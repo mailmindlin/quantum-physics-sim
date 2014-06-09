@@ -61,7 +61,8 @@ function Input(args) {
 		$('.input-element').bind('keyup blur', el_update);//.on('keyup', el_update).blur(el_update);
 		var num_update = function(ev) {
 			var text = $(this).val();
-			if(parseFloat(text).toString() == text) {
+			var check = parseFloat(text).toString();
+			if(check == text || check + "." == text) {
 				$(this).addClass('element-valid').removeClass('element-invalid');
 			} else {
 				$(this).removeClass('element-valid').addClass('element-invalid');
