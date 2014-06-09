@@ -7,7 +7,7 @@ function Input(args) {
 	if(ISSET(args, 'String'))args['name']=args;
 	var self = this;
 	self.logger=new Logger.create('input.js', 'Input');
-	//constants
+	//static
 	//table row
 	self.tRow="<tr>\
 		<td><input type='text' class='input-element input'/></td>\
@@ -16,19 +16,35 @@ function Input(args) {
 		<td><input type='text' class='input-Z input'/></td>\
 		</tr>"
 		.replace('\t','');//remove all tabs
-	
+	self.updateListeners = function() {
+		$('.input-Z').keypress(function() {
+			var tr=$(this).parent().parent();//note: first parent is td
+			var tbody=tr.parent();
+			var trIndex=$(tr).index();
+			var nextTr;
+			if(ISSET(nextTr=$(tbody).children().eq(trIndex+1))) {
+				$(nextTr).children().eq(0).children.eq(0).focus();//focus on element
+			}else{
+				(new Input({name: $(tbody).parent()})).addRow().find('input-element').focus();
+			}
+		});
+	};
 	//set custom vars
 	//set name var
 	self.name=args['name'];
 	//Adds a row to the tbody of the table
-	self.addRow=function(){
-		if(!ISSET(self.dom)){
+	self.addRow = function() {
+		//make sure self.dom is defined
+		if(!ISSET(self.dom)) {
 			//get table element
 			self.dom=$('table#'+self.name)[0];
 		}
+		//get table body, to append row in
 		var tbody=$(self.dom).find("tbody");
-		tbody.append($(self.tRow));
+		var newRow=$(self.tRow);
+		tbody.append(newRow);
 		self.logger.log('Successfully added row!');
+		return newRow;
 	};
 	if(ISSET(self.supr=args['dom'])){
 		//create input
