@@ -28,13 +28,12 @@ var Help = {
 	},
 	help: function(domEl) {
 		if($(domEl).attr('help-rq')=='false'){
-			//it was disabled
+			//help was disabled previously
 			Help.unregister(domEl);
-			return self;
+			return Help;
 		}
 		$('#help-div').show()
 			.html($(domEl).attr('help-text'))
-			//.css('left', 'auto')
 			.css('right', ($(window).width()-295)+'px')
 			.css('top', $(domEl).offset().top /*+ 65*/ + 'px');
 		$(domEl).attr('help-active', 'true');
@@ -45,5 +44,6 @@ var Help = {
 	},
 	setColor: function(domEl, color) {
 		$(domEl).attr('help-color', color);
+		return Help;
 	}
 };
