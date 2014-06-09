@@ -21,7 +21,7 @@ var Help = {
 				Help.logger.log(ev);
 				if($(ev.currentTarget).attr('help-active')=='true') {
 					$('#help-div').hide();
-					$(ev.currentTarget).attr('help-active', false);
+					$(ev.currentTarget).attr('help-active', 'false');
 				}
 			});
 		return Help;
@@ -29,10 +29,10 @@ var Help = {
 	help: function(domEl) {
 		$('#help-div').show()
 			.html($(domEl).attr('help-text'))
-			.attr('help-active', 'true')
 			//.css('left', 'auto')
 			.css('right', ($(window).width()-295)+'px')
 			.css('top', $(domEl).offset().left+65 + 'px');
+		$(domEl).attr('help-active', 'true');
 		if(ISSET($(domEl).attr('help-color'))){
 			$('#help-div').css('background-color', $(domEl).attr('help-color'));
 		}
