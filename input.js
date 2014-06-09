@@ -21,7 +21,7 @@ function Input(args) {
 		$('.input-Z').off('keypress');
 		
 		$('.input-Z').keydown(function(ev) {
-			if(ev.keyCode!=68)return;//68 is tab key	
+			if(ev.keyCode!=9)return;//9 is tab key	
 			console.log('a');
 			console.log(ev);
 			self.logger.log('hi');
@@ -36,7 +36,7 @@ function Input(args) {
 				$(nextTr).children().eq(0).children.eq(0).focus();//focus on element
 			}else{
 				console.log('c2');
-				(new Input({name: $(tbody).parent()})).addRow().find('input-element').focus();
+				(new Input({name: $(tbody).parent().attr('id')})).addRow().find('input-element').focus();
 			}
 		});
 	};
