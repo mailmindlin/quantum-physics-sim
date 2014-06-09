@@ -43,8 +43,8 @@ function Input(args) {
 		});
 		$('.input-delete').click(function() {
 			if($(this).parent().
-			var td=$(this).parent()
-			var tr=$(td).parent()
+			var td=$(this).parent();
+			var tr=$(td).parent();
 			if($($(tr).parent()).children().size()>0)tr.remove();
 		});
 	};
