@@ -47,7 +47,7 @@ function Input(args) {
 			if($($(tr).parent()).children().size()>1)tr.remove();
 		});
 		var el_update = function(ev) {
-			var text=$(this).val();
+			var text=$(this).val()+(ev.type.contains("key")?String.fromCharCode(ev.keyCode):"");
 			for(var i=0; i < elements.length; i++) {
 				if(elements[i]==text){
 					$(this).addClass('element-valid').removeClass('element-invalid');
@@ -56,7 +56,7 @@ function Input(args) {
 				$(this).removeClass('element-valid').addClass('element-invalid');
 			}
 		}
-		$('.input-element').on('keypress', el_update).blur(el_update);
+		$('.input-element').on('keyup', el_update).blur(el_update);
 	};
 	//set custom vars
 	//set name var
