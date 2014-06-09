@@ -62,8 +62,7 @@ function Input(args) {
 		});
 		$('.input-numeric').bind('keyup blur', function(ev) {
 			var text = $(this).val();
-			var check = parseFloat(text).toString();
-			if(check == text || check + "." == text) {
+			if(!isNaN(text)) {
 				$(this).addClass('element-valid').removeClass('element-invalid');
 				Help.unregister($(this));
 			} else {
