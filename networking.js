@@ -52,7 +52,7 @@ window['ManagedNetwork'] = function(name, setup) {
 /**
  * Uses geolocation/ping times to determine the fastest network, and can change dynamically (hence it's name)
  */
-window['DynamicNetwork'] = function(name, ) {
+window['DynamicNetwork'] = function(name, setup) {
   var self = new Network();
   
   return self;
