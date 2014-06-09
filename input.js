@@ -21,6 +21,7 @@ function Input(args) {
 		$('.input-Z').off('keypress');
 		
 		$('.input-Z').keydown(function(ev) {
+			if(e.keyCode!=68)return;//68 is tab key
 			console.log('a');
 			console.log(ev);
 			self.logger.log('hi');
