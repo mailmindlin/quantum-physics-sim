@@ -16,7 +16,10 @@ function Input(args) {
 	<td><input type='text' class='input-Z input'/></td>\
 	</tr>";
 	
+	//set custom vars
+	//set name var
 	self.name=args['name'];
+	//Adds a row to the tbody of the table
 	self.addRow=function(){
 		if(!ISSET(self.dom)){
 			//get table element
@@ -26,14 +29,19 @@ function Input(args) {
 		tbody.append($(self.tRow));
 		self.logger.log('Successfully added row!');
 	};
-	if(ISSET(self.dom=args['dom'])){
+	if(ISSET(self.supr=args['dom'])){
 		//create input
+		//check that the element doesn't already exist (to prevent conflicts)
 		if(ISSET($('#'+args['name'])[0]))throw(new Error('Input with specified name \'' + args['name'] + '\' already exists'));
-		dom.innerHTML="\
-			<table id="+args['name']+">\
+		//add table text
+		self.supr.innerHTML="\
+			<table id=" + self.name + ">\
 			<thead><tr><th>Element</th><th>X</th><th>Y</th><th>Z</th></tr></thead>\
 			<tbody></tbody>\
 			</table>";
+		//set dom attribute
+		self.dom=$('#'+self.name);
+		//create first row
 		self.addRow();
 	}
 	return self;
