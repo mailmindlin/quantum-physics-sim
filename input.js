@@ -55,7 +55,7 @@ function Input(args) {
 		//make sure self.dom is defined
 		if(!ISSET(self.dom)) {
 			//get table element
-			self.dom=$('table#'+self.name)[0];
+			self.dom = $('table#'+self.name)[0];
 		}
 		//get table body, to append row in
 		var tbody=$(self.dom).find("tbody");
@@ -64,6 +64,26 @@ function Input(args) {
 		self.updateListeners();
 		self.logger.log('Successfully added row!');
 		return newRow;
+	};
+	self.getData = function() {
+		var obj = {};
+		//make sure self.dom is defined
+		if(!ISSET(self.dom)) {
+			//get table element
+			self.dom = $('table#'+self.name)[0];
+		}
+		var tbody = $(self.dom).find('tbody');
+		obj.len=$(tbody).children().size();
+		for(var i = 0; i < obj.len; i++) {
+			var temp = $(tbody).children().eq(i);
+			var rowObj = {}
+			rowObj.element=$(temp).find('.input-element').val();
+			rowObj.X=parseFloat($(temp).find('.input-X').val());
+			rowObj.Y=parseFloat($(temp).find('.input-Y').val());
+			rowObj.Z=parseFloat($(temp).find('.input-Z').val());
+			obj[i]=rowObj;
+		}
+		return obj;
 	};
 	if(ISSET(self.supr=args['dom'])){
 		//create input
