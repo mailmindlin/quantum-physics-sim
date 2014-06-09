@@ -116,6 +116,7 @@ function Input(args) {
 }
 //element list
 var elements = [
+	'',//allow for blank slots
 	'H',
 	'He',
 	'Li',
