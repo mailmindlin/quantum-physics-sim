@@ -31,5 +31,8 @@ var Help = {
 			//.css('left', 'auto')
 			.css('right', ($(window).width()-295)+'px')
 			.css('top', $(domEl).offset().left+65 + 'px');
+		if(ISSET($(domEl).attr('help-color'))){
+			$('#help-div').css('background-color', $(domEl).attr('help-color'));
+		}
 	}
 };
