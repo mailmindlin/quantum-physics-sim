@@ -4,3 +4,12 @@
 .element-invalid {
   background: red;
 }
+.input-delete {
+  border: 1px #333 solid;
+  width: 20px;
+  height: 20px;
+  border-radius: 11px;
+}
+.input-element {
+  width: 30px;
+}
