@@ -6,10 +6,11 @@ var Help = {
 	register: function(domEl, helpText) {
 		$(domEl).attr('help-rq', 'true')
 			.attr('help-text', helpText);
-		Help.refresh();
+		return Help.refresh();//allow chaining
 	},
 	unregister: function(element) {
 		$(element).attr('help-rq', 'false');
+		return Helpl
 	},
 	refresh: function() {
 		$('[help-rq="true"]').off('mouseover mouseout').unbind('mouseover mouseout')
@@ -23,6 +24,7 @@ var Help = {
 					$(ev.currentTarget).attr('help-active', false);
 				}
 			});
+		return Help;
 	},
 	help: function(domEl) {
 		$('#help-div').show()
@@ -34,5 +36,9 @@ var Help = {
 		if(ISSET($(domEl).attr('help-color'))){
 			$('#help-div').css('background-color', $(domEl).attr('help-color'));
 		}
+		return Help;
+	}
+	setColor(domEl, color) {
+		$(domEl).attr('help-color', color);
 	}
 };
