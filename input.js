@@ -12,9 +12,9 @@ function Input(args) {
 	self.tRow="<tr>\
 		<td><font style='color:white;background:red;' class='input-delete'>X</font></td>\
 		<td><input type='text' class='input-element input'/></td>\
-		<td><input type='text' class='input-X input'/></td>\
-		<td><input type='text' class='input-Y input'/></td>\
-		<td><input type='text' class='input-Z input'/></td>\
+		<td><input type='text' class='input-X input input-numeric'/></td>\
+		<td><input type='text' class='input-Y input input-numeric'/></td>\
+		<td><input type='text' class='input-Z input input-numeric'/></td>\
 		</tr>"
 		.replace('\t','');//remove all tabs
 	self.updateListeners = function() {
@@ -22,6 +22,7 @@ function Input(args) {
 		$('.input-Z').off('keydown');
 		$('.input-delete').off('click');
 		$('.input-element').off('blur keyup');
+		$('.input-numeric').off('keyup blur');
 		
 		$('.input-Z').keydown(function(ev) {
 			if(ev.keyCode!=9 || ev.shiftKey)return;//9 is tab key; also exit if shift is pressed (i.e., shift-tab)
@@ -66,7 +67,7 @@ function Input(args) {
 				$(this).removeClass('element-valid').addClass('element-invalid');
 			}
 		};
-		$('.input-X .input-Y .input-Z').bind('keyup blur');
+		$('.input-numeric').bind('keyup blur', num_update);
 	};
 	//set custom vars
 	//set name var
