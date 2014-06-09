@@ -17,7 +17,11 @@ function Input(args) {
 		</tr>"
 		.replace('\t','');//remove all tabs
 	self.updateListeners = function() {
+		//remove old listener(s)
+		$('.input-Z').off('keypress');
+		
 		$('.input-Z').keypress(function() {
+			self.logger.log('hi');
 			var tr=$(this).parent().parent();//note: first parent is td
 			var tbody=tr.parent();
 			var trIndex=$(tr).index();
@@ -43,6 +47,7 @@ function Input(args) {
 		var tbody=$(self.dom).find("tbody");
 		var newRow=$(self.tRow);
 		tbody.append(newRow);
+		self.updateListeners();
 		self.logger.log('Successfully added row!');
 		return newRow;
 	};
