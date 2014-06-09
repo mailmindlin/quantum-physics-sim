@@ -46,11 +46,14 @@
         <h3><a name="demo" class="anchor" href="#demo-main"><span class="octicon octicon-link"></span></a>Use, and be amazed.</h3>
 
         <canvas class="simulator-canvas"></canvas>
+        <div id="input-test">I'm the input!</div>
         <script type="text/javascript">
         	//setup canvas as simulator
       		//called on body load
   				function load() {
   					var canvas = $('.simulator-canvas');
+  					var input = $('#input-test');
+  					window['inp']=new Input({name:'input-test1', input});
   					//TODO finish
   				}
 				</script>
