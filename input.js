@@ -10,11 +10,12 @@ function Input(args) {
 	//constants
 	//table row
 	self.tRow="<tr>\
-	<td><input type='text' class='input-element input'/></td>\
-	<td><input type='text' class='input-X input'/></td>\
-	<td><input type='text' class='input-Y input'/></td>\
-	<td><input type='text' class='input-Z input'/></td>\
-	</tr>";
+		<td><input type='text' class='input-element input'/></td>\
+		<td><input type='text' class='input-X input'/></td>\
+		<td><input type='text' class='input-Y input'/></td>\
+		<td><input type='text' class='input-Z input'/></td>\
+		</tr>"
+		.replace('\t','');//remove all tabs
 	
 	//set custom vars
 	//set name var
