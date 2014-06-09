@@ -44,7 +44,7 @@ function Input(args) {
 		$('.input-delete').click(function() {
 			var td=$(this).parent();
 			var tr=$(td).parent();
-			if($($(tr).parent()).children().size()>0)tr.remove();
+			if($($(tr).parent()).children().size()>1)tr.remove();
 		});
 	};
 	//set custom vars
