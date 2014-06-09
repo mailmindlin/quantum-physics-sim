@@ -2,7 +2,7 @@
 help.js
 */
 var Help = {
-	logger: Logger.create("Help.js", "help");
+	logger: Logger.create("Help.js", "help"),
 	register: function(domEl, helpText) {
 		$(domEl).attr('help-rq', 'true')
 			.attr('help-text', helpText);
