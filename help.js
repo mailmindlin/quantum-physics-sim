@@ -28,7 +28,7 @@ var Help = {
 	},
 	help: function(domEl) {
 		if($(domEl).attr('help-rq')=='false'){
-			//it was disabled
+			//help was disabled previously
 			Help.unregister(domEl);
 			return Help;
 		}
