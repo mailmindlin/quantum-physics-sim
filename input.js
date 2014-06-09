@@ -21,6 +21,7 @@ function Input(args) {
 		//remove old listener(s)
 		$('.input-Z').off('keydown');
 		$('.input-delete').off('click');
+		$('.input-element').off('blur').off('keydown');
 		
 		$('.input-Z').keydown(function(ev) {
 			if(ev.keyCode!=9 || ev.shiftKey)return;//9 is tab key; also exit if shift is pressed (i.e., shift-tab)
@@ -56,7 +57,7 @@ function Input(args) {
 				$(this).removeClass('element-valid').addClass('element-invalid');
 			}
 		}
-		$('.input-element').on('keyup', el_update).blur(el_update);
+		$('.input-element').on('keydown', el_update).blur(el_update);
 	};
 	//set custom vars
 	//set name var
