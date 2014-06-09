@@ -46,6 +46,16 @@ function Input(args) {
 			var tr=$(td).parent();
 			if($($(tr).parent()).children().size()>1)tr.remove();
 		});
+		$('.input-element').on(['keypress','blur'], function(ev) {
+			var text=$(this).val();
+			for(var i=0; i < elements.length; i++) {
+				if(elements[i]==text){
+					$(this).addClass('element-valid').removeClass('element-invalid');
+					return;
+				}
+				$(this).removeClass('element-valid').addClass('element-invalid');
+			}
+		});
 	};
 	//set custom vars
 	//set name var
@@ -102,3 +112,51 @@ function Input(args) {
 	}
 	return self;
 }
+//element list
+var elements = [
+	H,
+	He,
+	Li,
+	Be,
+	B,
+	C,
+	N,
+	O,
+	F,
+	Ne,
+	Na,
+	Mg,
+	Al,
+	Si,
+	P,
+	S,
+	Cl,
+	Ar,
+	K,
+	Ca,
+	Sc,
+	Ti,
+	V,
+	Cr,
+	Mn,
+	Fe,
+	Co,
+	Ni,
+	Cu,
+	Zn,
+	Ga,
+	Ge,
+	As,
+	Se,
+	Br,
+	Kr,
+	Rb,
+	Sr,
+	Y,
+	Zr,
+	Nb,
+	Mo,
+	Tc,
+	Ru,
+	Rh
+];
