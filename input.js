@@ -53,18 +53,22 @@ function Input(args) {
 			for(var i=0; i < elements.length; i++) {
 				if(elements[i]==text){
 					$(this).addClass('element-valid').removeClass('element-invalid');
+					Help.unregister($(this));
 					return;
 				}
 			}
 			$(this).removeClass('element-valid').addClass('element-invalid');
+			Help.register($(this), "That's not a valid element.");
 		});
 		$('.input-numeric').bind('keyup blur', function(ev) {
 			var text = $(this).val();
 			var check = parseFloat(text).toString();
 			if(check == text || check + "." == text) {
 				$(this).addClass('element-valid').removeClass('element-invalid');
+				Help.unregister($(this));
 			} else {
 				$(this).removeClass('element-valid').addClass('element-invalid');
+				Help.register($(this), "You need to type in a valid number");
 			}
 		});
 	};
