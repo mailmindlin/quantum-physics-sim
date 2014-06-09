@@ -15,7 +15,7 @@ var Help = {
 	refresh: function() {
 		$('[help-rq="true"]').off('mouseover mouseout').unbind('mouseover mouseout')
 			.bind('mouseover', function(ev) {
-				Help.logger.log(ev);
+				Help.logger.log(ev, false);
 				Help.help(ev.currentTarget);
 			}).bind('mouseout', function(ev) {
 				Help.logger.log(ev, false);//log without prefix
