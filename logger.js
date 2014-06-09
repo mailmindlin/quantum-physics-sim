@@ -25,7 +25,10 @@ window['Logger'] = {
     self.file=file;
     self.log=function(stuff){
       if(window['Logger'].allow(self.file,self.obj, 'log')){
-        console.log(window['Logger'].getPrefix(self.file, self.obj, 'log')+(ISSET(stuff,'object')?JSON.stringify(stuff):stuff));
+      	try{
+      		stuff=(ISSET(stuff,'object')?JSON.stringify(stuff):stuff);
+      	}
+        console.log(window['Logger'].getPrefix(self.file, self.obj, 'log')+stuff);
       }
     }
     self.err=function(stuff){
