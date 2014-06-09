@@ -174,7 +174,6 @@ var elements = [
 	'Ce',
 	'Pr',
 	'Nd',
-	'Pr',
 	'Pm',
 	'Sm',
 	'Eu',
