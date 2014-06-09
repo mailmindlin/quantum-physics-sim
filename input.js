@@ -72,7 +72,7 @@ function Input(args) {
 		//add table text
 		self.supr.innerHTML="\
 			<table id=" + self.name + ">\
-			<thead><tr><th>Element</th><th>X</th><th>Y</th><th>Z</th></tr></thead>\
+			<thead><tr><th></th><th>Element</th><th>X</th><th>Y</th><th>Z</th></tr></thead>\
 			<tbody></tbody>\
 			</table>";
 		//set dom attribute
