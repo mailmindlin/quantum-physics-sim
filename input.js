@@ -42,7 +42,7 @@ function Input(args) {
 			}
 		});
 		$('.input-delete').click(function() {
-			this.parent().parent().remove();
+			$(this).parent().parent().remove();
 		});
 	};
 	//set custom vars
