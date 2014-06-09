@@ -54,6 +54,8 @@ function Input(args) {
 				if(elements[i]==text){
 					$(this).addClass('element-valid').removeClass('element-invalid');
 					Help.unregister($(this));
+					//try to call data update event
+					if($(self.dom).find('element-invalid').size()==0 && ISSET(self.onUpdate))try{self.onUpdate();}catch(ex){}
 					return;
 				}
 			}
@@ -65,9 +67,12 @@ function Input(args) {
 			if(!isNaN(text)) {
 				$(this).addClass('element-valid').removeClass('element-invalid');
 				Help.unregister($(this));
+				//try to call data update event
+				if($(self.dom).find('element-invalid').size()==0 && ISSET(self.onUpdate))try{self.onUpdate();}catch(ex){}
 			} else {
 				$(this).removeClass('element-valid').addClass('element-invalid');
 				Help.register($(this), "You need to type in a valid number");
+				//don't call data update
 			}
 		});
 	};
