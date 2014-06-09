@@ -26,10 +26,9 @@ function Input(args) {
 		tbody.append($(self.tRow));
 		self.logger.log('Successfully added row!');
 	};
-	if(ISSET(args['dom'])){
+	if(ISSET(self.dom=args['dom'])){
 		//create input
 		if(ISSET($('#'+args['name'])[0]))throw(new Error('Input with specified name \'' + args['name'] + '\' already exists'));
-		self.dom=dom;
 		dom.innerHTML="\
 			<table id="+args['name']+">\
 			<thead><tr><th>Element</th><th>X</th><th>Y</th><th>Z</th></tr></thead>\
