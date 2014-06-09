@@ -28,8 +28,8 @@ var Help = {
 		$('#help-div').show()
 			.html($(domEl).attr('help-text'))
 			.attr('help-active', 'true')
-			.css('right', '295')
-			.css('left', 'auto')
-			.css('top', $(domEl).offset().left);
+			//.css('left', 'auto')
+			.css('right', ($(window).width()-295)+'px')
+			.css('top', $(domEl).offset().left+65 + 'px');
 	}
 };
