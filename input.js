@@ -23,7 +23,7 @@ function Input(args) {
 		$('.input-delete').off('click');
 		
 		$('.input-Z').keydown(function(ev) {
-			if(ev.keyCode!=9)return;//9 is tab key	
+			if(ev.keyCode!=9 || ev.shiftKey)return;//9 is tab key; also exit if shift is pressed (i.e., shift-tab)
 			console.log('a');
 			console.log(ev);
 			self.logger.log('hi');
