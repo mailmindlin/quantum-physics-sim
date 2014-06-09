@@ -10,7 +10,7 @@ var Help = {
 	},
 	unregister: function(element) {
 		$(element).attr('help-rq', 'false');
-		return Helpl
+		return Help;
 	},
 	refresh: function() {
 		$('[help-rq="true"]').off('mouseover mouseout').unbind('mouseover mouseout')
@@ -18,7 +18,7 @@ var Help = {
 				Help.logger.log(ev);
 				Help.help(ev.currentTarget);
 			}).bind('mouseout', function(ev) {
-				Help.logger.log(ev);
+				Help.logger.log(ev, false);//log without prefix
 				if($(ev.currentTarget).attr('help-active')=='true') {
 					$('#help-div').hide();
 					$(ev.currentTarget).attr('help-active', 'false');
@@ -31,14 +31,14 @@ var Help = {
 			.html($(domEl).attr('help-text'))
 			//.css('left', 'auto')
 			.css('right', ($(window).width()-295)+'px')
-			.css('top', $(domEl).offset().left+65 + 'px');
+			.css('top', $(domEl).offset().top /*+ 65*/ + 'px');
 		$(domEl).attr('help-active', 'true');
 		if(ISSET($(domEl).attr('help-color'))){
 			$('#help-div').css('background-color', $(domEl).attr('help-color'));
 		}
 		return Help;
-	}
-	setColor(domEl, color) {
+	},
+	setColor: function(domEl, color) {
 		$(domEl).attr('help-color', color);
 	}
 };
