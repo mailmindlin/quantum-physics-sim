@@ -21,18 +21,21 @@ function Input(args) {
 		$('.input-Z').off('keypress');
 		
 		$('.input-Z').keydown(function(ev) {
-			if(e.keyCode!=68)return;//68 is tab key
+			if(e.keyCode!=68)return;//68 is tab key	
 			console.log('a');
 			console.log(ev);
 			self.logger.log('hi');
 			var tr=$(this).parent().parent();//note: first parent is td
 			var tbody=tr.parent();
 			var trIndex=$(tr).index();
+			console.log('b');
 			var nextTr;
 			if(ISSET(nextTr=$(tbody).children().eq(trIndex+1)[0])) {
+				console.log('c1');
 				console.log(nextTr);
 				$(nextTr).children().eq(0).children.eq(0).focus();//focus on element
 			}else{
+				console.log('c2');
 				(new Input({name: $(tbody).parent()})).addRow().find('input-element').focus();
 			}
 		});
