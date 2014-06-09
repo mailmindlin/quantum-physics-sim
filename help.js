@@ -9,7 +9,7 @@ var Help = {
 		return Help.refresh();//allow chaining
 	},
 	unregister: function(element) {
-		$(element).attr('help-rq', 'false');
+		$(element).attr('help-rq', 'false').off('mouseover mouseout');
 		return Help;
 	},
 	refresh: function() {
@@ -27,6 +27,11 @@ var Help = {
 		return Help;
 	},
 	help: function(domEl) {
+		if($(domEl).attr('help-rq')=='false'){
+			//it was disabled
+			Help.unregister(domEl);
+			return self;
+		}
 		$('#help-div').show()
 			.html($(domEl).attr('help-text'))
 			//.css('left', 'auto')
