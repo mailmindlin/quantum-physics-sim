@@ -102,9 +102,9 @@ function Input(args) {
 			var temp = $(tbody).children().eq(i);
 			var rowObj = {}
 			rowObj.element=$(temp).find('.input-element').val();
-			rowObj.X=parseFloat($(temp).find('.input-X').val());
-			rowObj.Y=parseFloat($(temp).find('.input-Y').val());
-			rowObj.Z=parseFloat($(temp).find('.input-Z').val());
+			rowObj.X=Number($(temp).find('.input-X').val());
+			rowObj.Y=Number($(temp).find('.input-Y').val());
+			rowObj.Z=Number($(temp).find('.input-Z').val());
 			obj[i]=rowObj;
 		}
 		return obj;
