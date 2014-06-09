@@ -6,7 +6,7 @@ function Input(args) {
 	if((!ISSET(args['name'])) && (!ISSET(args,'String')))throw(new Error("You need to specify name!"));
 	if(ISSET(args, 'String'))args['name']=args;
 	var self = this;
-	self.logger=new Logger('input.js', 'Input');
+	self.logger=new Logger.create('input.js', 'Input');
 	//constants
 	//table row
 	self.tRow="<tr>\
