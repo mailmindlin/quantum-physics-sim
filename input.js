@@ -26,7 +26,8 @@ function Input(args) {
 			var tbody=tr.parent();
 			var trIndex=$(tr).index();
 			var nextTr;
-			if(ISSET(nextTr=$(tbody).children().eq(trIndex+1))) {
+			if(ISSET(nextTr=$(tbody).children().eq(trIndex+1)[0])) {
+				console.log(nextTr);
 				$(nextTr).children().eq(0).children.eq(0).focus();//focus on element
 			}else{
 				(new Input({name: $(tbody).parent()})).addRow().find('input-element').focus();
