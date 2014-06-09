@@ -10,6 +10,7 @@ function Input(args) {
 	//static
 	//table row
 	self.tRow="<tr>\
+		<td><font style='color:white;background:red;' class='input-delete'>X</font></td>\
 		<td><input type='text' class='input-element input'/></td>\
 		<td><input type='text' class='input-X input'/></td>\
 		<td><input type='text' class='input-Y input'/></td>\
@@ -18,7 +19,8 @@ function Input(args) {
 		.replace('\t','');//remove all tabs
 	self.updateListeners = function() {
 		//remove old listener(s)
-		$('.input-Z').off('keypress');
+		$('.input-Z').off('keydown');
+		$('.input-delete').off('click');
 		
 		$('.input-Z').keydown(function(ev) {
 			if(ev.keyCode!=9)return;//9 is tab key	
@@ -38,6 +40,9 @@ function Input(args) {
 				console.log('c2');
 				(new Input({name: $(tbody).parent().attr('id')})).addRow().find('input-element').focus();
 			}
+		});
+		$('.input-delete').click(function() {
+			this.parent().parent().remove();
 		});
 	};
 	//set custom vars
