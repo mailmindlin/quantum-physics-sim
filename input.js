@@ -53,7 +53,7 @@ function Input(args) {
 			for(var i=0; i < elements.length; i++) {
 				if(elements[i]==text){
 					$(this).addClass('element-valid').removeClass('element-invalid');
-					Help.unregister($(this));
+					Help.unregister($(this));//make sure that help isn't called for this element
 					//try to call data update event
 					if($(self.dom).find('element-invalid').size()==0 && ISSET(self.onUpdate))try{self.onUpdate();}catch(ex){}
 					return;
@@ -72,7 +72,7 @@ function Input(args) {
 			} else {
 				$(this).removeClass('element-valid').addClass('element-invalid');
 				Help.register($(this), "You need to type in a valid number");
-				//don't call data update
+				//don't call data update, because the data is invalid
 			}
 		});
 	};
