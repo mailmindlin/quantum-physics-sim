@@ -20,7 +20,9 @@ function Input(args) {
 		//remove old listener(s)
 		$('.input-Z').off('keypress');
 		
-		$('.input-Z').keypress(function() {
+		$('.input-Z').keydown(function(ev) {
+			console.log('a');
+			console.log(ev);
 			self.logger.log('hi');
 			var tr=$(this).parent().parent();//note: first parent is td
 			var tbody=tr.parent();
