@@ -27,6 +27,9 @@ var Help = {
 	help: function(domEl) {
 		$('#help-div').show()
 			.html($(domEl).attr('help-text'))
-			.attr('help-active', 'true');
+			.attr('help-active', 'true')
+			.css('right', '295')
+			.css('left', 'auto')
+			.css('top', $(domEl).offset().left);
 	}
 };
