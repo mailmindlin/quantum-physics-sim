@@ -46,7 +46,7 @@ function Input(args) {
 			var tr=$(td).parent();
 			if($($(tr).parent()).children().size()>1)tr.remove();
 		});
-		$('.input-element').on(['keypress','blur'], function(ev) {
+		var el_update = function(ev) {
 			var text=$(this).val();
 			for(var i=0; i < elements.length; i++) {
 				if(elements[i]==text){
@@ -55,7 +55,8 @@ function Input(args) {
 				}
 				$(this).removeClass('element-valid').addClass('element-invalid');
 			}
-		});
+		}
+		$('.input-element').on('keypress', el_update).blur(el_update);
 	};
 	//set custom vars
 	//set name var
