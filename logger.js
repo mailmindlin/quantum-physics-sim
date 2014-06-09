@@ -27,7 +27,7 @@ window['Logger'] = {
       if(window['Logger'].allow(self.file,self.obj, 'log')){
       	try{
       		stuff=(ISSET(stuff,'object')?JSON.stringify(stuff):stuff);
-      	}finally{
+      	}catch(ex){}finally{
         	console.log(window['Logger'].getPrefix(self.file, self.obj, 'log')+stuff);
         }
       }
