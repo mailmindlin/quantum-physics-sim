@@ -143,7 +143,7 @@ function Input(args) {
 		if(ISSET($('#'+args['name'])[0]))throw(new Error('Input with specified name \'' + args['name'] + '\' already exists'));
 		//add table text
 		self.supr.innerHTML="\
-			<table id=" + self.name + ">\
+			<table border='0px' id=" + self.name + ">\
 			<thead><tr><th></th><th>Element</th><th>X</th><th>Y</th><th>Z</th></tr></thead>\
 			<tbody></tbody>\
 			</table>";
