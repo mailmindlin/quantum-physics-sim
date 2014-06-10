@@ -41,13 +41,13 @@
 #btm-arrow {
   font-size: 20px;
   border-width: 40px;
-  position: fixed;
+  /*position: fixed;
   bottom: 0px;
-  width: 20px;
+  width: 20px;*/
   border-radius: 30px;
-  transform:scale(2,1); /* W3C */
-  -webkit-transform:scale(2,1); /* Safari and Chrome */
-  -moz-transform:scale(2,1); /* Firefox */
-  -ms-transform:scale(2,1); /* IE 9 */
-  -o-transform:scale(2,1); /* Opera */
+  transform:scale(1,2); /* W3C */
+  -webkit-transform:scale(1,2); /* Safari and Chrome */
+  -moz-transform:scale(1,2); /* Firefox */
+  -ms-transform:scale(1,2); /* IE 9 */
+  -o-transform:scale(1,2); /* Opera */
 }
