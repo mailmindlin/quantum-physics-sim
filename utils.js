@@ -15,16 +15,22 @@ window['ISSET']=function(a,b) {
 	}
 	throw(new Error("How did I get here?"));
 };
-//std. string functions
+//std string functions
 /**
- * Determines whether the string starts with the substring needle
+ * Determines whether the string starts with the substring needle.
  */
 String.prototype.startsWith = function(needle) {
 	return this.indexOf(needle) == 0;
 };
 /**
- * Determines whether the string contains the substring needle
+ * Determines whether the string contains the substring needle.
  */
 String.prototype.contains = function(needle) {
 	return this.indexOf(needle) >= 0;
+};
+/**
+ * Capotalizes the first letter of the string.
+ */
+String.prototype.capitalizeFirstLetter() = function() {
+	return this.charAt(0).toUpperCase() + this.slice(1);
 };
