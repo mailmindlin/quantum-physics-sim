@@ -43,6 +43,11 @@
   border-width: 40px;
   position: fixed;
   bottom: 0px;
-  margin-left: auto;
-  margin-right: auto;
+  width: 20px;
+  border-radius: 30px;
+  transform:scale(2,1); /* W3C */
+  -webkit-transform:scale(2,1); /* Safari and Chrome */
+  -moz-transform:scale(2,1); /* Firefox */
+  -ms-transform:scale(2,1); /* IE 9 */
+  -o-transform:scale(2,1); /* Opera */
 }
