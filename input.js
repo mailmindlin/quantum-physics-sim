@@ -51,7 +51,7 @@ function Input(args) {
 		$('.input-element').bind('keyup blur', function(ev) {
 			var text=$(this).val();
 			for(var i=1; i < elements.length; i++) {
-				if(elements[i][symbol]==text){
+				if(elements[i]['symbol']==text){
 					$(this).addClass('element-valid').removeClass('element-invalid');
 					Help.unregister($(this));//make sure that help isn't called for this element
 					//try to call data update event
