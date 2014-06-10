@@ -20,7 +20,7 @@
   border-width: 2px;
   border-radius: 10px;
 }
-#footer-wrapper>table {
+#footer-wrapper {
   position: fixed;
   bottom: 0px;
   background-color: #353535;
