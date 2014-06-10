@@ -1,0 +1,19 @@
+<html>
+	<body>
+		<textarea id="input"></textarea>
+		<button onclick="compress()">Compress!</button>
+		<script type="text/javascript">
+			function compress(){
+				var text=document.querySelector('#input').value;
+				var isComment=false;
+				var charArray=text.split('');
+				var nextChar='';
+				var output="";
+				for(var i=0;i<charArray.length;i++){
+					var cChar=nextChar;
+					nextChar=charArray[i];
+				}
+			}
+		</script>
+	</body>
+</html>
