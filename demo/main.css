@@ -50,4 +50,8 @@
   -moz-transform:scale(1,2); /* Firefox */
   -ms-transform:scale(1,2); /* IE 9 */
   -o-transform:scale(1,2); /* Opera */
+  position: relative;
+  overflow:; hidden;
+  height: 20px;
+  top: 50px;
 }
