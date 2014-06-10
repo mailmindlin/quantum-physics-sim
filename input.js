@@ -59,6 +59,8 @@ function Input(args) {
 					Help.unregister($(this));//make sure that help isn't called for this element
 					//update text (to better capitalization) if it's a blur event
 					if(ev.type=="blur")$(this).val(text);
+					//update session data
+					self.updateData();
 					//try to call data update event
 					if($(self.dom).find('element-invalid').size()==0 && ISSET(self.onUpdate))try{self.onUpdate();}catch(ex){}
 					return;
@@ -80,6 +82,22 @@ function Input(args) {
 				//don't call data update, because the data is invalid
 			}
 		});
+	};
+	self.lockUpdate=false;
+	self.updateData = function(){
+		if(self.lockUpdate)return;
+		self.lockUpdate=true;
+		var old=Session.get('input');
+		if(ISSET(old)){
+			old[self.name]=self.getData();
+			Session.set("input", old);
+		}else{
+			var newDt = {};
+			newDt[self.name]=self.getData();
+			Session.set("input", newDt);
+		}
+		self.lockUpdate=false;
+		return;
 	};
 	//set custom vars
 	//set name var
