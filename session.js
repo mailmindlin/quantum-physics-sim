@@ -15,6 +15,6 @@ var Session = (function() {
     getName: function(){return iData['session-name'];},
     getAll: function(){return iData;},
     load: function(n) {iData=JSON.parse(window.localStorage.getItem(n));iData['session-name']=n;},
-    save: function(n) {window.localStorage.setItem((typeof n !== 'undefined')?n:iData['session-name']), JSON.stringify(iData));}
+    save: function(n) {window.localStorage.setItem((typeof n !== 'undefined')?n:iData['session-name'], JSON.stringify(iData));}
   };
 })();
