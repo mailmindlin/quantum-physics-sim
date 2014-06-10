@@ -13,4 +13,6 @@ function toggleFooter(){
 $('body').ready(function(){
 	toggleFooter();
 	$('#btm-arrow').click(toggleFooter);
+	//setup jsmol
+	$('.simulator-canvas').html(JSmolInterface.start('jsmol'));
 });
