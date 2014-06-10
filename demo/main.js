@@ -2,11 +2,11 @@ var isFooterVisible=true;
 function toggleFooter(){
 	if(isFooterVisible==true){
 		$('#footer-wrapper').slideUp();
-		$('#btm-arrow').animate({top:$('#footer-wrapper').height()+$('#btm-arrow').height()}).addClass('active').removeClass('inactive');
+		$('#btm-arrow').animate({top:$('#footer-wrapper').height()+$('#btm-arrow').height()}).addClass('inactive').removeClass('active');
 		isFooterVisible=false;
 	}else{
 		$('#footer-wrapper').slideDown();
-		$('#btm-arrow').animate({top:-$('#footer-wrapper').height()-$('#btm-arrow').height()}).addClass('inactive').removeClass('active');
+		$('#btm-arrow').animate({top:-$('#footer-wrapper').height()-$('#btm-arrow').height()}).addClass('active').removeClass('inactive');
 		isFooterVisible=true;
 	}
 }
