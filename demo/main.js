@@ -10,5 +10,5 @@ function toggleFooter(){
 }
 $('body').ready(function(){
 	toggleFooter();
-	$('#btm-arrow').click(toggleFooter());
+	$('#btm-arrow').click(toggleFooter);
 });
