@@ -6,7 +6,10 @@ var Session = (function() {
   iData['session-name']="Session";
   iData['autosave']=true;
   function update() {
-    if(iData['autosave'])save();
+    if(iData['autosave'])iSave();
+  }
+  function iSave(n){
+    window.localStorage.setItem((typeof n !== 'undefined')?n:iData['session-name'], JSON.stringify(iData));
   }
   return {
     set: function(k,v){iData[k]=v;update();},
@@ -15,6 +18,6 @@ var Session = (function() {
     getName: function(){return iData['session-name'];},
     getAll: function(){return iData;},
     load: function(n) {iData=JSON.parse(window.localStorage.getItem(n));iData['session-name']=n;},
-    save: function(n) {window.localStorage.setItem((typeof n !== 'undefined')?n:iData['session-name'], JSON.stringify(iData));}
+    save: function(n) {iSave(n);}
   };
 })();
