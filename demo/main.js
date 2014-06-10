@@ -6,7 +6,7 @@ function toggleFooter(){
 		isFooterVisible=false;
 	}else{
 		$('#footer-wrapper').slideDown();
-		('#btm-arrow').animate({top:-$('#footer-wrapper').height()});
+		$('#btm-arrow').animate({top:-$('#footer-wrapper').height()});
 		isFooterVisible=true;
 	}
 }
