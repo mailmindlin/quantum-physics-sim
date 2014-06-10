@@ -164,7 +164,7 @@ var elements = [
 	{symbol:'Ni',	name:"Nickel",		number: 28},
 	{symbol:'Cu',	name:"Copper",		number: 29},
 	{symbol:'Zn',	name:"Zink",		number: 30},
-	{symbol:'Ga',	name:"Gallium"		number: 31},
+	{symbol:'Ga',	name:"Gallium",		number: 31},
 	{symbol:'Ge',	name:"Germanium",	number: 32},
 	{symbol:'As',	name:"Arsenic",		number: 33},
 	{symbol:'Se',	name:"Selenium",	number: 34},
