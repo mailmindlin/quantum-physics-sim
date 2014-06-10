@@ -50,6 +50,9 @@ function Input(args) {
 		});
 		$('.input-element').bind('keyup blur', function(ev) {
 			var text=$(this).val();
+			//convert it into elemental symbol camelcase
+			text=text.toLowerCase().capitalizeFirstLetter();
+			console.log(text);
 			for(var i=1; i < elements.length; i++) {
 				if(elements[i]['symbol']==text){
 					$(this).addClass('element-valid').removeClass('element-invalid');
