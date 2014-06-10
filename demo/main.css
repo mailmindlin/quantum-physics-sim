@@ -38,3 +38,11 @@
 #footer-wrapper button{
   height: 20px;
 }
+#btm-arrow {
+  font-size: 20px;
+  border-width: 40px;
+  position: fixed;
+  bottom: 0px;
+  margin-left: auto;
+  margin-right: auto;
+}
