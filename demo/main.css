@@ -95,3 +95,25 @@
 	90% {		-webkit-transform:  rotate(018deg); }
 	100% {	-webkit-transform: 	rotate(000deg); }
 }
+/*animation classes*/
+.animation-spaceboots {
+	-webkit-animation-name: spaceboots;
+	-webkit-animation-duration: 0.8s;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: infinite;
+	-webkit-animation-timing-function: linear;
+}
+.animation-rt_clockwise {
+	-webkit-animation-name: rt_clockwise;
+	-webkit-animation-duration: 0.8s;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 1;
+	-webkit-animation-timing-function: linear;
+}
+.animation-rt_cclockwise {
+	-webkit-animation-name: rt_clockwise;
+	-webkit-animation-duration: 0.8s;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 1;
+	-webkit-animation-timing-function: linear;
+}
