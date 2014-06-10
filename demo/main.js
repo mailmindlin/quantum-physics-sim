@@ -1,6 +1,6 @@
 var isFooterVisible=true;
 function toggleFooter(){
-	if(isFooterVisible=true){
+	if(isFooterVisible==true){
 		$('#footer-wrapper').slideUp();
 		isFooterVisible==false;
 	}else{
