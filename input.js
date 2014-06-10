@@ -58,7 +58,7 @@ function Input(args) {
 					$(this).addClass('element-valid').removeClass('element-invalid');
 					Help.unregister($(this));//make sure that help isn't called for this element
 					//update text (to better capitalization) if it's a blur event
-					$(this).val(text);
+					if(ev.type=="blur")$(this).val(text);
 					//try to call data update event
 					if($(self.dom).find('element-invalid').size()==0 && ISSET(self.onUpdate))try{self.onUpdate();}catch(ex){}
 					return;
