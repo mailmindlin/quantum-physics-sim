@@ -5,14 +5,23 @@
 		<script type="text/javascript">
 			function compress(){
 				var text=document.querySelector('#input').value;
-				var isComment=false;
+				var comment=0;
 				var charArray=text.split('');
 				var nextChar='';
+				var cChar='';
+				var lastChar='';
 				var output="";
 				for(var i=0;i<charArray.length;i++){
-					var cChar=nextChar;
+					lastChar='';
+					cChar=nextChar;
 					nextChar=charArray[i];
+					if(cChar=="/" && lastChar=="*" && comment==2)comment=0;
+					if(cChar=="/" && nextChar=='*' && comment==0)comment=2;
+					if(cChar=="/" && nextChar=="/" && comment==0)comment=1;
+					if(cChar=="\n" && comment==1) comment=0;
+					if(comment==0)output+=cChar;
 				}
+				document.querySelector('#input').value=output;
 			}
 		</script>
 	</body>
