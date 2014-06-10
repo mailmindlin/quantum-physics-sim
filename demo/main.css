@@ -55,6 +55,27 @@
   height: 20px;
   top: 50px;
 }
+#btm-arrow.active:hover {
+	-webkit-animation-name: rt_clockwise;
+	-webkit-animation-duration: 0.8s;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 1;
+	-webkit-animation-timing-function: linear;
+}
+#btm-arrow.inactive:hover {
+	-webkit-animation-name: rt_cclockwise;
+	-webkit-animation-duration: 0.8s;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 1;
+	-webkit-animation-timing-function: linear;
+}
+#btm-arrow.inactive:not(:hover) {
+	transform:rotate(180deg);
+	-webkit-transform:rotate(180deg);
+	-moz-transform:rotate(180deg);
+	-ms-transform:rotate(180deg);
+	-o-transform:rotate(180deg);
+}
 /*animations*/
 @-webkit-keyframes spaceboots {
 	0% { -webkit-transform: translate(2px, 1px) rotate(0deg); }
