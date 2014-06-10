@@ -15,12 +15,13 @@
 					lastChar=cChar;
 					cChar=nextChar;
 					nextChar=charArray[i];
-					if(cChar=="/" && lastChar=="*" && comment==2)comment=0;
+					if(cChar=="/" && lastChar=="*" && comment==2)comment=-1;
 					if(cChar=="/" && nextChar=='*' && comment==0)comment=2;
 					if(cChar=="/" && nextChar=="/" && comment==0)comment=1;
 					if(cChar=="\n" && comment==1) comment=0;
 					console.log(comment + cChar);
 					if(comment==0 && cChar!='\t' && cChar!='\n')output+=cChar;
+					if(comment==-1)comment=0;
 				}
 				document.querySelector('#input').value=output;
 			}
