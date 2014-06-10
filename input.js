@@ -189,7 +189,7 @@ var elements = [
 	{symbol:'I',	name:""},
 	{symbol:'Xe',	name:""},
 	{symbol:'Cs',	name:"Cesium"},
-	{symbol:'Ba',	name:""},
+	{symbol:'Ba',	name:"Barium"},
 	{symbol:'La',	name:""},
 	{symbol:'Ce',	name:""},
 	{symbol:'Pr',	name:""},
