@@ -16,6 +16,6 @@ var Session = (function() {
     getName: function(){return name;},
     getAll: function(){return iData;},
     load: function(n) {iData=JSON.parse(window.localStorage.getItem(n));name=n;},
-    save: function(n) {window.localStorage.setItem((typeof n !== undefined)?n:name, JSON.stringify(iData));}
+    save: function(n) {window.localStorage.setItem((typeof n !== 'undefined')?n:name, JSON.stringify(iData));}
   };
 })();
