@@ -4,7 +4,7 @@ function toggleFooter(){
 		$('#footer-wrapper').slideUp();
 		isFooterVisible==false;
 	}else{
-		$('#footer-wrapper').slideUp();
+		$('#footer-wrapper').slideDown();
 		isFooterVisible==true;
 	}
 }
