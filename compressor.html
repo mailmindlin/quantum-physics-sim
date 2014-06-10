@@ -19,6 +19,7 @@
 					if(cChar=="/" && nextChar=='*' && comment==0)comment=2;
 					if(cChar=="/" && nextChar=="/" && comment==0)comment=1;
 					if(cChar=="\n" && comment==1) comment=0;
+					console.log(comment);
 					if(comment==0 && cChar!='\t' && cChar!='\n')output+=cChar;
 				}
 				document.querySelector('#input').value=output;
