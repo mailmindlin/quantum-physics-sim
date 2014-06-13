@@ -12,35 +12,38 @@
 		<meta name="author" content="mailmindlin, jschrier"/>
 		
 		<!-- github's css -->
-		<link rel="stylesheet" href="../stylesheets/styles.css" onerror="loadError()"/>
-		<link rel="stylesheet" href="../stylesheets/pygment_trac.css" onerror="loadError()"/>
+		<link rel="stylesheet" href="../stylesheets/styles.css" onerror="loadError('Github\'s styles.css')"/>
+		<link rel="stylesheet" href="../stylesheets/pygment_trac.css" onerror="loadError('Github\'s pygment_trac.css')"/>
 		<!-- my css -->
-		<link rel="stylesheet" href="main.css" onerror="loadError()"/>
-		<link rel="stylesheet" href="animations.css" onerror="loadError()"/>
-		<link rel="stylesheet" href="cursor-props.css" onerror="loadError()"/>
+		<link rel="stylesheet" href="main.css" onerror="loadError('main.css')"/>
+		<link rel="stylesheet" href="animations.css" onerror="loadError('animations.css')"/>
+		<link rel="stylesheet" href="cursor-props.css" onerror="loadError('cursor-props.css')"/>
 		<!-- jquery -->
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" class="imp-scr1" onerror="loadError()"></script>
-		<script src="../javascripts/respond.js" class="imp-scr2" onerror="loadError()"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" class="imp-scr1" onerror="loadError('jquery 1.7.1')"></script>
+		<script src="../javascripts/respond.js" class="imp-scr2" onerror="loadError('Github\'s respond.js')"></script>
 		<!-- JSMol -->
-		<script type="text/javascript" src="../jsmol/jsmol/JSmol.min.js" onerror="loadError()"></script>
+		<script type="text/javascript" src="../jsmol/jsmol/JSmol.min.js" onerror="loadError('JSmol.js')"></script>
 		<!-- my scripts -->
-		<script type="text/javascript" onerror="loadError()">
+		<script type="text/javascript" onerror="loadError('Main loader')">
+			var hasHadLoadError=false;
 			function loadError(ev){
+				if(hasHadLoadError)return;
+				hasHadLoadError=true;
 				console.log(ev);
-				var reload = confirm("Sorry, but one or more of the scripts on this page failed to load.\nWould you like to reload?");
+				var reload = confirm("Sorry, but one or more of the scripts on this page failed to load("+ev+").\nWould you like to reload?");
 				if(reload)location.reload();
 			}
 		</script>
-		<script type="text/javascript" src="https://rawgit.com/mailmindlin/quantum-physics-sim/master/session.js" onerror="loadError()"></script>
-		<script type="text/javascript" src="https://rawgit.com/mailmindlin/quantum-physics-sim/master/utils.js" onerror="loadError()"></script>
-		<script type="text/javascript" src="https://rawgit.com/mailmindlin/quantum-physics-sim/master/logger.js" onerror="loadError()"></script>
-		<script type="text/javascript" src="https://rawgit.com/mailmindlin/quantum-physics-sim/master/help.js" onerror="loadError()"></script>
-		<script type="text/javascript" src="https://rawgit.com/mailmindlin/quantum-physics-sim/master/networking.js" onerror="loadError()"></script>
-		<script type="text/javascript" src="https://rawgit.com/mailmindlin/quantum-physics-sim/master/renderer.js" onerror="loadError()"></script>
-		<script type="text/javascript" src="https://rawgit.com/mailmindlin/quantum-physics-sim/master/renderUtils.js" onerror="loadError()"></script>
-		<script type="text/javascript" src="https://rawgit.com/mailmindlin/quantum-physics-sim/master/input.js" onerror="loadError()"></script>
-		<script type="text/javascript" src="https://rawgit.com/mailmindlin/quantum-physics-sim/master/jsmol.js" onerror="loadError()"></script>
-		<script type="text/javascript" src="main.js" onerror="loadError()"></script>
+		<script type="text/javascript" src="https://rawgit.com/mailmindlin/quantum-physics-sim/master/session.js" onerror="loadError('session.js')"></script>
+		<script type="text/javascript" src="https://rawgit.com/mailmindlin/quantum-physics-sim/master/utils.js" onerror="loadError('utils.js')"></script>
+		<script type="text/javascript" src="https://rawgit.com/mailmindlin/quantum-physics-sim/master/logger.js" onerror="loadError('logger.js')"></script>
+		<script type="text/javascript" src="https://rawgit.com/mailmindlin/quantum-physics-sim/master/help.js" onerror="loadError('help.js')"></script>
+		<script type="text/javascript" src="https://rawgit.com/mailmindlin/quantum-physics-sim/master/networking.js" onerror="loadError('networking.js')"></script>
+		<script type="text/javascript" src="https://rawgit.com/mailmindlin/quantum-physics-sim/master/renderer.js" onerror="loadError('renderer.js')"></script>
+		<script type="text/javascript" src="https://rawgit.com/mailmindlin/quantum-physics-sim/master/renderUtils.js" onerror="loadError('renderUtils.js')"></script>
+		<script type="text/javascript" src="https://rawgit.com/mailmindlin/quantum-physics-sim/master/input.js" onerror="loadError('input.js')"></script>
+		<script type="text/javascript" src="https://rawgit.com/mailmindlin/quantum-physics-sim/master/jsmol.js" onerror="loadError('jsmol.js')"></script>
+		<script type="text/javascript" src="main.js" onerror="loadError('main.js')"></script>
 		<!--<script type="text/javascript" src="main.min.js"></script>-->
 		<!--[if lt IE 9]>
 			<script src="//html5shiv.googlecode.com/svn/trunk/html5.js" class="imp-scr13></script>
