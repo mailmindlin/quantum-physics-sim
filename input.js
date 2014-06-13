@@ -99,16 +99,6 @@ function Input(args) {
 		self.lockUpdate=false;
 		return;
 	};
-	self.load = function() {
-		if(self.lockUpdate)return;
-		self.lockUpdate=true;
-		//TODO finish loading script
-		//get data
-		var data = 
-		self.lockUpdate=false;
-	};
-	//load if args['load']==true
-	if(args['load'])self.load();
 	//set custom vars
 	//set name var
 	self.name=args['name'];
@@ -142,6 +132,36 @@ function Input(args) {
 			self.logger.log('Successfully added row!');
 			return newRow;
 	};
+	/**
+	 * Loads input from data object. The data object is basically generated from the Input#getData()
+	 * @param data: the data to load from
+	 * @throws error if data isn't an object
+	 */
+	self.loadFromData = function(data) {
+		if(!ISSET(data, 'object'))throw(new Error('Data is not an object!'));
+		
+	};
+	/**
+	 * Loads input from session data
+	 * @param refreshSession: whether to reload Session from localstorage
+	 */
+	self.load = function(refreshSession) {
+		if(self.lockUpdate)return;
+		self.lockUpdate=true;
+		//TODO finish loading script
+		try {
+			if(ISSET(refreshSession) && refreshSession)Session.load();
+			//get data
+			var data = Session.get('input')[self.name];
+			self.loadFromData(data);
+		}  catch(ex) {
+			//ignore exception, as it's probably a null pointer error
+		} finally {
+			self.lockUpdate=false;
+		}
+	};
+	//load if args['load']==true
+	if(args['load'])self.load();
 	self.getData = function() {
 		var obj = {};
 		//make sure self.dom is defined
