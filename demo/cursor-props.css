@@ -1,0 +1,24 @@
+/*
+Cursor settings
+*/
+[cursor="alias"] {
+	cursor: alias;
+}
+[cursor="all-scroll"] {
+  cursor: all-scroll;
+}
+[cursor="auto"] {
+	cursor: auto;
+}
+[cursor="cell"] {
+  cursor: cell;
+}
+[cursor="context-menu"] {
+  cursor: context-menu;
+}
+[cursor="none"] {
+	cursor: none;
+}
+[cursor="hand"] {
+	cursor: hand;
+}
