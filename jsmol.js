@@ -71,11 +71,5 @@ var JSmolInterface = {
 	start: function(domEl) {
 		"use strict";
 		$(domEl).html(Jmol.getAppletHtml("JSmol1",JSmolInterface.info));
-	},
-	scene: function() {
-		"use strict";
-		var self = this;
-		
-		return self;
 	}
 };
