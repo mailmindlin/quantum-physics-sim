@@ -145,6 +145,9 @@ function Input(args) {
 		}
 		return obj;
 	};
+	self.getXYZData = function(comment) {
+		return (new XYZFile(self)).getXYZData(comment);
+	};
 	if(ISSET(self.supr=args['dom'])){
 		//create input
 		//check that the element doesn't already exist (to prevent conflicts)
