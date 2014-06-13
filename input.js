@@ -102,7 +102,9 @@ function Input(args) {
 	self.load = function() {
 		if(self.lockUpdate)return;
 		self.lockUpdate=true;
-		
+		//TODO finish loading script
+		//get data
+		var data = 
 		self.lockUpdate=false;
 	};
 	//load if args['load']==true
@@ -111,7 +113,7 @@ function Input(args) {
 	//set name var
 	self.name=args['name'];
 	//Adds a row to the tbody of the table
-	self.addRow = function() {
+	self.addRow = function(args) {
 		//make sure self.dom is defined
 		if(!ISSET(self.dom)) {
 			//get table element
@@ -119,11 +121,26 @@ function Input(args) {
 		}
 		//get table body, to append row in
 		var tbody=$(self.dom).find("tbody");
-		var newRow=$(self.tRow);
+		var newRow;//new TR element to append
+		if (!ISSET(args)){
+			//add a blank new row
+			newRow=$(self.tRow);//generate DOM element from std. template
+		} else {
+			//add a row with data in it
+			newRow = "<tr>\
+				<td><font style='color:white;background:red;' class='input-delete'>X</font></td>\
+				<td><input type='text' class='input-element input' value='"+args["element"]+"'/></td>\
+				<td><input type='text' class='input-X input input-numeric' value='"+args["X"]+"'/></td>\
+				<td><input type='text' class='input-Y input input-numeric' value='"+args["Y"]+"'/></td>\
+				<td><input type='text' class='input-Z input input-numeric' value='"+args["Z"]+"'/></td>\
+				</tr>";
+			//convert HTML into a DOM element
+			newRow = $(newRow);
+		}
 		tbody.append(newRow);
-		self.updateListeners();
-		self.logger.log('Successfully added row!');
-		return newRow;
+			self.updateListeners();
+			self.logger.log('Successfully added row!');
+			return newRow;
 	};
 	self.getData = function() {
 		var obj = {};
