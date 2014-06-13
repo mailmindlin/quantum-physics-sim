@@ -32,32 +32,32 @@ window['Atom'] = function(type,x,y,z,charge,vectorX,vectorY,vectorZ) {
  * typedef XYZFile
  */
 window['XYZFile'] = function(objectOrigin) {
-		"use strict";
-		var self = new Object();
-		self.atomRegistry = [];
-		self.pushAtom = function(atom) {
-			//make sure atom is an atom
-			if(atom.type!="Atom")throw(new Error("argument[0] was not an atom!"));
-			self.atomRegistry.push(atom);
-		};
-		self.getXYZData = function(comment) {
-			var output = ("").pushLn(self.atomRegistry.length);
-			output = output.pushLn(comment);
-			//add all atoms
-			for (var i = 0; i < self.atomRegistry.length; i++) {
-				
-			}
-			return output;
-		};
-		self.loadFrom = function(origin) {
-			for(var i = 0; i < origin.len; i++) {
-				var tempAtom = new Atom(origin[i]['element'],origin[i]['X'],origin[i]['Y'],origin[i]['Z']);
-				self.pushAtom(tempAtom);
-			}
-		};
-		if(ISSET(objectOrigin))self.loadFrom(objectOrigin);
-		return self;
-	},
+	"use strict";
+	var self = new Object();
+	self.atomRegistry = [];
+	self.pushAtom = function(atom) {
+		//make sure atom is an atom
+		if(atom.type!="Atom")throw(new Error("argument[0] was not an atom!"));
+		self.atomRegistry.push(atom);
+	};
+	self.getXYZData = function(comment) {
+		var output = ("").pushLn(self.atomRegistry.length);
+		output = output.pushLn(comment);
+		//add all atoms
+		for (var i = 0; i < self.atomRegistry.length; i++) {
+			//TODO finish
+		}
+		return output;
+	};
+	self.loadFrom = function(origin) {
+		for(var i = 0; i < origin.len; i++) {
+			var tempAtom = new Atom(origin[i]['element'],origin[i]['X'],origin[i]['Y'],origin[i]['Z']);
+			self.pushAtom(tempAtom);
+		}
+	};
+	if(ISSET(objectOrigin))self.loadFrom(objectOrigin);
+	return self;
+};
 var JSmolInterface = {
 	info: {
 		color:			"#FFFFFF",
