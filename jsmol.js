@@ -42,7 +42,7 @@ window['XYZFile'] = function(objectOrigin) {
 	};
 	self.getXYZData = function(comment) {
 		var output = ("").pushLn(self.atomRegistry.length);
-		output = output.pushLn(comment);
+		output = output.pushLn(ISSET(comment)?comment:"");
 		//add all atoms
 		for (var i = 0; i < self.atomRegistry.length; i++) {
 			output = output.pushLn(self.atomRegistry[i].toXYZ());
