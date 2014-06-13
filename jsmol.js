@@ -45,7 +45,7 @@ window['XYZFile'] = function(objectOrigin) {
 		output = output.pushLn(comment);
 		//add all atoms
 		for (var i = 0; i < self.atomRegistry.length; i++) {
-			//TODO finish
+			output = output.pushLn(self.atomRegistry[i].toXYZ());
 		}
 		return output;
 	};
