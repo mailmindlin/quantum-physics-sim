@@ -1,45 +1,37 @@
 /*
 	Interfaces with jsmol
 */
-var JSmolInterface = {
-	info: {
-		color:			"#FFFFFF",
-		height: 		300,
-		width:			300,
-		//j2s:			"http://mailmindlin.github.io/quantum-physics-sim/jsmol/jsmol/j2s",
-		j2s:			"/j2s",
-		use:			"HTML5 WebGl Java",
-		readyFunction:	function(ev){"use strict"; console.log(["Ready!",ev]);}
-	},
-	start: function(domEl) {
-		"use strict";
-		$(domEl).html(Jmol.getAppletHtml("JSmol1",JSmolInterface.info));
-	},
-	atom: function(type,x,y,z,charge,vectorX,vectorY,vectorZ) {
-		"use strict";
-		var self = Object.create(null);
-		self.atomType = type;
-		self.x = x;
-		self.y = y;
-		self.z = z;
-		self.charge = charge;
-		self.vectorX = vectorX;
-		self.vectorY = vectorY;
-		self.vectorZ = vectorZ;
-		self.type = "Atom";
-		self.toXYZ = function() {
-			var out = "";
-			out += self.atomType;
-			//add whitespaces
-			for (var i = 0; i < (5 - self.atomType.length); i++) {
-				out += " ";
-			}
-			out += self.x + "  " + self.y + "  " + self.z;
-			return out;
-		};	
-		return self;
-	},
-	xyzFile: function() {
+/**
+ * typedef Atom
+ */
+window['Atom'] = function(type,x,y,z,charge,vectorX,vectorY,vectorZ) {
+	"use strict";
+	var self = Object.create(null);
+	self.atomType = type;
+	self.x = eval(x);
+	self.y = eval(y);
+	self.z = eval(z);
+	self.charge = charge;
+	self.vectorX = eval(vectorX);
+	self.vectorY = eval(vectorY);
+	self.vectorZ = eval(vectorZ);
+	self.type = "Atom";
+	self.toXYZ = function() {
+		var out = "";
+		out += self.atomType;
+		//add whitespaces
+		for (var i = 0; i < (5 - self.atomType.length); i++) {
+			out += " ";
+		}
+		out += self.x + "  " + self.y + "  " + self.z;
+		return out;
+	};	
+	return self;
+};
+/**
+ * typedef XYZFile
+ */
+window['XYZFile'] = function(objectOrigin) {
 		"use strict";
 		var self = new Object();
 		self.atomRegistry = [];
@@ -56,8 +48,29 @@ var JSmolInterface = {
 				
 			}
 			return output;
-		}
+		};
+		self.loadFrom = function(origin) {
+			for(var i = 0; i < origin.len; i++) {
+				var tempAtom = new Atom(origin[i]['element'],origin[i]['X'],origin[i]['Y'],origin[i]['Z']);
+				self.pushAtom(tempAtom);
+			}
+		};
+		if(ISSET(objectOrigin))self.loadFrom(objectOrigin);
 		return self;
+	},
+var JSmolInterface = {
+	info: {
+		color:			"#FFFFFF",
+		height: 		300,
+		width:			300,
+		//j2s:			"http://mailmindlin.github.io/quantum-physics-sim/jsmol/jsmol/j2s",
+		j2s:			"/j2s",
+		use:			"HTML5 WebGl Java",
+		readyFunction:	function(ev){"use strict"; console.log(["Ready!",ev]);}
+	},
+	start: function(domEl) {
+		"use strict";
+		$(domEl).html(Jmol.getAppletHtml("JSmol1",JSmolInterface.info));
 	},
 	scene: function() {
 		"use strict";
