@@ -83,7 +83,13 @@ function Input(args) {
 			}
 		});
 	};
+	/**
+	 * Makes it so the data can't be updated & stored or something at the same time (to provent corrupted data)
+	 */
 	self.lockUpdate=false;
+	/**
+	 * Updates data in Session variable
+	 */
 	self.updateData = function(){
 		if(self.lockUpdate)return;
 		self.lockUpdate=true;
@@ -102,7 +108,11 @@ function Input(args) {
 	//set custom vars
 	//set name var
 	self.name=args['name'];
-	//Adds a row to the tbody of the table
+	/**
+	 * Adds a row to the tbody of the table
+	 * @param args basically an array with parameters {element,X,Y,Z}. If not specified, the function will add a blank row. If specified,
+	 * 		The function will add a row with the data. Args can be an Atom (specified in jsmol.js)
+	 */
 	self.addRow = function(args) {
 		//make sure self.dom is defined
 		if(!ISSET(self.dom)) {
@@ -117,6 +127,13 @@ function Input(args) {
 			newRow=$(self.tRow);//generate DOM element from std. template
 		} else {
 			//add a row with data in it
+			if(ISSET(args.type) && args.type == "Atom") {
+				//convert Atom into usable data
+				args['X']=args.x;
+				args['Y']=args.y;
+				args['Z']=args.z;
+				args['element']=args.atomType;
+			}
 			newRow = "<tr>\
 				<td><font style='color:white;background:red;' class='input-delete'>X</font></td>\
 				<td><input type='text' class='input-element input' value='"+args["element"]+"'/></td>\
@@ -139,7 +156,7 @@ function Input(args) {
 	 */
 	self.loadFromData = function(data) {
 		if(!ISSET(data, 'object'))throw(new Error('Data is not an object!'));
-		
+		//TODO finish
 	};
 	/**
 	 * Loads input from session data
@@ -182,9 +199,15 @@ function Input(args) {
 		}
 		return obj;
 	};
+	/**
+	 * Generates data in the format of a .xyz file.
+	 */
 	self.getXYZData = function(comment) {
 		return (new XYZFile(self)).getXYZData(comment);
 	};
+	/*
+	 Determines whether to insert an input inside the DOM (as specified in args.dom)
+	*/
 	if(ISSET(self.supr=args['dom'])){
 		//create input
 		//check that the element doesn't already exist (to prevent conflicts)
@@ -200,9 +223,10 @@ function Input(args) {
 		//create first row
 		self.addRow();
 	}
+	//return Input object
 	return self;
 }
-//element list
+//element list. Basically contains a bunch of objects with the chemical symbol, element name, number, and possibly some other information.
 var elements = [
 	null,//just so you can reference elements[x], where x is the atomic number
 	{symbol:'H', 	name:"Hydrogen", 	number: 1, 	weight: 1.008},
