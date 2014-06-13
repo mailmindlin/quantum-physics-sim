@@ -99,6 +99,14 @@ function Input(args) {
 		self.lockUpdate=false;
 		return;
 	};
+	self.load = function() {
+		if(self.lockUpdate)return;
+		self.lockUpdate=true;
+		
+		self.lockUpdate=false;
+	};
+	//load if args['load']==true
+	if(args['load'])self.load();
 	//set custom vars
 	//set name var
 	self.name=args['name'];
