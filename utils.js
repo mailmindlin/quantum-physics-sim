@@ -34,3 +34,9 @@ String.prototype.contains = function(needle) {
 String.prototype.capitalizeFirstLetter = function() {
 	return this.charAt(0).toUpperCase() + this.slice(1);
 };
+/**
+ * Adds newLn as a new line
+ */
+String.prototype.pushLn = function(newLn) {
+	return this +  newLn + "\n";
+};
