@@ -68,7 +68,7 @@ var JSmolInterface = {
 	 * Contains standard properties (i.e., background color, size, path to native code).
 	 */
 	info: {
-		color:			"#FFFFFF",
+		color:			"#252525",
 		height: 		300,
 		width:			300,
 		//j2s:			"http://mailmindlin.github.io/quantum-physics-sim/jsmol/jsmol/j2s",
