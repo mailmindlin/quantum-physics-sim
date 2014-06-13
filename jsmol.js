@@ -3,31 +3,44 @@
 */
 var JSmolInterface = {
 	info: {
-		color:	"#FFFFFF",
-		height: 300,
-		width:	300,
-		//j2s:	"http://mailmindlin.github.io/quantum-physics-sim/jsmol/jsmol/j2s",
-		j2s: "/j2s",
-		use:	"HTML5 WebGl Java",
-		readyFunction:	function(ev){console.log(["Ready!",ev]);}
+		color:			"#FFFFFF",
+		height: 		300,
+		width:			300,
+		//j2s:			"http://mailmindlin.github.io/quantum-physics-sim/jsmol/jsmol/j2s",
+		j2s:			"/j2s",
+		use:			"HTML5 WebGl Java",
+		readyFunction:	function(ev){"use strict"; console.log(["Ready!",ev]);}
 	},
-	start: function(domEl){
+	start: function(domEl) {
+		"use strict";
 		$(domEl).html(Jmol.getAppletHtml("JSmol1",JSmolInterface.info));
-	}
+	},
 	atom: function(type,x,y,z,charge,vectorX,vectorY,vectorZ) {
-		var self = new Object();
+		"use strict";
+		var self = Object.create(null);
 		self.atomType = type;
-		self.x=x;
-		self.y=y;
-		self.z=z;
-		self.charge=charge;
-		self.vectorX=vectorX;
-		self.vectorY=vectorY;
-		self.vectorZ=vectorZ;
-		self.type="Atom";
+		self.x = x;
+		self.y = y;
+		self.z = z;
+		self.charge = charge;
+		self.vectorX = vectorX;
+		self.vectorY = vectorY;
+		self.vectorZ = vectorZ;
+		self.type = "Atom";
+		self.toXYZ = function() {
+			var out = "";
+			out += self.atomType;
+			//add whitespaces
+			for (var i = 0; i < (5 - self.atomType.length); i++) {
+				out += " ";
+			}
+			out += self.x + "  " + self.y + "  " + self.z;
+			return out;
+		};	
 		return self;
 	},
 	xyzFile: function() {
+		"use strict";
 		var self = new Object();
 		self.atomRegistry = [];
 		self.pushAtom = function(atom) {
@@ -36,13 +49,18 @@ var JSmolInterface = {
 			self.atomRegistry.push(atom);
 		};
 		self.getXYZData = function(comment) {
-			var output = atomRegistry.length + "\n";
-			output +=comment;
-			
+			var output = ("").pushLn(self.atomRegistry.length);
+			output = output.pushLn(comment);
+			//add all atoms
+			for (var i = 0; i < self.atomRegistry.length; i++) {
+				
+			}
+			return output;
 		}
 		return self;
 	},
 	scene: function() {
+		"use strict";
 		var self = this;
 		
 		return self;
