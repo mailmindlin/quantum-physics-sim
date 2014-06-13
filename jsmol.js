@@ -49,6 +49,10 @@ window['XYZFile'] = function(objectOrigin) {
 		}
 		return output;
 	};
+	/**
+	 * Loads XYZFile from parameter origin
+	 * @required origin: 
+	 */
 	self.loadFrom = function(origin) {
 		for(var i = 0; i < origin.len; i++) {
 			var tempAtom = new Atom(origin[i]['element'],origin[i]['X'],origin[i]['Y'],origin[i]['Z']);
@@ -59,6 +63,10 @@ window['XYZFile'] = function(objectOrigin) {
 	return self;
 };
 var JSmolInterface = {
+	/**
+	 * Info object for creation of the JSmol object.
+	 * Contains standard properties (i.e., background color, size, path to native code).
+	 */
 	info: {
 		color:			"#FFFFFF",
 		height: 		300,
