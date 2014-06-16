@@ -41,6 +41,7 @@ window['XYZFile'] = function(objectOrigin) {
 		self.atomRegistry.push(atom);
 	};
 	self.getXYZData = function(comment) {
+		if(!ISSET(comment))comment = "This file was automatically generated.";//IDK what to put...
 		var output = ("").pushLn(self.atomRegistry.length);
 		output = output.pushLn(ISSET(comment)?comment:"");
 		//add all atoms
@@ -60,6 +61,40 @@ window['XYZFile'] = function(objectOrigin) {
 		}
 	};
 	if(ISSET(objectOrigin))self.loadFrom(objectOrigin);
+	return self;
+};
+var Translator = function(obj) {
+	var self = Object.create(null);
+	self.molObj = obj;
+	self.translateX = function(amt) {
+		if(amt==0)return;
+		self.molObj._script("translate x "+amt + ";");
+	};
+	self.translateY = function(amt) {
+		if(amt==0)return;
+		self.molObj._script("translate y "+amt + ";");
+	};
+	self.translateZ = function(amt) {
+		if(amt==0)return;
+		self.molObj._script("translate z "+amt + ";");
+	};
+	self.translate = function(x,y,z) {
+		self.translateX(x);
+		self.translateY(y);
+		self.translateZ(z);
+	};
+	self.rotateX = function(deg) {
+		if(deg==0)return;
+		self.molObj._script("rotate x " + deg + ";");
+	};
+	self.rotateY = function(deg) {
+		if(deg==0)return;
+		self.molObj._script("rotate y " + deg + ";");
+	};
+	self.rotateZ = function(deg) {
+		if(deg==0)return;
+		self.molObj._script("rotate z " + deg + ";");
+	};
 	return self;
 };
 var JSmolInterface = {
