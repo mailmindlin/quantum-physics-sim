@@ -102,6 +102,10 @@ function Input(args) {
 			newDt[self.name]=self.getData();
 			Session.set("input", newDt);
 		}
+		//update display
+		var xyz = self.getXYZData();
+		JSmolInterface.showData(xyz);
+		console.log(xyz);
 		self.lockUpdate=false;
 		return;
 	};
