@@ -37,7 +37,7 @@ function Input(args) {
 			if(ISSET(nextTr=$(tbody).children().eq(trIndex+1)[0])) {
 				console.log('c1');
 				console.log(nextTr);
-				$(nextTr).children().eq(0).children.eq(0).focus();//focus on element
+				$(nextTr).children().eq(0).children().eq(0).focus();//focus on element
 			}else{
 				console.log('c2');
 				(new Input({name: $(tbody).parent().attr('id')})).addRow().find('input-element').focus();
