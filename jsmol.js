@@ -114,5 +114,13 @@ var JSmolInterface = {
 	start: function(domEl) {
 		"use strict";
 		$(domEl).html(Jmol.getAppletHtml("JSmol1",JSmolInterface.info));
+	},
+	showXYZ: function(xyz) {
+		var cmd = 'data "model example"\n';
+		cmd+=(xyz)+"\n";
+		cmd+=('end "model example";'+"\n");
+		cmd+=('show data "model example";'+"\n");
+		console.log(cmd);
+		JSmol1._script(cmd);
 	}
 };
