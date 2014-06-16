@@ -207,7 +207,7 @@ function Input(args) {
 	 * Generates data in the format of a .xyz file.
 	 */
 	self.getXYZData = function(comment) {
-		return (new XYZFile(self)).getXYZData(comment);
+		return (new XYZFile(self.getData())).getXYZData(comment);
 	};
 	/*
 	 Determines whether to insert an input inside the DOM (as specified in args.dom)
