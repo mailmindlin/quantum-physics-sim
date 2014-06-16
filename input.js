@@ -104,7 +104,7 @@ function Input(args) {
 		}
 		//update display
 		var xyz = self.getXYZData();
-		JSmolInterface.showData(xyz);
+		JSmolInterface.showXYZ(xyz);
 		console.log(xyz);
 		self.lockUpdate=false;
 		return;
