@@ -23,7 +23,6 @@ function Input(args) {
 		$('.input-delete').off('click');
 		$('.input-element').off('blur keyup');
 		$('.input-numeric').off('keyup blur');
-		$('.input').off('keydown keyup keypress');
 		
 		$('.input-Z').keydown(function(ev) {
 			if(ev.keyCode!=9 || ev.shiftKey)return;//9 is tab key; also exit if shift is pressed (i.e., shift-tab)
@@ -48,6 +47,7 @@ function Input(args) {
 			var td=$(this).parent();
 			var tr=$(td).parent();
 			if($($(tr).parent()).children().size()>1)tr.remove();
+			self.updateData();
 		});
 		$('.input-element').bind('keyup blur', function(ev) {
 			var text=$(this).val();
@@ -82,9 +82,7 @@ function Input(args) {
 				Help.register($(this), "You need to type in a valid number");
 				//don't call data update, because the data is invalid
 			}
-		});
-		$('.input').bind('keydown keyup keypress', function() {
-			self.updateLive();
+			self.updateData();
 		});
 	};
 	/**
@@ -107,9 +105,8 @@ function Input(args) {
 			Session.set("input", newDt);
 		}
 		//update display
-// 		var xyz = self.getXYZData();
-// 		JSmolInterface.showXYZ(xyz);
-// 		console.log(xyz);
+		self.updateLive();
+		
 		self.lockUpdate=false;
 		return;
 	};
