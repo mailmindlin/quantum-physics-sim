@@ -695,7 +695,7 @@ dt {
 }
 
 #header {
-  z-index: 100;
+  z-index: 10000;/*100;/*Updated because of jsmol canvas (z-index of 9000)*/
   left: 0;
   top: 0px;
   height: 60px;
