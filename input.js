@@ -23,7 +23,7 @@ function Input(args) {
 		$('.input-delete').off('click');
 		$('.input-element').off('blur keyup');
 		$('.input-numeric').off('keyup blur');
-		$('.input').off('keypress');
+		$('.input').off('keydown keyup keypress');
 		
 		$('.input-Z').keydown(function(ev) {
 			if(ev.keyCode!=9 || ev.shiftKey)return;//9 is tab key; also exit if shift is pressed (i.e., shift-tab)
@@ -83,7 +83,7 @@ function Input(args) {
 				//don't call data update, because the data is invalid
 			}
 		});
-		$('.input').bind('keypress', function() {
+		$('.input').bind('keydown keyup keypress', function() {
 			self.updateLive();
 		});
 	};
