@@ -23,6 +23,7 @@ function Input(args) {
 		$('.input-delete').off('click');
 		$('.input-element').off('blur keyup');
 		$('.input-numeric').off('keyup blur');
+		$('.input').off('keypress');
 		
 		$('.input-Z').keydown(function(ev) {
 			if(ev.keyCode!=9 || ev.shiftKey)return;//9 is tab key; also exit if shift is pressed (i.e., shift-tab)
@@ -82,6 +83,9 @@ function Input(args) {
 				//don't call data update, because the data is invalid
 			}
 		});
+		$('.input').bind('keypress', function() {
+			self.updateLive();
+		});
 	};
 	/**
 	 * Makes it so the data can't be updated & stored or something at the same time (to provent corrupted data)
@@ -103,9 +107,9 @@ function Input(args) {
 			Session.set("input", newDt);
 		}
 		//update display
-		var xyz = self.getXYZData();
-		JSmolInterface.showXYZ(xyz);
-		console.log(xyz);
+// 		var xyz = self.getXYZData();
+// 		JSmolInterface.showXYZ(xyz);
+// 		console.log(xyz);
 		self.lockUpdate=false;
 		return;
 	};
@@ -208,6 +212,9 @@ function Input(args) {
 	 */
 	self.getXYZData = function(comment) {
 		return (new XYZFile(self.getData())).getXYZData(comment);
+	};
+	self.updateLive = function(comment) {
+		JSmolInterface.showXYZ(self.getXYZData());
 	};
 	/*
 	 Determines whether to insert an input inside the DOM (as specified in args.dom)
