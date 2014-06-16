@@ -21,4 +21,6 @@ var Console = function(data){
 			//do stuff
 		}
 	}
+	//TODO: add function to auto-parse strings
+	return self;
 };
