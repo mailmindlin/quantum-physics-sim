@@ -86,9 +86,9 @@
 			 		for (var i = 0; i < self.tables.length; i++) {
 			 			console.log("\tCreating table '"+self.tables[i].name+"' ("+(i+1)+"/"+self.tables.length+")...");
 			 			var table = self.tables[i];
-			 			var kpArgs={keyPath: (typeof table.keyPath === 'string')?table.keyPath:"ssn"};
+			 			//var kpArgs={keyPath: (typeof table.keyPath === 'string')?table.keyPath:"ssn"};
 			 			console.log(kpArgs);
-			 			table.target = self.db.createObjectStore(table.name, kpArgs);
+			 			table.target = self.db.createObjectStore(table.name/*, kpArgs*/);
 			 			//create fields
 			 			for(var i=0;i<table.fields.length;i++){
 			 				console.log("\t\tCreating field '"+table.fields[i]+"' ("+(i+1)+"/"+table.fields.length+")...");
