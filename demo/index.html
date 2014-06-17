@@ -58,17 +58,28 @@
 			 		self.openRequest = window.indexedDB.open(self.dbName, self.dbVersion);
 			 		self.openRequest.onerror = self.onerror;
 			 		self.openRequest.onsuccess = self.onsuccess;
+			 		self.openRequest.onupgradeneeded = self.onupgradeneeded;
 			 	};
 			 	self.onerror = function(error) {
+			 		if(self.state==0){
+			 			console.error([new Error("DB creation failed"),error]);
+			 			return;
+			 		}
+			 		//generic mesage
 			 		console.error([new Error("An error occured!" + (typeof error !== 'undefined')?("\n"+error.message):""),error]);
 			 	};
 			 	self.onsuccess = function(event) {
 			 		console.log(["Success!",event]);
 			 		if (self.state == 0 && self.openRequest == "done") {
 			 			console.log("The db is open!");
-			 			self.db = event.target.result;
+			 			self.db = event.result;
 			 			self.state = 1;
 			 		}
+			 	};
+			 	self.onupgradeneeded = function(event) {
+			 		self.db = event.target.result;
+			 		console.log("Upgrading database...");
+			 		
 			 	};
 			 	//setup object
 			 	self.setup();
