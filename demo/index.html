@@ -46,6 +46,7 @@
 			 	//vardef
 			 	self.dbName 	= (typeof args.dbName !== 'undefined')?args.dbName:"Generic Database";
 			 	self.dbVersion 	= (typeof args.version === 'number')?args.version:3;
+			 	self.tables	= (typeof args.tables === "object")?args.tables:[];
 			 	self.openRequest= null;
 			 	self.objectStore= null;
 			 	self.storeBuffer= [];
@@ -54,11 +55,13 @@
 
 			 	//functiondef
 			 	self.setup = function() {
+			 		console.log("Initializing database "+self.dbName + "...");
 			 		self.state = 0;
 			 		self.openRequest = window.indexedDB.open(self.dbName, self.dbVersion);
 			 		self.openRequest.onerror = self.onerror;
 			 		self.openRequest.onsuccess = self.onsuccess;
 			 		self.openRequest.onupgradeneeded = self.onupgradeneeded;
+			 		console.log("\tDone.");
 			 	};
 			 	self.onerror = function(error) {
 			 		if(self.state==0){
@@ -77,12 +80,27 @@
 			 		}
 			 	};
 			 	self.onupgradeneeded = function(event) {
-			 		self.db = event.target.result;
 			 		console.log("Upgrading database...");
-			 		
+			 		self.db = event.target.result;
+			 		//create tables
+			 		for (var i = 0; i < self.tables.length; i++) {
+			 			console.log("\tCreating table "+self.table[i].name+" ("+(i+1)+"/"+self.tables.length+")...");
+			 			var table = self.tables[i];
+			 			table.target = self.db.createObjectStore(table.name, table.name, {keyPath: table.keyPath});
+			 			//create fields
+			 			for(var i=0;i<table.fields.length;i++){
+			 				var field = table.fields[i];
+			 				table.target.createIndex(field.name, (((typeof field.args==='object') && (typeof field.args.unique !== 'undefined'))?field.args:{unique: false}));
+			 				table.fields[i]=field;
+			 			}
+			 			//call any internal handler
+			 			if(typeof table.onCreate() === 'function')table.onCreate();
+			 			self.tables[i]=table;
+			 		}
+			 		console.log("\tDone.");
 			 	};
 			 	//setup object
-			 	self.setup();
+			 	if((typeof args.waitForSetup==='undefined')||(!args.waitForSetup))self.setup();
 			 	return self;
 			 };
 			/**
@@ -96,7 +114,18 @@
 				self.failureQueue = {};
 				self.successQueue = {};
 				self.waitingQueue = {};
-				self.db		  = new DBInterface({name:"ScriptDB",version:3});
+				self.db		  = new DBInterface({
+					name:"ScriptDB",
+					version:3,
+					tables: [{name: "Files",
+						fields: [{name:"Name", args:{unique: true}},
+							{name:"Version", args:{unique: false}},
+							{name:"Data",args:{unique: false}}]},
+						{name: "Versions",
+						fields: [{name:"Name", args:{unique: true}},
+							{name:"Date Last Updated",args:{unique:false}},
+							{name:"Files",args{unique:false}}]}]
+					}});
 				//functiondef
 				self.onSuccess = function(src, name) {
 					var obj = Object.create(null);
@@ -108,6 +137,7 @@
 					console.log("Loaded " + name + " from " + src);
 				};
 				self.onFail = function(src, name) {
+					self.hasErrors=true;
 					var obj = Object.create(null);
 					obj.src = src;
 					obj.name = name;
@@ -149,6 +179,7 @@
 				if(hasHadLoadError)return;
 				hasHadLoadError=true;
 				console.log(ev);
+				Loader.onFail("GITHUB",name);
 				var reload = confirm("Sorry, but one or more of the scripts on this page failed to load("+ev+").\nWould you like to reload?");
 				if(reload)location.reload();
 			}
