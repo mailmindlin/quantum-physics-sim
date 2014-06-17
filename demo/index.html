@@ -125,8 +125,8 @@
 				self.successQueue = {};
 				self.waitingQueue = {};
 				self.db		  = new DBInterface({
-					name:"ScriptDB",
-					version:3,
+					dbName: "ScriptDB",
+					version: 3,
 					tables: [{name: "Files",
 						fields: [{name:"Name", args:{unique: true}},
 							{name:"Version", args:{unique: false}},
