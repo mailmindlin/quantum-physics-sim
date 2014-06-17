@@ -84,7 +84,7 @@
 			 		self.db = event.target.result;
 			 		//create tables
 			 		for (var i = 0; i < self.tables.length; i++) {
-			 			console.log("\tCreating table "+self.table[i].name+" ("+(i+1)+"/"+self.tables.length+")...");
+			 			console.log("\tCreating table "+self.tables[i].name+" ("+(i+1)+"/"+self.tables.length+")...");
 			 			var table = self.tables[i];
 			 			table.target = self.db.createObjectStore(table.name, table.name, {keyPath: table.keyPath});
 			 			//create fields
