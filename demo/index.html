@@ -91,7 +91,7 @@
 			 			table.target = self.db.createObjectStore(table.name, kpArgs);
 			 			//create fields
 			 			for(var i=0;i<table.fields.length;i++){
-			 				console.log("\t\tCreating field '"+table.fields[i]+"' ("+(i+1)+"/"+table.fields.length+")...");
+			 				console.log("\t\tCreating field '"+table.fields[i].name+"' ("+(i+1)+"/"+table.fields.length+")...");
 			 				var field = table.fields[i];
 			 				var indexArgs = (((typeof field.args==='object') && (typeof field.args.unique !== 'undefined'))?field.args:{unique: false});
 			 				if(debug)console.log(indexArgs);
