@@ -33,6 +33,25 @@
 
 			//setup std. objects
 			window.debug=false;
+			window.isWebkit = 'WebkitAppearance' in document.documentElement.style;
+			window['Field'] = function(name, unique) {
+				var self = Object.create(null);
+				self.name = name;
+				self.unique = unique;
+				return self;
+			};
+			window['Table'] = function(name, fields, keypath) {
+				var self = Object.create(null);
+				//var def
+				self.name = name;
+				self.fields = (typeof fields === 'undefined')?[]:fields;
+				self.keyPath = keypath;
+				self.addField = function(field) {
+					self.fields.push(field);
+					return self;//allow for chaining
+				}
+				return self;
+			};
 			/**
 			 * DB interface object. Acts as a buffer between the database and JS code
 			 */
@@ -48,7 +67,6 @@
 			 	self.dbVersion 	= (typeof args.version === 'number')?args.version:0;
 			 	self.tables	= (typeof args.tables === "object")?args.tables:[];
 			 	self.openRequest= null;
-			 	self.objectStore= null;
 			 	self.storeBuffer= [];
 			 	self.state	= -1;
 			 	self.db		= null;
@@ -106,9 +124,27 @@
 			 		console.log("\tDone.");
 			 	};
 			 	self.delete = function() {
+			 		console.log("Deleting database '"+self.dbName+"'...");
 			 		indexedDB.deleteDatabase(self.dbName);
 			 		self.state=-1;
+			 		console.log("\tDone.");
 			 	};
+			 	self.getDB = function() {
+			 		return self.openRequest.result;
+			 	};
+			 	self.getTable = function(name) {
+			 		var obj = Object.create(null);
+			 		obj.db = self.getDB();
+			 		obj.transaction = obj.db.transaction([name], "readwrite");
+			 		obj.objectStore = transaction.objectStore(name);
+			 		return obj;
+			 	};
+			 	self.get = function(callback) {
+			 		
+			 	};
+			 	self.put = function(callback) {
+			 		
+			 	}
 			 	//setup object
 			 	if((typeof args.waitForSetup==='undefined')||(!args.waitForSetup))self.setup();
 			 	return self;
@@ -118,7 +154,7 @@
 			 * Basically handles scripts that load or fail to load, and smooths it out.
 			 */
 			window['Loader'] = (function() {
-				var self = this;
+				var self = Object.create(null);
 				//vardef
 				self.hasErrors=false;
 				self.failureQueue = {};
@@ -128,10 +164,12 @@
 					dbName: "ScriptDB",
 					version: 1,
 					tables: [{name: "Files",
+						keyPath:"Name",
 						fields: [{name:"Name", args:{unique: true}},
 							{name:"Version", args:{unique: false}},
 							{name:"Data",args:{unique: false}}]},
 						{name: "Versions",
+						keyPath:"Name",
 						fields: [{name:"Name", args:{unique: true}},
 							{name:"Date Last Updated",args:{unique:false}},
 							{name:"Files",args:{unique:false}}]}]
