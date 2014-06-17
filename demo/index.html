@@ -48,7 +48,7 @@
 			 	self.dbVersion 	= (typeof args.version === 'number')?args.version:3;
 			 	self.openRequest= null;
 			 	self.objectStore= null;
-			 	self.storeBuffer= {};
+			 	self.storeBuffer= [];
 			 	self.isActive	= false;
 
 			 	//functiondef
@@ -75,9 +75,9 @@
 				var self = this;
 				//vardef
 				self.hasErrors=false;
-				self.failureQueue = {};
-				self.successQueue = {};
-				self.waitingQueue = {};
+				self.failureQueue = [];
+				self.successQueue = [];
+				self.waitingQueue = [];
 				self.db		  = new DBInterface({name:"ScriptDB",version:3});
 				//functiondef
 				self.onSuccess = function(src, name) {
