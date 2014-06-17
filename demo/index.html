@@ -177,7 +177,7 @@
 					self.successQueue[name] = obj;
 					delete self.waitingQueue[name];
 					//TODO remove object from the waitingQueue
-					console.log("Loaded " + name + " from " + src);
+					console.log("%cLoaded " + name + " from " + src,'color:green;');
 				};
 				self.onFail = function(src, name) {
 					self.hasErrors=true;
