@@ -57,7 +57,7 @@
 			 	self.setup = function() {
 			 		console.log("Initializing database "+self.dbName + "...");
 			 		self.state = 0;
-			 		self.openRequest = window.indexedDB.open(self.dbName, self.dbVersion);
+			 		self.openRequest = window.indexedDB.open(self.dbName, 4);
 			 		self.openRequest.onerror = self.onerror;
 			 		self.openRequest.onsuccess = self.onsuccess;
 			 		self.openRequest.onupgradeneeded = self.onupgradeneeded;
@@ -88,7 +88,7 @@
 			 			var table = self.tables[i];
 			 			//var kpArgs={keyPath: (typeof table.keyPath === 'string')?table.keyPath:"ssn"};
 			 			// console.log(kpArgs);
-			 			table.target = self.db.createObjectStore(table.name/*, kpArgs*/);
+			 			// table.target = self.db.createObjectStore(table.name/*, kpArgs*/);
 			 			//create fields
 			 			for(var i=0;i<table.fields.length;i++){
 			 				console.log("\t\tCreating field '"+table.fields[i]+"' ("+(i+1)+"/"+table.fields.length+")...");
