@@ -103,6 +103,10 @@
 			 		}
 			 		console.log("\tDone.");
 			 	};
+			 	self.delete = function() {
+			 		indexedDB.deleteDatabase(self.dbName);
+			 		self.state=-1;
+			 	};
 			 	//setup object
 			 	if((typeof args.waitForSetup==='undefined')||(!args.waitForSetup))self.setup();
 			 	return self;
