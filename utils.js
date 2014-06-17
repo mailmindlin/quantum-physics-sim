@@ -46,7 +46,7 @@ var FileDownloader = function(data, MIME) {
 	self.data = encodeURIComponent(data);
 	self.mime = MIME;
 	self.download = function(filename) {
-		var csv = “Abc, DEF, GHI, JKLM”
+		//creds and thanks to http://paxcel.net/blog/savedownload-file-using-html5-javascript-the-download-attribute-2/
 
 		csvData = 'data:' + self.mime + ';charset=utf-8,' + self.data;
 
