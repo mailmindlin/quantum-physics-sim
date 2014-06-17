@@ -25,7 +25,32 @@
 		<script type="text/javascript" src="../jsmol/jsmol/JSmol.min.js" onerror="loadError('JSmol.js')"></script>
 		<!-- my scripts -->
 		<script type="text/javascript" onerror="loadError('Main loader')">
-			var hasHadLoadError=false;
+			window['Loader'] = (function() {
+				var self = this;
+				self.hasErrors=false;
+				self.failureQueue = {};
+				self.successQueue = {};
+				self.onSuccess = function(src, name) {
+					var obj = Object.create(null);
+					obj.src = src;
+					obj.name = name;
+					self.failureQueue.push(obj);
+					console.log("Loaded " + name + " from " + src);
+				};
+				self.onFail = function(src, name) {
+					var obj = Object.create(null);
+					obj.src = src;
+					obj.name = name;
+					self.failureQueue.push(obj);
+					console.log("Failed to load " + name + " from " + src);
+				};
+				self.getFromCache = function(src, name, version) {
+					if (typeof version === "undefined")version = "LATEST";
+					
+				}
+				return self;
+			})();
+			var hasHAdLoadError = false;
 			function loadError(ev){
 				if(hasHadLoadError)return;
 				hasHadLoadError=true;
