@@ -100,7 +100,7 @@
 			 				console.log("\t\t\tDone.");
 			 			}
 			 			//call any internal handler
-			 			if(typeof table.onCreate() === 'function')table.onCreate();
+			 			if(typeof table.onCreate === 'function')table.onCreate();
 			 			self.tables[i]=table;
 			 		}
 			 		console.log("\tDone.");
