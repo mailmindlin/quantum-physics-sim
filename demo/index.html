@@ -49,10 +49,12 @@
 			 	self.openRequest= null;
 			 	self.objectStore= null;
 			 	self.storeBuffer= [];
-			 	self.isActive	= false;
+			 	self.state	= -1;
+			 	self.db		= null;
 
 			 	//functiondef
 			 	self.setup = function() {
+			 		self.state = 0;
 			 		self.openRequest = window.indexedDB.open(self.dbName, self.dbVersion);
 			 		self.openRequest.onerror = self.onerror;
 			 		self.openRequest.onsuccess = self.onsuccess;
@@ -62,6 +64,11 @@
 			 	};
 			 	self.onsuccess = function(event) {
 			 		console.log(["Success!",event]);
+			 		if (self.state == 0 && self.openRequest == "done") {
+			 			console.log("The db is open!");
+			 			self.db = event.target.result;
+			 			self.state = 1;
+			 		}
 			 	};
 			 	//setup object
 			 	self.setup();
