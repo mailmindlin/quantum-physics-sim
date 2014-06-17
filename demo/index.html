@@ -30,11 +30,12 @@
 				self.hasErrors=false;
 				self.failureQueue = {};
 				self.successQueue = {};
+				self.waitingQueue = {};
 				self.onSuccess = function(src, name) {
 					var obj = Object.create(null);
 					obj.src = src;
 					obj.name = name;
-					self.failureQueue.push(obj);
+					self.successQueue.push(obj);
 					console.log("Loaded " + name + " from " + src);
 				};
 				self.onFail = function(src, name) {
@@ -47,9 +48,31 @@
 				self.getFromCache = function(src, name, version) {
 					if (typeof version === "undefined")version = "LATEST";
 					
-				}
+				};
+				self.want = function(src, name, version) {
+					if(typeof version === 'undefined')version = "LATEST";
+					var obj = Object.create(null);
+					obj.src = src;
+					obj.name = name;
+					obj.version = version;
+					self.waitingQueue.push(obj);
+					console.log("Waiting to load " + name + " from " + src);
+					return self;
+				};
 				return self;
 			})();
+			//register scripts to load
+			Loader.want("https://rawgit.com/mailmindlin/quantum-physics-sim/master/session.js",		"session.js",		"LATEST")
+				.want("https://rawgit.com/mailmindlin/quantum-physics-sim/master/utils.js",		"utils.js",		"LATEST")
+				.want("https://rawgit.com/mailmindlin/quantum-physics-sim/master/logger.js",		"logger.js",		"LATEST")
+				.want("https://rawgit.com/mailmindlin/quantum-physics-sim/master/help.js",		"help.js",		"LATEST")
+				.want("https://rawgit.com/mailmindlin/quantum-physics-sim/master/networking.js",	"networking.js",	"LATEST")
+				.want("https://rawgit.com/mailmindlin/quantum-physics-sim/master/renderer.js",		"renderer.js",		"LATEST")
+				.want("https://rawgit.com/mailmindlin/quantum-physics-sim/master/renderUtils.js",	"renderUtils.js",	"LATEST")
+				.want("https://rawgit.com/mailmindlin/quantum-physics-sim/master/input.js",		"input.js",		"LATEST")
+				.want("https://rawgit.com/mailmindlin/quantum-physics-sim/master/jsmol.js",		"jsmol.js",		"LATEST");
+				
+				
 			var hasHAdLoadError = false;
 			function loadError(ev){
 				if(hasHadLoadError)return;
