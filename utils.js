@@ -40,3 +40,27 @@ String.prototype.capitalizeFirstLetter = function() {
 String.prototype.pushLn = function(newLn) {
 	return this +  newLn + "\n";
 };
+
+var FileDownloader = function(data, MIME) {
+	var self = Object.create(null);
+	self.data = encodeURIComponent(data);
+	self.mime = MIME;
+	self.download = function(filename) {
+		var csv = “Abc, DEF, GHI, JKLM”
+
+		csvData = 'data:' + self.mime + ';charset=utf-8,' + self.data;
+
+		//For IE
+		if (navigator.appName == "Microsoft Internet Explorer") {
+			myFrame.document.open("text/html", "replace");
+			myFrame.document.write(uuu);
+			myFrame.document.close();
+			myFrame.focus()
+			myFrame.document.execCommand('SaveAs', true, filename);
+		} else {
+			//Other browsers
+			$('#btnExport').attr({'href': csvData, 'target': '_blank' });
+		}
+	};
+	return self;
+};
