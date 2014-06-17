@@ -25,6 +25,44 @@
 		<script type="text/javascript" src="../jsmol/jsmol/JSmol.min.js" onerror="loadError('JSmol.js')"></script>
 		<!-- my scripts -->
 		<script type="text/javascript" onerror="loadError('Main loader')">
+			//cross-compatibility
+			//indexedDB stuff
+			window.indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB;
+			window.IDBTransaction = window.IDBTransaction || window.webkitIDBTransaction || window.msIDBTransaction;
+			window.IDBKeyRange = window.IDBKeyRange || window.webkitIDBKeyRange || window.msIDBKeyRange;
+			
+			//setup std. objects
+			
+			/**
+			 * DB interface object. Acts as a buffer between the database and JS code
+			 */
+			 window['DBInterface'] = (function(dbName) {
+			 	var self = Object.create(null);
+			 	
+			 	//vardef
+			 	self.dbName 	=	(typeof dbName !== 'undefined')?dbName:"Generic Database";
+			 	self.dbVersion 	=	3;
+			 	
+			 	//functiondef
+			 	self.setup = function() {
+			 		self.openRequest = window.indexedDB.open(self.dbName, 3);
+			 		self.openRequest.onerror = self.onerror;
+			 		self.openRequest.onsuccess = self.onsuccess;
+			 	};
+			 	self.onerror = function(error) {
+			 		console.error([new Error("An error occured!" + (typeof error !== 'undefined')?("\n"+error.message):"",error]);
+			 	};
+			 	self.onsuccess = function(event) {
+			 		console.log(["Success!",event]);
+			 	};
+			 	//setup object
+			 	self.setup();
+			 	return self;
+			 })();
+			/**
+			 * Loader object.
+			 * Basically handles scripts that load or fail to load, and smooths it out.
+			 */
 			window['Loader'] = (function() {
 				var self = this;
 				self.hasErrors=false;
@@ -36,6 +74,7 @@
 					obj.src = src;
 					obj.name = name;
 					self.successQueue.push(obj);
+					//TODO remove object from the waitingQueue
 					console.log("Loaded " + name + " from " + src);
 				};
 				self.onFail = function(src, name) {
@@ -43,11 +82,12 @@
 					obj.src = src;
 					obj.name = name;
 					self.failureQueue.push(obj);
+					//TODO remove object from the waitingQueue
 					console.log("Failed to load " + name + " from " + src);
 				};
 				self.getFromCache = function(src, name, version) {
 					if (typeof version === "undefined")version = "LATEST";
-					
+					//TODO load scripts from localstorage/indexedDB
 				};
 				self.want = function(src, name, version) {
 					if(typeof version === 'undefined')version = "LATEST";
