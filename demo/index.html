@@ -185,13 +185,24 @@
 					obj.src = src;
 					obj.name = name;
 					self.failureQueue = obj;
+					if((typeof self.waitingQueue[name] !== 'undefined') && (self.waitingQueue[name].cachable))self.getFromCache(name);
 					delete self.waitingQueue[name];
 					//TODO remove object from the waitingQueue
 					console.log("%cFailed to load " + name + " from " + src,'color:red;');
 				};
-				self.getFromCache = function(src, name, version) {
+				self.getFromCache = function(name) {
 					if (typeof version === "undefined")version = "LATEST";
-					//TODO load scripts from localstorage/indexedDB
+					self.db.get("Files", name, function(dbOut){
+						console.log(dbOut);
+						if(typeof dbOut !== 'undefined') {
+							var element = document.createElement('script');
+							element.setAttribut('type','text/javascript');
+							element.innerText=dbOut.data;
+							document.getElementsByTagName("head")[0].appendChild(fileref);
+						}else{
+							//do ajax
+						}
+					});
 				};
 				self.want = function(src, name, version) {
 					if(typeof version === 'undefined')version = "LATEST";
