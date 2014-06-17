@@ -45,7 +45,7 @@
 
 			 	//vardef
 			 	self.dbName 	= (typeof args.dbName !== 'undefined')?args.dbName:"Generic Database";
-			 	self.dbVersion 	= (typeof args.version === 'number')?args.version:3;
+			 	self.dbVersion 	= (typeof args.version === 'number')?args.version:0;
 			 	self.tables	= (typeof args.tables === "object")?args.tables:[];
 			 	self.openRequest= null;
 			 	self.objectStore= null;
@@ -57,7 +57,7 @@
 			 	self.setup = function() {
 			 		console.log("Initializing database "+self.dbName + "...");
 			 		self.state = 0;
-			 		self.openRequest = window.indexedDB.open(self.dbName, 4);
+			 		self.openRequest = window.indexedDB.open(self.dbName, self.dbVersion);
 			 		self.openRequest.onerror = self.onerror;
 			 		self.openRequest.onsuccess = self.onsuccess;
 			 		self.openRequest.onupgradeneeded = self.onupgradeneeded;
@@ -126,7 +126,7 @@
 				self.waitingQueue = {};
 				self.db		  = new DBInterface({
 					dbName: "ScriptDB",
-					version: 3,
+					version: 1,
 					tables: [{name: "Files",
 						fields: [{name:"Name", args:{unique: true}},
 							{name:"Version", args:{unique: false}},
