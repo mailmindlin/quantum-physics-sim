@@ -58,7 +58,7 @@
 			 		self.openRequest.onsuccess = self.onsuccess;
 			 	};
 			 	self.onerror = function(error) {
-			 		console.error([new Error("An error occured!" + (typeof error !== 'undefined')?("\n"+error.message):"",error]);
+			 		console.error([new Error("An error occured!" + (typeof error !== 'undefined')?("\n"+error.message):""),error]);
 			 	};
 			 	self.onsuccess = function(event) {
 			 		console.log(["Success!",event]);
