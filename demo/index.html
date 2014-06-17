@@ -30,22 +30,30 @@
 			window.indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB;
 			window.IDBTransaction = window.IDBTransaction || window.webkitIDBTransaction || window.msIDBTransaction;
 			window.IDBKeyRange = window.IDBKeyRange || window.webkitIDBKeyRange || window.msIDBKeyRange;
-			
+
 			//setup std. objects
-			
+
 			/**
 			 * DB interface object. Acts as a buffer between the database and JS code
 			 */
-			 window['DBInterface'] = (function(dbName) {
+			 window['DBInterface'] = function(args) {
+			 	//safety check
+			 	if(typeof args === 'undefined') args = {};
+
+			 	//define self
 			 	var self = Object.create(null);
-			 	
+
 			 	//vardef
-			 	self.dbName 	=	(typeof dbName !== 'undefined')?dbName:"Generic Database";
-			 	self.dbVersion 	=	3;
-			 	
+			 	self.dbName 	= (typeof args.dbName !== 'undefined')?args.dbName:"Generic Database";
+			 	self.dbVersion 	= (typeof args.version === 'number')?args.version:3;
+			 	self.openRequest= null;
+			 	self.objectStore= null;
+			 	self.storeBuffer= {};
+			 	self.isActive	= false;
+
 			 	//functiondef
 			 	self.setup = function() {
-			 		self.openRequest = window.indexedDB.open(self.dbName, 3);
+			 		self.openRequest = window.indexedDB.open(self.dbName, self.dbVersion);
 			 		self.openRequest.onerror = self.onerror;
 			 		self.openRequest.onsuccess = self.onsuccess;
 			 	};
@@ -58,17 +66,20 @@
 			 	//setup object
 			 	self.setup();
 			 	return self;
-			 })();
+			 };
 			/**
 			 * Loader object.
 			 * Basically handles scripts that load or fail to load, and smooths it out.
 			 */
 			window['Loader'] = (function() {
 				var self = this;
+				//vardef
 				self.hasErrors=false;
 				self.failureQueue = {};
 				self.successQueue = {};
 				self.waitingQueue = {};
+				self.db		  = new DBInterface({name:"ScriptDB",version:3});
+				//functiondef
 				self.onSuccess = function(src, name) {
 					var obj = Object.create(null);
 					obj.src = src;
