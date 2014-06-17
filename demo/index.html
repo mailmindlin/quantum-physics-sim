@@ -84,18 +84,20 @@
 			 		self.db = event.target.result;
 			 		//create tables
 			 		for (var i = 0; i < self.tables.length; i++) {
-			 			console.log("\tCreating table "+self.tables[i].name+" ("+(i+1)+"/"+self.tables.length+")...");
+			 			console.log("\tCreating table '"+self.tables[i].name+"' ("+(i+1)+"/"+self.tables.length+")...");
 			 			var table = self.tables[i];
 			 			var kpArgs={keyPath: (typeof table.keyPath === 'string')?table.keyPath:"ssn"};
 			 			console.log(kpArgs);
 			 			table.target = self.db.createObjectStore(table.name, kpArgs);
 			 			//create fields
 			 			for(var i=0;i<table.fields.length;i++){
+			 				console.log("\t\tCreating field '"+table.fields[i]+"' ("+(i+1)+"/"+table.fields.length+")...");
 			 				var field = table.fields[i];
 			 				var indexArgs = (((typeof field.args==='object') && (typeof field.args.unique !== 'undefined'))?field.args:{unique: false});
 			 				console.log(indexArgs);
 			 				table.target.createIndex(field.name, indexArgs);
 			 				table.fields[i]=field;
+			 				console.log("\t\t\tDone.");
 			 			}
 			 			//call any internal handler
 			 			if(typeof table.onCreate() === 'function')table.onCreate();
