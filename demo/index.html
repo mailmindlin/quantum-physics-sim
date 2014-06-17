@@ -93,16 +93,17 @@
 				var self = this;
 				//vardef
 				self.hasErrors=false;
-				self.failureQueue = [];
-				self.successQueue = [];
-				self.waitingQueue = [];
+				self.failureQueue = {};
+				self.successQueue = {};
+				self.waitingQueue = {};
 				self.db		  = new DBInterface({name:"ScriptDB",version:3});
 				//functiondef
 				self.onSuccess = function(src, name) {
 					var obj = Object.create(null);
 					obj.src = src;
 					obj.name = name;
-					self.successQueue.push(obj);
+					self.successQueue[name] = obj;
+					delete self.waitingQueue[name];
 					//TODO remove object from the waitingQueue
 					console.log("Loaded " + name + " from " + src);
 				};
@@ -110,7 +111,8 @@
 					var obj = Object.create(null);
 					obj.src = src;
 					obj.name = name;
-					self.failureQueue.push(obj);
+					self.failureQueue = obj;
+					delete self.waitingQueue[name];
 					//TODO remove object from the waitingQueue
 					console.log("Failed to load " + name + " from " + src);
 				};
@@ -124,7 +126,7 @@
 					obj.src = src;
 					obj.name = name;
 					obj.version = version;
-					self.waitingQueue.push(obj);
+					self.waitingQueue[name] = (obj);
 					console.log("Waiting to load " + name + " from " + src);
 					return self;
 				};
