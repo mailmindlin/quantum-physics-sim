@@ -79,7 +79,7 @@
 			 		self.openRequest.onerror = self.onerror;
 			 		self.openRequest.onsuccess = self.onsuccess;
 			 		self.openRequest.onupgradeneeded = self.onupgradeneeded;
-			 		console.log("\tDone.");
+			 		console.log("\t%cDone.",'color:green;');
 			 	};
 			 	self.onerror = function(error) {
 			 		if(self.state==0){
@@ -115,19 +115,19 @@
 			 				if(debug)console.log(indexArgs);
 			 				table.target.createIndex(field.name, field.name, indexArgs);
 			 				table.fields[i]=field;
-			 				console.log("\t\t\tDone.");
+			 				console.log("\t\t\t%cDone.",'color:green;');
 			 			}
 			 			//call any internal handler
 			 			if(typeof table.onCreate === 'function')table.onCreate();
 			 			self.tables[i]=table;
 			 		}
-			 		console.log("\tDone.");
+			 		console.log("\t%cDone.",'color:green;');
 			 	};
 			 	self.delete = function() {
 			 		console.log("Deleting database '"+self.dbName+"'...");
 			 		indexedDB.deleteDatabase(self.dbName);
 			 		self.state=-1;
-			 		console.log("\tDone.");
+			 		console.log("\t%cDone.",'color:green;');
 			 	};
 			 	self.getDB = function() {
 			 		return self.openRequest.result;
