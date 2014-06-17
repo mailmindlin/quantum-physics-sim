@@ -187,7 +187,7 @@
 					self.failureQueue = obj;
 					delete self.waitingQueue[name];
 					//TODO remove object from the waitingQueue
-					console.log("Failed to load " + name + " from " + src);
+					console.log("%cFailed to load " + name + " from " + src,'color:red;');
 				};
 				self.getFromCache = function(src, name, version) {
 					if (typeof version === "undefined")version = "LATEST";
