@@ -168,11 +168,6 @@
 						fields: [{name:"Name", args:{unique: true}},
 							{name:"Version", args:{unique: false}},
 							{name:"Data",args:{unique: false}}]},
-						{name: "Versions",
-						keyPath:"Name",
-						fields: [{name:"Name", args:{unique: true}},
-							{name:"Date Last Updated",args:{unique:false}},
-							{name:"Files",args:{unique:false}}]}]
 					});
 				//functiondef
 				self.onSuccess = function(src, name) {
