@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<script src="sprintf.min.js"></script>
+<script src="numeric-1.2.6.min.js"></script</script>
+<script src="quantumchem.js"></script>
+<script src="sto1g.js"></script>
+<script src="rhf.js"></script>
+
+
+<script>
+
+var geometry = {atomTypes:[1,1], atomCoord:[ [0,0,0],[0,0,0.87]]}; //in Bohr radii
+
+var jobResult = runQC(geometry,0,1,"RHF","STO-1G","SP");
+
+
+document.write("<p>the total energy = "+jobResult.totalEnergy+" Hartrees</p><hr>");
+
+document.write("<p>details about the iterations</p><pre>"+jobResult.iterationDetails+"</pre><hr>");
+
+document.write("<pre>"+jobResult.fchk+"</pre>");
+
+
+</script>
