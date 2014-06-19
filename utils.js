@@ -48,7 +48,7 @@ var FileDownloader = function(data, MIME) {
 	self.download = function(filename) {
 		//creds and thanks to http://paxcel.net/blog/savedownload-file-using-html5-javascript-the-download-attribute-2/
 
-		csvData = 'data:' + self.mime + ';charset=utf-8,' + self.data;
+		var uri = 'data:' + self.mime + ';charset=utf-8,' + self.data;
 
 		//For IE
 		if (navigator.appName == "Microsoft Internet Explorer") {
@@ -59,7 +59,7 @@ var FileDownloader = function(data, MIME) {
 			myFrame.document.execCommand('SaveAs', true, filename);
 		} else {
 			//Other browsers
-			$('#btnExport').attr({'href': csvData, 'target': '_blank' });
+			$('#btnExport').attr({'href': uri, 'target': '_blank' });
 		}
 	};
 	return self;
