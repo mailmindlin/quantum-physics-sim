@@ -13,7 +13,7 @@ if (window.document === undefined) {
 			console.log(ev);
 		};
 		self.setup = function() {
-			myWorker.addEventListener("message", self.onWorkerMessage, false);
+			self.worker.addEventListener("message", self.onWorkerMessage, false);
 		};
 		return self;
 	};
