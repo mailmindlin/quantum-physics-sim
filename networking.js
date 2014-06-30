@@ -65,6 +65,9 @@ window['DynamicNetwork'] = function(name, setup) {
   return self;
 };
 //TODO: maybe move this to another file (i.e., utils.js)
+/**
+ * Allows for applying simple XOR encryption. TODO: maybe replace with crypto-js???
+ */
 window['Encryption'] = function(Key) {
 	var self = Object.create(null);
 	self.key=Key;
@@ -77,12 +80,15 @@ window['Encryption'] = function(Key) {
 		return result;
 	};
 };
+/**
+ * Basically makes a sandbox that the specified function can run in, that loses access to many external resources.
+ */
 window['Sandbox'] = function(fn) {
 	this.rtVal=undefined;
-	eval("{var sprWindow=window;\
-		var window=Object.create();\
-		var document=Object.create();\
-		sprWindow.Sandbox.rtVal=("+sfn+")();}");
+	var sprWinNum=Math.random().replace('.','');//make the window variable random
+	eval("{var _"+sprWinNum+"=window;\
+		var window=document=Window=Document=$=Navigator=navigator==Object.create();\
+		_"+sprWinNum+".Sandbox.rtVal=("+sfn+")();}");
 	return this.rtVal;
 };
 window['LocalOrigin'] = "ABCD";//TODO: fix origin generation (maybe do base 64 string from random number (seed could be from geolocation)
