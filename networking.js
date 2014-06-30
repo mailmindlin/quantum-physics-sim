@@ -172,7 +172,7 @@ window['Communicator'] = function() {
 		self.remotePeerConnection.onicecandidate	= self.gotRemoteIceCandidate;
 		self.remotePeerConnection.ondatachannel		= self.gotReceiveChannel;
 		
-		localPeerConnection.createOffer(gotLocalDescription);
+		self.localPeerConnection.createOffer(gotLocalDescription);
 	};
 	self.gotRemoteIceCandidate = function(e) {
 		console.log(e);
