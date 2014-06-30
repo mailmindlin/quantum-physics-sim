@@ -158,14 +158,14 @@ window['Communicator'] = function() {
 			alert('Failed to create data channel. You need Chrome M25 or later with RtpDataChannel enabled');
 			trace('createDataChannel() failed with exception: ' + e.message);
 		}
-		self.localPeerConnection.onicecandidate = gotLocalCandidate;
-		self.sendChannel.onopen = handleSendChannelStateChange;
-		self.sendChannel.onclose = handleSendChannelStateChange;
-		self.remotePeerConnection = new webkitRTCPeerConnection(servers, {optional: [{RtpDataChannels: true}]});
+		self.localPeerConnection.onicecandidate 	= self.gotLocalCandidate;
+		self.sendChannel.onopen				= self.handleSendChannelStateChange;
+		self.sendChannel.onclose			= self.handleSendChannelStateChange;
+		self.remotePeerConnection			= new webkitRTCPeerConnection(servers, {optional: [{RtpDataChannels: true}]});
 		trace('Created remote peer connection object remotePeerConnection');
 	
-		remotePeerConnection.onicecandidate = gotRemoteIceCandidate;
-		remotePeerConnection.ondatachannel = gotReceiveChannel;
+		self.remotePeerConnection.onicecandidate	= self.gotRemoteIceCandidate;
+		self.remotePeerConnection.ondatachannel		= self.gotReceiveChannel;
 		
 		localPeerConnection.createOffer(gotLocalDescription);
 	};
@@ -181,5 +181,18 @@ window['Communicator'] = function() {
 	self.sendData = function(data) {
 		self.sendChannel.send(data);
 		trace('Sent data: ' + data);
+	};
+	self.gotLocalDescription = function(desc) {
+		self.localPeerConnection.setLocalDescription(desc);
+		trace('Offer from localPeerConnection \n' + desc.sdp);
+		self.remotePeerConnection.setRemoteDescription(desc);
+		self.remotePeerConnection.createAnswer(self.gotRemoteDescription);
+	};
+	/**
+	 * Handles event when message is recieved.
+	 */
+	self.handleMessage = function(event) {
+		trace('Received message: ' + event.data);
+		console.log(event);
 	};
 };
