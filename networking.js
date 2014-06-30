@@ -140,4 +140,42 @@ window['Part'] = function(data) {
 		
 	};
 	return self;
-}
+};
+window['Communicator'] = function() {
+	function trace(text) {
+		console.log((performance.now() / 1000).toFixed(3) + ": " + text);
+	}
+	var self = Object.create(null);
+	self.setup = function() {
+		var servers = null;
+		self.localPeerConnection = new webkitRTCPeerConnection(servers, {optional: [{RtpDataChannels: true}]});
+		trace("Creacted localPeerConnection");
+		try {
+			// Reliable Data Channels not yet supported in Chrome
+			self.sendChannel = self.localPeerConnection.createDataChannel("sendDataChannel", {reliable: false});
+			trace('Created send data channel');
+		} catch (e) {
+			alert('Failed to create data channel. You need Chrome M25 or later with RtpDataChannel enabled');
+			trace('createDataChannel() failed with exception: ' + e.message);
+		}
+		self.localPeerConnection.onicecandidate = gotLocalCandidate;
+		self.sendChannel.onopen = handleSendChannelStateChange;
+		self.sendChannel.onclose = handleSendChannelStateChange;
+		self.remotePeerConnection = new webkitRTCPeerConnection(servers, {optional: [{RtpDataChannels: true}]});
+		trace('Created remote peer connection object remotePeerConnection');
+	
+		remotePeerConnection.onicecandidate = gotRemoteIceCandidate;
+		remotePeerConnection.ondatachannel = gotReceiveChannel;
+		
+		localPeerConnection.createOffer(gotLocalDescription);
+	};
+	self.gotRemoteIceCandidate = function(e) {
+		console.log(e);
+	};
+	self.gotRecieveChannel = function(e) {
+		console.log(e);
+	};
+	self.handleSendChannelStateChange = function(e) {
+		console.log(e);
+	};
+};
