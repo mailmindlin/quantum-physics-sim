@@ -119,7 +119,6 @@ window['Part'] = function(data) {
 		self.sfn = deserialized.sfn;
 		self.fn = function(){Sandbox(self.sfn);};//basically just call the function in eval. BTW: sorry for using eval.
 		self.name = data.name;
-		self.
 	} else {
 		self.wasSerialized=false;
 		self.fn = data.fn;
