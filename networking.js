@@ -200,4 +200,5 @@ window['Communicator'] = function() {
 		trace('Received message: ' + event.data);
 		console.log(event);
 	};
+	return self;
 };
