@@ -178,4 +178,8 @@ window['Communicator'] = function() {
 	self.handleSendChannelStateChange = function(e) {
 		console.log(e);
 	};
+	self.sendData = function(data) {
+		self.sendChannel.send(data);
+		trace('Sent data: ' + data);
+	};
 };
