@@ -4,7 +4,11 @@ Basically allows for multiple computers in close proximity to connect via WebRTC
 I should actually put this in a separate repository, but stuff would get complicated.
 Requires connection.js
 */
+//Networking module
 
+/**
+ * A single computer in the network
+ */
 window['Node'] = function() {
   var self=this;
   self.connection = new DataConnection();
@@ -20,6 +24,9 @@ window['Node'] = function() {
   }
   return self;
 };
+/**
+ * An object representing a remote node (another node that can be communicated via webRTC)
+ */
 window['RemoteNode'] = function() {
 	
 };
@@ -57,3 +64,80 @@ window['DynamicNetwork'] = function(name, setup) {
   
   return self;
 };
+//TODO: maybe move this to another file (i.e., utils.js)
+window['Encryption'] = function(Key) {
+	var self = Object.create(null);
+	self.key=Key;
+	self.xor = function(data) {
+		//thanks to http://th.atguy.com/mycode/xor_js_encryption/
+		var result="";//the result will be here
+		for(var i = 0; i < data.length; i++){
+			resilt+=String.fromCharCode(self.key^data.charCodeAt(i));
+		}
+		return result;
+	};
+};
+window['Sandbox'] = function(fn) {
+	this.rtVal=undefined;
+	eval("{var sprWindow=window;\
+		var window=Object.create();\
+		var document=Object.create();\
+		sprWindow.Sandbox.rtVal=("+sfn+")();}");
+	return this.rtVal;
+};
+window['LocalOrigin'] = "ABCD";//TODO: fix origin generation (maybe do base 64 string from random number (seed could be from geolocation)
+/**
+ * A 
+ */
+window['Problem'] = function(name, origin, parts, encKey) {
+	var self = Object.create(null);
+	//define constants
+	//define variables
+	//set rt variables
+	self.name	= name;
+	self.origin	= origin;
+	self.parts	= parts;
+	self.encKey	= encKey;
+	self.stat	= -1;
+	self.parts	= parts;
+	//define functions
+	self.queue = function() {
+		
+	};
+	
+	return self;
+};
+window['Part'] = function(data) {
+	if(typeof data !== 'object')throw(new Error("Data was not an object!"));
+	var self = Object.create(null);
+	//vardef
+	if(ISSET(data.isSerialized) && data.isSerialized) {
+		self.wasSerialized=true;
+		var enc = new Encryption(data.encKey);
+		//deserialize object
+		var deserialized = JSON.parse(enc.xor(data.sData));
+		self.sfn = deserialized.sfn;
+		self.fn = function(){Sandbox(self.sfn);};//basically just call the function in eval. BTW: sorry for using eval.
+		self.name = data.name;
+		self.
+	} else {
+		self.wasSerialized=false;
+		self.fn = data.fn;
+		self.sfn = ISSET(data.sfn)?data.sfn:(self.fn+'');
+		if(ISSET(data.origin)) {
+			self.isLocal=(data.origin==LocalOrigin);
+			self.origin=data.origin;
+		}
+		if(ISSET(data.name)) self.name = data.name;
+	}
+	//funcdef
+	self.serialize = function() {
+		var temp = Object.create(null);
+		self.sfn = (temp.sfn = ISSET(self.sfn)?self.sfn:(self.fn+''));
+		temp.origin=self.origin;
+	};
+	self.run = function() {
+		
+	};
+	return self;
+}
