@@ -173,6 +173,7 @@ window['Communicator'] = function() {
 		self.remotePeerConnection.ondatachannel		= self.gotReceiveChannel;
 		
 		self.localPeerConnection.createOffer(gotLocalDescription);
+		return self;
 	};
 	self.gotRemoteIceCandidate = function(e) {
 		console.log(e);
@@ -192,6 +193,19 @@ window['Communicator'] = function() {
 		trace('Offer from localPeerConnection \n' + desc.sdp);
 		self.remotePeerConnection.setRemoteDescription(desc);
 		self.remotePeerConnection.createAnswer(self.gotRemoteDescription);
+	};
+	self.closeDataChannels = function() {
+		var t0=new Date();
+		trace('Closing data channels');
+		sendChannel.close();
+		trace('Closed data channel with label: ' + sendChannel.label);
+		receiveChannel.close();
+  		trace('Closed data channel with label: ' + receiveChannel.label);
+		localPeerConnection.close();
+		remotePeerConnection.close();
+		localPeerConnection = null;
+		remotePeerConnection = null;
+		trace('Closed peer connections ('+((new Date())-t0) + 'ms).');
 	};
 	/**
 	 * Handles event when message is recieved.
