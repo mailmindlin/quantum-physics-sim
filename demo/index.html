@@ -149,6 +149,24 @@
 			 	if((typeof args.waitForSetup==='undefined')||(!args.waitForSetup))self.setup();
 			 	return self;
 			 };
+			 window['TSStorage'] = function(args) {
+			 	var self = Object.create(null);
+			 	self.store = function(name, url, version, data) {
+			 		var scrObj = Object.create(null);
+			 		scrObj.name	= name;
+			 		scrObj.url	= url;
+			 		scrObj.version	= version;
+			 		scrObj.data	= data;
+			 		window.localStorage.setItem(name, JSON.stringify(scrObj));
+			 	};
+			 	self.get = function(name, version) {
+			 		
+			 	};
+			 	self.setup = function() {
+			 		return self;
+			 	};
+			 	return self;
+			 };
 			/**
 			 * Loader object.
 			 * Basically handles scripts that load or fail to load, and smooths it out.
