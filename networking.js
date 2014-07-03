@@ -141,8 +141,14 @@ window['Part'] = function(data) {
 		self.sfn = (temp.sfn = ISSET(self.sfn)?self.sfn:(self.fn+''));
 		temp.origin=self.origin;
 	};
-	self.run = function() {
-		
+	self.run = function(boolean inWebWorker) {
+		if(ISSET(self.fn)){
+			if(ISSET(inWebWorker)&&inWebWorker){
+				
+			}else{
+				self.fn();
+			}
+		}
 	};
 	return self;
 };
@@ -197,14 +203,14 @@ window['Communicator'] = function() {
 	self.closeDataChannels = function() {
 		var t0=new Date();
 		trace('Closing data channels');
-		sendChannel.close();
+		self.sendChannel.close();
 		trace('Closed data channel with label: ' + sendChannel.label);
-		receiveChannel.close();
+		self.receiveChannel.close();
   		trace('Closed data channel with label: ' + receiveChannel.label);
-		localPeerConnection.close();
-		remotePeerConnection.close();
-		localPeerConnection = null;
-		remotePeerConnection = null;
+		self.localPeerConnection.close();
+		self.remotePeerConnection.close();
+		(delete self.localPeerConnection)?true:self.remotePeerConnection=null;
+		(delete self.remotePeerConnection)?true:self.remotePeerConnection=null;
 		trace('Closed peer connections ('+((new Date())-t0) + 'ms).');
 	};
 	/**
