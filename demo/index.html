@@ -181,6 +181,7 @@
 				self.failureQueue = {};
 				self.successQueue = {};
 				self.waitingQueue = {};
+				self.tsStorage    = new TSStorage();
 				self.db		  = new DBInterface({
 					dbName: "ScriptDB",
 					version: 1,
@@ -206,13 +207,22 @@
 					obj.src = src;
 					obj.name = name;
 					self.failureQueue = obj;
-					if((typeof self.waitingQueue[name] !== 'undefined') && (self.waitingQueue[name].cachable))self.getFromCache(name);
+					if((typeof self.waitingQueue[name] !== 'undefined')/* && (self.waitingQueue[name].cachable)*/)self.createScript(name, self.getFromCache(name));
 					delete self.waitingQueue[name];
 					//TODO remove object from the waitingQueue
 					console.log("%cFailed to load " + name + " from " + src,'color:red;');
 				};
+				self.createScript = function(name, data) {
+					var sct = document.createElement("script");
+					sct.setAttribute("name",name);
+					sct.innerTest=data;
+					sct.setAttribute("type","text/javascript");
+					document.querySelector("head").appendChild(sct);
+				};
 				self.getFromCache = function(name) {
 					if (typeof version === "undefined")version = "LATEST";
+					return self.tsStorage.get(name);
+					//TODO: get db to work
 					self.db.get("Files", name, function(dbOut){
 						console.log(dbOut);
 						if(typeof dbOut !== 'undefined') {
