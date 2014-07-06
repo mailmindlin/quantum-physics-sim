@@ -228,6 +228,7 @@
 					if(self.tsStorage.has(name) && (window['Production'] == true) && canCreateScript && tryTSS) {//only read from cache if it's production, TSS is allowed (TSStorage), and it can create a script (because why load it from the cache if it cant do anything with it).
 						if(canCreateScript)self.createScript(name, self.tsStorage.get(name));
 					} else if (tryAJAX) {
+						console.log("Getting " + name + " from " + url + " via AJAX");
 						self.getFromAJAX(name, url, false, function(response, wasGood) {
 							if(!wasGood) {
 								console.error("AJAX to " + name + "Failed!");
