@@ -247,11 +247,11 @@
 						selfFn.xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");// code for IE6, IE5
 					}
 					if(selfFn.xmlhttp == null) throw(new Error("XMLHTTP not supported!"));
-					xmlhttp.onsuccess = function(ev) {
+					selfFn.xmlhttp.onsuccess = function(ev) {
 						self.tsStorage.put(selfFn.name, selfFn.url, selfFn.xmlhttp.responseText);
 						console.log(["XMLHTTP Success",selfFn,ev]);
 					};
-					xmlhttp.onerror = function(e) {
+					selfFn.xmlhttp.onerror = function(e) {
 						console.log(e);
 						console.log(["XMLHTTP Failure",selfFn,ev]);
 					};
