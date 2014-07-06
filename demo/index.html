@@ -236,7 +236,7 @@
 						}
 					});
 				};
-				self.getFromAjax = function(name, url, directlyAdd) {
+				self.getFromAjax = function(name, url, directlyAdd, callback) {//callback is optional
 					var selfFn = Object.create(null);
 					selfFn.name = name;
 					selfFn.url = url;
@@ -249,9 +249,11 @@
 					if(selfFn.xmlhttp == null) throw(new Error("XMLHTTP not supported!"));
 					xmlhttp.onsuccess = function(ev) {
 						self.tsStorage.put(selfFn.name, selfFn.url, selfFn.xmlhttp.responseText);
+						console.log(["XMLHTTP Success",selfFn,ev]);
 					};
 					xmlhttp.onerror = function(e) {
 						console.log(e);
+						console.log(["XMLHTTP Failure",selfFn,ev]);
 					};
 					xmlhttp.open("GET", name, true);
 					xmlhttp.send();
