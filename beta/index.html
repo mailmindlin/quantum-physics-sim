@@ -220,19 +220,21 @@
 					sct.setAttribute("type","text/javascript");
 					document.querySelector("head").appendChild(sct);
 				};
-				self.getFromCache = function(name, url, tryAJAX, createScript) {
+				self.getFromCache = function(name, url, tryAJAX, canCreateScript, tryTSS) {
 					if(typeof tryAJAX === 'undefined')tryAJAX=true;
 					if (typeof version === "undefined")version = "LATEST";
-					if(self.tsStorage.has(name) && window['Production'] == true ) {
-						self.createScript(self.tsStorage.get(name));
-					} else {
+					if(typeof tryTSS === 'undefined')tryTSS=true;
+					if(typeof canCreateScript === 'undefined')canCreateScript=false;
+					if(self.tsStorage.has(name) && (window['Production'] == true) && canCreateScript && tryTSS) {//only read from cache if it's production, TSS is allowed (TSStorage), and it can create a script (because why load it from the cache if it cant do anything with it).
+						if(canCreateScript)self.createScript(name, self.tsStorage.get(name));
+					} else if (tryAJAX) {
 						self.getFromAJAX(name, url, false, function(response, wasGood) {
 							if(!wasGood) {
 								console.error("AJAX to " + name + "Failed!");
 								return;
 							}
 							self.tsStorage.put(name, url, response.responseText);
-							self.createScript(name, response.responseText);
+							if(canCreateScript)self.createScript(name, response.responseText);
 						});
 					}
 					//TODO: get db to work
@@ -262,10 +264,12 @@
 					selfFn.xmlhttp.onload = function(ev) {
 						self.tsStorage.put(selfFn.name, selfFn.url, selfFn.xmlhttp.responseText);
 						console.log(["XMLHTTP Success",selfFn,ev]);
+						if(typeof callback === 'function')callback.apply(ev, true);
 					};
 					selfFn.xmlhttp.onerror = function(e) {
 						console.log(e);
 						console.log(["XMLHTTP Failure",selfFn,ev]);
+						callback.apply(ev, false);
 					};
 					selfFn.xmlhttp.open("GET", name, true);
 					selfFn.xmlhttp.send();
