@@ -255,8 +255,8 @@
 						console.log(e);
 						console.log(["XMLHTTP Failure",selfFn,ev]);
 					};
-					xmlhttp.open("GET", name, true);
-					xmlhttp.send();
+					selfFn.xmlhttp.open("GET", name, true);
+					selfFn.xmlhttp.send();
 				};
 				self.want = function(src, name, version) {
 					if(typeof version === 'undefined')version = "LATEST";
