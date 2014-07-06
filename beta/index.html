@@ -4,13 +4,11 @@
 		<meta charset="utf-8"/>
 		<meta http-equiv="X-UA-Compatible" content="chrome=1"/>
 		<title>Quantum Physics Simulator by mailmindlin</title>
-		
 		<!--Meta tags -->
 		<meta name="description" content="A simulator for the quantum properties of theoretical molecules."/>
 		<meta name="robots" content="INDEX, noimageindex"/><!--no image index is just for copyright stuff-->
 		<meta name="revisit-after" content="2 days"/><!--because of constant updates-->
 		<meta name="author" content="mailmindlin, jschrier"/>
-		
 		<!-- github's css -->
 		<link rel="stylesheet" href="../stylesheets/styles.css" onerror="loadError('Github\'s styles.css')"/>
 		<link rel="stylesheet" href="../stylesheets/pygment_trac.css" onerror="loadError('Github\'s pygment_trac.css')"/>
@@ -30,7 +28,10 @@
 			window.indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB;
 			window.IDBTransaction = window.IDBTransaction || window.webkitIDBTransaction || window.msIDBTransaction;
 			window.IDBKeyRange = window.IDBKeyRange || window.webkitIDBKeyRange || window.msIDBKeyRange;
-
+			
+			//set whether this is a production build. Production builds have some features enabled/disabled
+			window['Production'] = false;
+			
 			//setup std. objects
 			window.debug=false;
 			window.isWebkit = 'WebkitAppearance' in document.documentElement.style;
@@ -90,7 +91,7 @@
 			 		console.error([new Error("An error occured!" + (typeof error !== 'undefined')?("\n"+error.message):""),error]);
 			 	};
 			 	self.onsuccess = function(event) {
-			 		console.log(["Success!",event]);
+			 		console.log(["IndexedDB opening Success!",event]);
 			 		if (self.state == 0 && self.openRequest == "done") {
 			 			console.log("The db is open!");
 			 			self.db = event.result;
@@ -140,10 +141,10 @@
 			 		return obj;
 			 	};
 			 	self.get = function(callback) {
-			 		
+
 			 	};
 			 	self.put = function(callback) {
-			 		
+
 			 	}
 			 	//setup object
 			 	if((typeof args.waitForSetup==='undefined')||(!args.waitForSetup))self.setup();
@@ -160,7 +161,7 @@
 			 		window.localStorage.setItem("SCRIPTSTORE-"+name, JSON.stringify(scrObj));
 			 	};
 			 	self.has = function(name) {
-			 		return (typeof window.localStorage.getItem("SCRIPTSTORE-"+name) !== 'undefined');
+			 		return (window.localStorage.getItem("SCRIPTSTORE-"+name) !== null);
 			 	};
 			 	self.get = function(name, version) {
 			 		return JSON.parse(window.localStorage.getItem("SCRIPTSTORE-"+name)).data;
@@ -168,7 +169,7 @@
 			 	self.setup = function() {
 			 		return self;
 			 	};
-			 	return self;
+			 	return self.setup();
 			 };
 			/**
 			 * Loader object.
@@ -219,7 +220,7 @@
 					sct.setAttribute("type","text/javascript");
 					document.querySelector("head").appendChild(sct);
 				};
-				self.getFromCache = function(name, url, version, tryAJAX) {
+				/*self.getFromCache = function(name, url, version, tryAJAX) {
 					if(typeof tryAJAX === 'undefined')tryAJAX=true;
 					if (typeof version === "undefined")version = "LATEST";
 					return (self.tsStorage.has(name))?self.tsStorage.get(name):self.getFromAJAX(name,url,false);
@@ -235,7 +236,7 @@
 							//do ajax
 						}
 					});
-				};
+				};*/
 				self.getFromAjax = function(name, url, directlyAdd, callback) {//callback is optional
 					var selfFn = Object.create(null);
 					selfFn.name = name;
@@ -266,6 +267,12 @@
 					obj.version = version;
 					self.waitingQueue[name] = (obj);
 					console.log("Waiting to load " + name + " from " + src);
+					//check if it exists in local storage
+					if(self.tsStorage.has(name) && window['Production'] == true ) {
+						self.createScript(self.tsStorage.get(name));
+					} else {
+						self.create
+					}
 					return self;
 				};
 				return self;
@@ -279,10 +286,10 @@
 				.want("https://rawgit.com/mailmindlin/quantum-physics-sim/master/renderer.js",		"renderer.js",		"LATEST")
 				.want("https://rawgit.com/mailmindlin/quantum-physics-sim/master/renderUtils.js",	"renderUtils.js",	"LATEST")
 				.want("https://rawgit.com/mailmindlin/quantum-physics-sim/master/input.js",		"input.js",		"LATEST")
-				.want("webworkers.js",	"webworkers.js",	"LATEST")
+				.want("webworkers.js",									"webworkers.js",	"LATEST")
 				.want("https://rawgit.com/mailmindlin/quantum-physics-sim/master/jsmol.js",		"jsmol.js",		"LATEST");
-				
-				
+
+
 			var hasHadLoadError = false;
 			function loadError(ev){
 				if(hasHadLoadError)return;
@@ -293,7 +300,7 @@
 				if(reload)location.reload();
 			}
 		//]]></script>
-		<script type="text/javascript" src="https://rawgit.com/mailmindlin/quantum-physics-sim/master/session.js" onerror="loadError('session.js')" onload="Loader.onSuccess('https://rawgit.com/mailmindlin/quantum-physics-sim/master/session.js','session.js')"></script>
+		<!-- <script type="text/javascript" src="https://rawgit.com/mailmindlin/quantum-physics-sim/master/session.js" onerror="loadError('session.js')" onload="Loader.onSuccess('https://rawgit.com/mailmindlin/quantum-physics-sim/master/session.js','session.js')"></script>
 		<script type="text/javascript" src="https://rawgit.com/mailmindlin/quantum-physics-sim/master/utils.js" onerror="loadError('utils.js')" onload="Loader.onSuccess('https://rawgit.com/mailmindlin/quantum-physics-sim/master/utils.js','utils.js')"></script>
 		<script type="text/javascript" src="https://rawgit.com/mailmindlin/quantum-physics-sim/master/logger.js" onerror="loadError('logger.js')" onload="Loader.onSuccess('https://rawgit.com/mailmindlin/quantum-physics-sim/master/logger.js','logger.js')"></script>
 		<script type="text/javascript" src="https://rawgit.com/mailmindlin/quantum-physics-sim/master/help.js" onerror="loadError('help.js')" onload="Loader.onSuccess('https://rawgit.com/mailmindlin/quantum-physics-sim/master/help.js','help.js')"></script>
@@ -303,7 +310,7 @@
 		<script type="text/javascript" src="https://rawgit.com/mailmindlin/quantum-physics-sim/master/input.js" onerror="loadError('input.js')" onload="Loader.onSuccess('https://rawgit.com/mailmindlin/quantum-physics-sim/master/input.js','input.js')"></script>
 		<script type="text/javascript" src="https://rawgit.com/mailmindlin/quantum-physics-sim/master/jsmol.js" onerror="loadError('jsmol.js')" onload="Loader.onSuccess('https://rawgit.com/mailmindlin/quantum-physics-sim/master/jsmol.js','jsmol.js')"></script>
 		<script type="text/javascript" src="webworkers.js" onerror="loadError('webworkers.js')" onload="Loader.onSuccess('webworkers.js','webworkers.js')"></script>
-		<script type="text/javascript" src="main.js" onerror="loadError('main.js')"></script>
+		<script type="text/javascript" src="main.js" onerror="loadError('main.js')"></script>-->
 		<!--<script type="text/javascript" src="main.min.js"></script>-->
 		<!--[if lt IE 9]>
 			<script src="//html5shiv.googlecode.com/svn/trunk/html5.js" class="imp-scr13></script>
