@@ -216,16 +216,27 @@
 				self.createScript = function(name, data) {
 					var sct = document.createElement("script");
 					sct.setAttribute("name",name);
-					sct.innerTest=data;
+					sct.innerText=data;
 					sct.setAttribute("type","text/javascript");
 					document.querySelector("head").appendChild(sct);
 				};
-				/*self.getFromCache = function(name, url, version, tryAJAX) {
+				self.getFromCache = function(name, url, tryAJAX, createScript) {
 					if(typeof tryAJAX === 'undefined')tryAJAX=true;
 					if (typeof version === "undefined")version = "LATEST";
-					return (self.tsStorage.has(name))?self.tsStorage.get(name):self.getFromAJAX(name,url,false);
+					if(self.tsStorage.has(name) && window['Production'] == true ) {
+						self.createScript(self.tsStorage.get(name));
+					} else {
+						self.getFromAJAX(name, url, false, function(response, wasGood) {
+							if(!wasGood) {
+								console.error("AJAX to " + name + "Failed!");
+								return;
+							}
+							self.tsStorage.put(name, url, response.responseText);
+							self.createScript(name, response.responseText);
+						});
+					}
 					//TODO: get db to work
-					self.db.get("Files", name, function(dbOut){
+					/*self.db.get("Files", name, function(dbOut){
 						console.log(dbOut);
 						if(typeof dbOut !== 'undefined') {
 							var element = document.createElement('script');
@@ -235,8 +246,8 @@
 						}else{
 							//do ajax
 						}
-					});
-				};*/
+					});*/
+				};
 				self.getFromAjax = function(name, url, directlyAdd, callback) {//callback is optional
 					var selfFn = Object.create(null);
 					selfFn.name = name;
@@ -268,11 +279,7 @@
 					self.waitingQueue[name] = (obj);
 					console.log("Waiting to load " + name + " from " + src);
 					//check if it exists in local storage
-					if(self.tsStorage.has(name) && window['Production'] == true ) {
-						self.createScript(self.tsStorage.get(name));
-					} else {
-						self.create
-					}
+					self.getFromCache(name, src, true, true);
 					return self;
 				};
 				return self;
@@ -290,7 +297,7 @@
 				.want("https://rawgit.com/mailmindlin/quantum-physics-sim/master/jsmol.js",		"jsmol.js",		"LATEST");
 
 
-			var hasHadLoadError = false;
+			var hasHadLoadError = false;//TODO: migrate functionality to Loader object
 			function loadError(ev){
 				if(hasHadLoadError)return;
 				hasHadLoadError=true;
