@@ -104,7 +104,7 @@ function to64String(input, current) {
 window['LocalOrigin'] = "ABCD";//TODO: fix origin generation (maybe do base 64 string from random number (seed could be from geolocation)
 /**
  * A 
- /
+ */
 window['Problem'] = function(name, origin, parts, encKey) {
 	var self = Object.create(null);
 	//define constants
@@ -122,7 +122,7 @@ window['Problem'] = function(name, origin, parts, encKey) {
 	};
 	
 	return self;
-};/**/
+};/*
 window['Part'] = function(data) {
 	if(typeof data !== 'object')throw(new Error("Data was not an object!"));
 	var self = Object.create(null);
@@ -161,7 +161,7 @@ window['Part'] = function(data) {
 		}
 	};
 	return self;
-};/*
+};*/
 window['Communicator'] = function() {
 	function trace(text) {
 		console.log((performance.now() / 1000).toFixed(3) + ": " + text);
