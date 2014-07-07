@@ -265,12 +265,12 @@
 					selfFn.xmlhttp.onload = function(ev) {
 						self.tsStorage.put(selfFn.name, selfFn.url, selfFn.xmlhttp.responseText);
 						console.log(["XMLHTTP Success",selfFn,ev]);
-						if(typeof callback === 'function')callback.apply(ev, true);
+						if(typeof callback === 'function')callback(ev, true);
 					};
 					selfFn.xmlhttp.onerror = function(e) {
 						console.log(e);
 						console.log(["XMLHTTP Failure",selfFn,ev]);
-						callback.apply(ev, false);
+						callback(ev, false);
 					};
 					selfFn.xmlhttp.open("GET", name, true);
 					selfFn.xmlhttp.send();
