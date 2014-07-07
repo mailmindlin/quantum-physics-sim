@@ -104,7 +104,7 @@ function to64String(input, current) {
 window['LocalOrigin'] = "ABCD";//TODO: fix origin generation (maybe do base 64 string from random number (seed could be from geolocation)
 /**
  * A 
- */
+ /
 window['Problem'] = function(name, origin, parts, encKey) {
 	var self = Object.create(null);
 	//define constants
