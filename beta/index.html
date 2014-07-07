@@ -30,7 +30,7 @@
 			window.IDBKeyRange = window.IDBKeyRange || window.webkitIDBKeyRange || window.msIDBKeyRange;
 			
 			//set whether this is a production build. Production builds have some features enabled/disabled
-			window['Production'] = true;//TODO fix (testing)
+			window['Production'] = true;
 			
 			//setup std. objects
 			window.debug=false;
@@ -102,14 +102,14 @@
 			 		console.log("Upgrading database...");
 			 		self.db = event.target.result;
 			 		//create tables
-			 		for (var i = 0; i < self.tables.length; i++) {
+			 		for (var i = 0; i < self.tables.length; ++i) {
 			 			console.log("\tCreating table '"+self.tables[i].name+"' ("+(i+1)+"/"+self.tables.length+")...");
 			 			var table = self.tables[i];
 			 			var kpArgs={keyPath: (typeof table.keyPath === 'string')?table.keyPath:"ssn"};
 			 			if(debug)console.log(kpArgs);
 			 			table.target = self.db.createObjectStore(table.name, kpArgs);
 			 			//create fields
-			 			for(var i=0;i<table.fields.length;i++){
+			 			for(var i=0;i<table.fields.length;++i){
 			 				console.log("\t\tCreating field '"+table.fields[i].name+"' ("+(i+1)+"/"+table.fields.length+")...");
 			 				var field = table.fields[i];
 			 				var indexArgs = (((typeof field.args==='object') && (typeof field.args.unique !== 'undefined'))?field.args:{unique: false});
@@ -171,12 +171,12 @@
 			 		self.modules.push(module);
 			 	};
 			 	self.onScriptLoad = function(scriptName) {
-			 		for(var i=0;i<modules.length;i++) {
+			 		for(var i=0;i<modules.length;++i) {
 			 			var cModule = modules[i];
 			 			if(cModule.script = scriptName) {
 			 				//check validity
 			 				var requisites = cModule.dependencies;
-			 				for(var i=0;i<requisites.length;i++){
+			 				for(var i=0;i<requisites.length;++i){
 			 					var tModule = self.getScript(requisite[i]);
 			 					if(tModule.isComplete)requisites.splice(i,1);//remove from array
 			 				}
@@ -185,26 +185,26 @@
 			 		}
 			 	};
 			 	self.getScript = function(name) {
-			 		for(var i = 0; i<modules.length;i++) {
+			 		for(var i = 0; i<modules.length;++i) {
 			 			if(modules[i].name == name)return modules[i];
 			 		}
 			 	}
 			 };
 			 window['TSStorage'] = function(args) {
-			 	var self = Object.create(null);
+			 	var self = Object.create(null, );
 			 	self.put = function(name, url, data) {
 			 		var scrObj = Object.create(null);
 			 		scrObj.name	= name;
 			 		scrObj.url	= url;
 			 		// scrObj.version	= version;
 			 		scrObj.data	= data;
-			 		window.localStorage.setItem("SCRIPTSTORE-"+name, JSON.stringify(scrObj));
+			 		window.localStorage.setItem("SCRIPTSTORE-" + name, JSON.stringify(scrObj));
 			 	};
 			 	self.has = function(name) {
-			 		return (window.localStorage.getItem("SCRIPTSTORE-"+name) !== null);
+			 		return (window.localStorage.getItem("SCRIPTSTORE-" + name) !== null);
 			 	};
 			 	self.get = function(name, version) {
-			 		return JSON.parse(window.localStorage.getItem("SCRIPTSTORE-"+name)).data;
+			 		return JSON.parse(window.localStorage.getItem("SCRIPTSTORE-" + name)).data;
 			 	};
 			 	self.setup = function() {
 			 		return self;
