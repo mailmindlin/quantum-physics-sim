@@ -30,7 +30,7 @@
 			window.IDBKeyRange = window.IDBKeyRange || window.webkitIDBKeyRange || window.msIDBKeyRange;
 			
 			//set whether this is a production build. Production builds have some features enabled/disabled
-			window['Production'] = true;
+			window['Production'] = false;
 			
 			//setup std. objects
 			window.debug=false;
@@ -343,7 +343,7 @@
 				.want("https://rawgit.com/mailmindlin/quantum-physics-sim/master/utils.js",		"utils.js",		"LATEST")
 				.want("https://rawgit.com/mailmindlin/quantum-physics-sim/master/logger.js",		"logger.js",		"LATEST")
 				.want("https://rawgit.com/mailmindlin/quantum-physics-sim/master/help.js",		"help.js",		"LATEST")
-				// .want("https://rawgit.com/mailmindlin/quantum-physics-sim/master/networking.js",	"networking.js",	"LATEST")
+				.want("https://rawgit.com/mailmindlin/quantum-physics-sim/master/networking.js",	"networking.js",	"LATEST")
 				.want("https://rawgit.com/mailmindlin/quantum-physics-sim/master/renderer.js",		"renderer.js",		"LATEST")
 				.want("https://rawgit.com/mailmindlin/quantum-physics-sim/master/renderUtils.js",	"renderUtils.js",	"LATEST")
 				.want("https://rawgit.com/mailmindlin/quantum-physics-sim/master/input.js",		"input.js",		"LATEST")
