@@ -234,8 +234,8 @@
 								console.error("AJAX to " + name + "Failed!");
 								return;
 							}
-							self.tsStorage.put(name, url, response.responseText);
-							if(canCreateScript)self.createScript(name, response.responseText);
+							self.tsStorage.put(name, url, response.target.responseText);
+							if(canCreateScript)self.createScript(name, response.target.responseText);
 						});
 					}
 					//TODO: get db to work
