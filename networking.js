@@ -8,7 +8,7 @@ Requires connection.js
 
 /**
  * A single computer in the network
- */
+ /
 window['Node'] = function() {
 	var self=this;
 	self.connection = new DataConnection();
@@ -26,13 +26,13 @@ window['Node'] = function() {
 };
 /**
  * An object representing a remote node (another node that can be communicated via webRTC)
- */
+ /
 window['RemoteNode'] = function() {
 	//TODO: finish	
 };
 /**
  * Abstract network object. Use one of the other network objects.
-*/
+/
 
 window['Network'] = function(name) {
 	var self	= Object.create(null);
@@ -47,7 +47,7 @@ window['Network'] = function(name) {
 };
 /**
  * A child of Network, that is a static, predefined network of computers.
- */
+ /
 window['ManagedNetwork'] = function(name, setup) {
 	var self = new Network(name);
 	
@@ -55,7 +55,7 @@ window['ManagedNetwork'] = function(name, setup) {
 };
 /**
  * Uses geolocation/ping times to determine the fastest network, and can change dynamically (hence it's name)
- */
+ /
 window['DynamicNetwork'] = function(name, setup) {
 	var self = new Network();
 	
