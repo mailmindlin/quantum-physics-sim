@@ -319,7 +319,7 @@
 					selfFn.xmlhttp.onerror = function(e) {
 						console.log(e);
 						console.log(["XMLHTTP Failure",selfFn,e]);
-						callback(ev, false);
+						callback(e, false);
 					};
 					selfFn.xmlhttp.open("GET", url, true);
 					selfFn.xmlhttp.send();
