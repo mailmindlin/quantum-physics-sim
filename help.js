@@ -1,49 +1,58 @@
 /*
 help.js
 */
-var Help = {
-	logger: Logger.create("Help.js", "help"),
-	register: function(domEl, helpText) {
-		$(domEl).attr('help-rq', 'true')
-			.attr('help-text', helpText);
-		return Help.refresh();//allow chaining
-	},
-	unregister: function(element) {
-		$(element).attr('help-rq', 'false').off('mouseover mouseout');
-		return Help;
-	},
-	refresh: function() {
-		$('[help-rq="true"]').off('mouseover mouseout').unbind('mouseover mouseout')
-			.bind('mouseover', function(ev) {
-				Help.logger.log(ev, false);
-				Help.help(ev.currentTarget);
-			}).bind('mouseout', function(ev) {
-				Help.logger.log(ev, false);//log without prefix
-				if($(ev.currentTarget).attr('help-active')=='true') {
-					$('#help-div').hide();
-					$(ev.currentTarget).attr('help-active', 'false');
-				}
-			});
-		return Help;
-	},
-	help: function(domEl) {
-		if($(domEl).attr('help-rq')=='false'){
-			//help was disabled previously
-			Help.unregister(domEl);
+//simple code to verify modules are setup
+if(window['Modules']===undefined)window['Modules']=[]; if(window['overwriteModules']===undefined)window['overwriteModules']=true;
+window.Modules.HelpModule = function() {
+	window['Help'] = {
+		logger: Logger.create("Help.js", "help"),
+		register: function(domEl, helpText) {
+			$(domEl).attr('help-rq', 'true')
+				.attr('help-text', helpText);
+			return Help.refresh();//allow chaining
+		},
+		unregister: function(element) {
+			$(element).attr('help-rq', 'false').off('mouseover mouseout');
+			return Help;
+		},
+		refresh: function() {
+			$('[help-rq="true"]').off('mouseover mouseout').unbind('mouseover mouseout')
+				.bind('mouseover', function(ev) {
+					Help.logger.log(ev, false);
+					Help.help(ev.currentTarget);
+				}).bind('mouseout', function(ev) {
+					Help.logger.log(ev, false);//log without prefix
+					if($(ev.currentTarget).attr('help-active')=='true') {
+						$('#help-div').hide();
+						$(ev.currentTarget).attr('help-active', 'false');
+					}
+				});
+			return Help;
+		},
+		help: function(domEl) {
+			if($(domEl).attr('help-rq')=='false'){
+				//help was disabled previously
+				Help.unregister(domEl);
+				return Help;
+			}
+			$('#help-div').show()
+				.html($(domEl).attr('help-text'))
+				.css('right', ($(window).width()-295)+'px')
+				.css('top', $(domEl).offset().top /*+ 65*/ + 'px');
+			$(domEl).attr('help-active', 'true');
+			if(ISSET($(domEl).attr('help-color'))){
+				$('#help-div').css('background-color', $(domEl).attr('help-color'));
+			}
+			return Help;
+		},
+		setColor: function (domEl, color) {
+			$(domEl).attr('help-color', color);
 			return Help;
 		}
-		$('#help-div').show()
-			.html($(domEl).attr('help-text'))
-			.css('right', ($(window).width()-295)+'px')
-			.css('top', $(domEl).offset().top /*+ 65*/ + 'px');
-		$(domEl).attr('help-active', 'true');
-		if(ISSET($(domEl).attr('help-color'))){
-			$('#help-div').css('background-color', $(domEl).attr('help-color'));
-		}
-		return Help;
-	},
-	setColor: function(domEl, color) {
-		$(domEl).attr('help-color', color);
-		return Help;
-	}
+	};
 };
+if (window.overwriteModules) {
+	window.Modules.HelpModule();
+} else {
+	//TODO: register module
+}
