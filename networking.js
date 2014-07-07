@@ -91,7 +91,7 @@ window['Sandbox'] = function(fn) {
 /**
  *Converts input to a base64 string
  */
-function to64String( input:Number, current:String = '' ):String {
+function to64String( input, current = '' ) {
     if ( input < 0 && current.length == 0 ){
         input = input * - 1;
     }
