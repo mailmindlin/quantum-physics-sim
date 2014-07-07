@@ -8,7 +8,7 @@ Requires connection.js
 
 /**
  * A single computer in the network
- /
+ */
 window['Node'] = function() {
 	var self=this;
 	self.connection = new DataConnection();
@@ -26,7 +26,7 @@ window['Node'] = function() {
 };
 /**
  * An object representing a remote node (another node that can be communicated via webRTC)
- /
+ */
 window['RemoteNode'] = function() {
 	//TODO: finish	
 };
