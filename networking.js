@@ -55,7 +55,7 @@ window['ManagedNetwork'] = function(name, setup) {
 };
 /**
  * Uses geolocation/ping times to determine the fastest network, and can change dynamically (hence it's name)
- /
+ */
 window['DynamicNetwork'] = function(name, setup) {
 	var self = new Network();
 	
@@ -64,7 +64,7 @@ window['DynamicNetwork'] = function(name, setup) {
 //TODO: maybe move this to another file (i.e., utils.js)
 /**
  * Allows for applying simple XOR encryption. TODO: maybe replace with crypto-js???
- /
+ */
 window['Encryption'] = function(Key) {
 	var self = Object.create(null);
 	self.key=Key;
