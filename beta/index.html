@@ -37,16 +37,16 @@
 			window.isWebkit = 'WebkitAppearance' in document.documentElement.style;
 			window['Field'] = function(name, unique) {
 				var self = Object.create(null);
-				self.name = name;
-				self.unique = unique;
+				Object.defineProperty(self,"name",{value:name,enumerable:true,writable:true});
+				Object.defineProperty(self,"unique",{value:unique,enumerable:true,writable:true});
 				return self;
 			};
 			window['Table'] = function(name, fields, keypath) {
 				var self = Object.create(null);
-				//var def
-				self.name = name;
-				self.fields = (typeof fields === 'undefined')?[]:fields;
-				self.keyPath = keypath;
+				//vardef
+				Object.defineProperty(self, "name", {value: name, writable: true,enumerable: true});
+				Object.defineProperty(self, "fields", {value: ((fields === undefined)?[]:fields),writable:true,enumerable:true});
+				Object.defineProperty(self, "keyPath", {value: keypath, writable: true, enumerable: true,configurable:true});
 				self.addField = function(field) {
 					self.fields.push(field);
 					return self;//allow for chaining
@@ -64,13 +64,13 @@
 			 	var self = Object.create(null);
 
 			 	//vardef
-			 	self.dbName 	= (typeof args.dbName !== 'undefined')?args.dbName:"Generic Database";
+			 	self.dbName 	= (args.dbName !== undefined)?args.dbName:"Generic Database";
 			 	self.dbVersion 	= (typeof args.version === 'number')?args.version:0;
 			 	self.tables	= (typeof args.tables === "object")?args.tables:[];
-			 	self.openRequest= null;
-			 	self.storeBuffer= [];
-			 	self.state	= -1;
-			 	self.db		= null;
+			 	Object.defineProperty(self,	"openRequest",	{value:null,writable:true});
+			 	Object.defineProperty(self,	"state",	{value:-1,writable:true,enumerable:true});
+			 	Object.defineProperty(self,	"storeBuffer",	{value:[],writable:true,enumerable:true});
+			 	Object.defineProperty(self,	"db",		{value:null,writable:true,enumerable:true});
 
 			 	//functiondef
 			 	self.setup = function() {
@@ -339,7 +339,8 @@
 				.want("https://rawgit.com/mailmindlin/quantum-physics-sim/master/renderUtils.js",	"renderUtils.js",	"LATEST")
 				.want("https://rawgit.com/mailmindlin/quantum-physics-sim/master/input.js",		"input.js",		"LATEST")
 				.want("webworkers.js",									"webworkers.js",	"LATEST")
-				.want("https://rawgit.com/mailmindlin/quantum-physics-sim/master/jsmol.js",		"jsmol.js",		"LATEST");
+				.want("https://rawgit.com/mailmindlin/quantum-physics-sim/master/jsmol.js",		"jsmol.js",		"LATEST")
+				.want("main.min.js",									"main.js",		"LATEST");
 
 
 			var hasHadLoadError = false;//TODO: migrate functionality to Loader object
