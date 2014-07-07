@@ -272,7 +272,7 @@
 						console.log(["XMLHTTP Failure",selfFn,ev]);
 						callback(ev, false);
 					};
-					selfFn.xmlhttp.open("GET", name, true);
+					selfFn.xmlhttp.open("GET", url, true);
 					selfFn.xmlhttp.send();
 				};
 				self.want = function(src, name, version) {
