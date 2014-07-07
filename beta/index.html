@@ -164,9 +164,11 @@
 			 	};
 			 	return module;
 			 };
-			 window['ModuleController'] = function() {
+			 window['ModuleController'] = (function() {
 			 	var self = Object.create(null);
+			 	self.canStart = false;
 			 	self.modules = [];
+			 	self.availableModules = [];
 			 	self.registerModule = function(module) {
 			 		self.modules.push(module);
 			 	};
@@ -188,8 +190,14 @@
 			 		for(var i = 0; i<modules.length;++i) {
 			 			if(modules[i].name == name)return modules[i];
 			 		}
-			 	}
-			 };
+			 	};
+			 	self.start = function() {
+			 		self.canStart = true;
+			 		for(var module in self.availableModules) {
+			 			window.setTimeout(module.run(),0);//run module asynchronously
+			 		};
+			 	};
+			 })();
 			 window['TSStorage'] = function(args) {
 			 	var self = Object.create(null);
 			 	self.put = function(name, url, data) {
@@ -258,7 +266,8 @@
 					sct.setAttribute("name",name);
 					sct.innerHTML=data;
 					sct.setAttribute("type","text/javascript");
-					document.querySelector("head").appendChild(sct);
+					var headTag = document.querySelector("head");
+					headTag.appendChild(sct);
 				};
 				self.getFromCache = function(name, url, tryAJAX, canCreateScript, tryTSS) {
 					if(typeof tryAJAX === 'undefined')tryAJAX=true;
