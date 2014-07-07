@@ -2,7 +2,7 @@
 input.js
 For textual data inputs
 */
-function Input(args) {
+window['Input'] = function(args) {
 	if((!ISSET(args['name'])) && (!ISSET(args,'String')))throw(new Error("You need to specify name!"));
 	if(ISSET(args, 'String'))args['name']=args;
 	var self = this;
@@ -235,7 +235,7 @@ function Input(args) {
 	return self;
 }
 //element list. Basically contains a bunch of objects with the chemical symbol, element name, number, and possibly some other information.
-var elements = [
+window['elements'] = [
 	null,//just so you can reference elements[x], where x is the atomic number
 	{symbol:'H', 	name:"Hydrogen", 	number: 1, 	weight: 1.008},
 	{symbol:'He',	name:"Helium",		number:	2,	weight: 4.2602},
