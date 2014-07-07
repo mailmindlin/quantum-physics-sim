@@ -256,7 +256,7 @@
 				self.createScript = function(name, data) {
 					var sct = document.createElement("script");
 					sct.setAttribute("name",name);
-					sct.innerText=data;
+					sct.innerHTML=data;
 					sct.setAttribute("type","text/javascript");
 					document.querySelector("head").appendChild(sct);
 				};
