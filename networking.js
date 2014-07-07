@@ -90,20 +90,21 @@ window['Sandbox'] = function(fn) {
 };
 /**
  *Converts input to a base64 string
- */
-function to64String( input, current = '' ) {
-    if ( input < 0 && current.length == 0 ){
-        input = input * - 1;
-    }
-    var modify:Number = input % 64;
-    var remain:Number = Math.floor( input / 64 );
-    var result:String = STR64[ modify ] + current;
-    return ( remain <= 0 ) ? result : to64String( remain, result );
-}
+ /
+function to64String(input, current) {
+	if(current === undefined) current = '';
+	if ( input < 0 && current.length == 0 ){
+		input = input * - 1;
+	}
+	var modify:Number = input % 64;
+	var remain:Number = Math.floor( input / 64 );
+	var result:String = STR64[ modify ] + current;
+	return ( remain <= 0 ) ? result : to64String( remain, result );
+};
 window['LocalOrigin'] = "ABCD";//TODO: fix origin generation (maybe do base 64 string from random number (seed could be from geolocation)
 /**
  * A 
- */
+ /
 window['Problem'] = function(name, origin, parts, encKey) {
 	var self = Object.create(null);
 	//define constants
@@ -121,7 +122,7 @@ window['Problem'] = function(name, origin, parts, encKey) {
 	};
 	
 	return self;
-};
+};/**/
 window['Part'] = function(data) {
 	if(typeof data !== 'object')throw(new Error("Data was not an object!"));
 	var self = Object.create(null);
