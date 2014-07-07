@@ -161,7 +161,7 @@ window['Part'] = function(data) {
 		}
 	};
 	return self;
-};*/
+};
 window['Communicator'] = function() {
 	function trace(text) {
 		console.log((performance.now() / 1000).toFixed(3) + ": " + text);
@@ -225,7 +225,7 @@ window['Communicator'] = function() {
 	};
 	/**
 	 * Handles event when message is recieved.
-	 */
+	 /
 	self.handleMessage = function(event) {
 		trace('Received message: ' + event.data);
 		console.log(event);
