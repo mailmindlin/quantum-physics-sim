@@ -184,7 +184,7 @@
 			 			}
 			 		}
 			 	};
-			 	self.getScript(name) {
+			 	self.getScript = function(name) {
 			 		for(var i = 0; i<modules.length;i++) {
 			 			if(modules[i].name == name)return modules[i];
 			 		}
