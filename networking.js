@@ -96,9 +96,9 @@ function to64String(input, current) {
 	if ( input < 0 && current.length == 0 ){
 		input = input * - 1;
 	}
-	var modify:Number = input % 64;
-	var remain:Number = Math.floor( input / 64 );
-	var result:String = STR64[ modify ] + current;
+	var modify = input % 64;
+	var remain = Math.floor( input / 64 );
+	var result = STR64[ modify ] + current;
 	return ( remain <= 0 ) ? result : to64String( remain, result );
 };
 window['LocalOrigin'] = "ABCD";//TODO: fix origin generation (maybe do base 64 string from random number (seed could be from geolocation)
@@ -107,9 +107,7 @@ window['LocalOrigin'] = "ABCD";//TODO: fix origin generation (maybe do base 64 s
  */
 window['Problem'] = function(name, origin, parts, encKey) {
 	var self = Object.create(null);
-	//define constants
 	//define variables
-	//set rt variables
 	self.name	= name;
 	self.origin	= origin;
 	self.parts	= parts;
@@ -120,7 +118,6 @@ window['Problem'] = function(name, origin, parts, encKey) {
 	self.queue = function() {
 		
 	};
-	
 	return self;
 };/*
 window['Part'] = function(data) {
