@@ -79,7 +79,7 @@ window['Encryption'] = function(Key) {
 };
 /**
  * Basically makes a sandbox that the specified function can run in, that loses access to many external resources.
- /
+ */
 window['Sandbox'] = function(fn) {
 	this.rtVal=undefined;
 	var sprWinNum=Math.random().replace('.','');//make the window variable random
@@ -90,7 +90,7 @@ window['Sandbox'] = function(fn) {
 };
 /**
  *Converts input to a base64 string
- /
+ */
 function to64String(input, current) {
 	if(current === undefined) current = '';
 	if ( input < 0 && current.length == 0 ){
