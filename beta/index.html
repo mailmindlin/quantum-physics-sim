@@ -150,6 +150,46 @@
 			 	if((typeof args.waitForSetup==='undefined')||(!args.waitForSetup))self.setup();
 			 	return self;
 			 };
+			 window['Module'] = function(name, script, dependencies, funcName) {
+			 	var module		= Object.create(null);
+			 	module.name		= name;
+			 	module.script		= script;
+			 	module.dependencies	= dependencies;
+			 	module.funcName		= funcName;
+			 	module.isComplete	= false;
+			 	module.run = function() {
+			 		window[funcName]();
+			 		isComplete=true;
+			 		window['ModuleController'].onModuleCompletion();
+			 	};
+			 	return module;
+			 };
+			 window['ModuleController'] = function() {
+			 	var self = Object.create(null);
+			 	self.modules = [];
+			 	self.registerModule = function(module) {
+			 		self.modules.push(module);
+			 	};
+			 	self.onScriptLoad = function(scriptName) {
+			 		for(var i=0;i<modules.length;i++) {
+			 			var cModule = modules[i];
+			 			if(cModule.script = scriptName) {
+			 				//check validity
+			 				var requisites = cModule.dependencies;
+			 				for(var i=0;i<requisites.length;i++){
+			 					var tModule = self.getScript(requisite[i]);
+			 					if(tModule.isComplete)requisites.splice(i,1);//remove from array
+			 				}
+			 				if(requisites.length==0)cModule.run();
+			 			}
+			 		}
+			 	};
+			 	self.getScript(name) {
+			 		for(var i = 0; i<modules.length;i++) {
+			 			if(modules[i].name == name)return modules[i];
+			 		}
+			 	}
+			 };
 			 window['TSStorage'] = function(args) {
 			 	var self = Object.create(null);
 			 	self.put = function(name, url, data) {
