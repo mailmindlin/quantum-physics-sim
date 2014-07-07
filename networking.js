@@ -10,59 +10,56 @@ Requires connection.js
  * A single computer in the network
  */
 window['Node'] = function() {
-  var self=this;
-  self.connection = new DataConnection();
-  self.userId = self.connection.userid;
-  self.connection.onopen = function(e) {console.log(e);};
-  self.messageReciever = function() {};
-  self.setMessageReciever = function(reciever) {
-    self.messageReciever = reciever;
-    self.connection.onmessage = reciever;
-  };
-  self.sendData = function(data, reciever) {
-  	
-  }
-  return self;
+	var self=this;
+	self.connection = new DataConnection();
+	self.userId = self.connection.userid;
+	self.connection.onopen = function(e) {console.log(e);};
+	self.messageReciever = function() {};
+	self.setMessageReciever = function(reciever) {
+		self.messageReciever = reciever;
+		self.connection.onmessage = reciever;
+	};
+	self.sendData = function(data, reciever) {
+  		//TODO: finish
+	};
+	return self;
 };
 /**
  * An object representing a remote node (another node that can be communicated via webRTC)
  */
 window['RemoteNode'] = function() {
-	
+	//TODO: finish	
 };
 /**
  * Abstract network object. Use one of the other network objects.
 */
 
 window['Network'] = function(name) {
-  var self = this;
-  self.name=name;
-  self.parents=[
-  'Object',
-  'Network'
-  ];
-  self.channel=
-  self.process=function() {
-    //Abstract
-    throw(new Error("Someone tried to use an abstract function in Network.\nUse a non abstract version (i.e., ManagedNetwork or DynamicNetwork)!"));
-  };
-  return self;
+	var self	= Object.create(null);
+	self.name	=name;
+	self.parents=['Object','Network'];
+	self.channel=null;
+	self.process=function() {
+		//Abstract
+		throw(new Error("Someone tried to use an abstract function in Network.\nUse a non abstract version (i.e., ManagedNetwork or DynamicNetwork)!"));
+	};
+	return self;
 };
 /**
  * A child of Network, that is a static, predefined network of computers.
  */
 window['ManagedNetwork'] = function(name, setup) {
-  var self = new Network(name);
-  
-  return self;
+	var self = new Network(name);
+	
+	return self;
 };
 /**
  * Uses geolocation/ping times to determine the fastest network, and can change dynamically (hence it's name)
  */
 window['DynamicNetwork'] = function(name, setup) {
-  var self = new Network();
-  
-  return self;
+	var self = new Network();
+	
+	return self;
 };
 //TODO: maybe move this to another file (i.e., utils.js)
 /**
