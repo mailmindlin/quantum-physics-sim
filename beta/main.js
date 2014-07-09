@@ -13,7 +13,4 @@ function toggleFooter(){
 $('body').ready(function(){
 	toggleFooter();
 	$('#btm-arrow').click(toggleFooter);
-	//setup jsmol
-	JSmolInterface.info.j2s="http://mailmindlin.github.io/quantum-physics-sim/jsmol/jsmol/j2s";
-	JSmolInterface.start($('.simulator-canvas')[0]);
 });
