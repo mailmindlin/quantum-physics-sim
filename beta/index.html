@@ -449,6 +449,9 @@
 						var canvas = $('.simulator-canvas')[0];
 						var input = $('#input-test')[0];
 						window['inp']=new Input({name:'input-test1', dom:input});
+						//setup jsmol
+						JSmolInterface.info.j2s="http://mailmindlin.github.io/quantum-physics-sim/jsmol/jsmol/j2s";
+						JSmolInterface.start($('.simulator-canvas')[0]);
 						//TODO finish
 					}
 				</script>
