@@ -4,13 +4,11 @@
 		<meta charset="utf-8"/>
 		<meta http-equiv="X-UA-Compatible" content="chrome=1"/>
 		<title>Quantum Physics Simulator by mailmindlin</title>
-		
 		<!--Meta tags -->
 		<meta name="description" content="A simulator for the quantum properties of theoretical molecules."/>
 		<meta name="robots" content="INDEX, noimageindex"/><!--no image index is just for copyright stuff-->
 		<meta name="revisit-after" content="2 days"/><!--because of constant updates-->
 		<meta name="author" content="mailmindlin, jschrier"/>
-		
 		<!-- github's css -->
 		<link rel="stylesheet" href="../stylesheets/styles.css" onerror="loadError('Github\'s styles.css')"/>
 		<link rel="stylesheet" href="../stylesheets/pygment_trac.css" onerror="loadError('Github\'s pygment_trac.css')"/>
@@ -30,26 +28,29 @@
 			window.indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB;
 			window.IDBTransaction = window.IDBTransaction || window.webkitIDBTransaction || window.msIDBTransaction;
 			window.IDBKeyRange = window.IDBKeyRange || window.webkitIDBKeyRange || window.msIDBKeyRange;
-
+			
+			//set whether this is a production build. Production builds have some features enabled/disabled
+			window['Production'] = true;
+			
 			//setup std. objects
 			window.debug=false;
 			window.isWebkit = 'WebkitAppearance' in document.documentElement.style;
 			window['Field'] = function(name, unique) {
 				var self = Object.create(null);
-				self.name = name;
-				self.unique = unique;
+				Object.defineProperty(self,"name",{value:name,enumerable:true,writable:true});
+				Object.defineProperty(self,"unique",{value:unique,enumerable:true,writable:true});
 				return self;
 			};
 			window['Table'] = function(name, fields, keypath) {
 				var self = Object.create(null);
-				//var def
-				self.name = name;
-				self.fields = (typeof fields === 'undefined')?[]:fields;
-				self.keyPath = keypath;
+				//vardef
+				Object.defineProperty(self, "name", {value: name, writable: true,enumerable: true});
+				Object.defineProperty(self, "fields", {value: ((fields === undefined)?[]:fields),writable:true,enumerable:true});
+				Object.defineProperty(self, "keyPath", {value: keypath, writable: true, enumerable: true,configurable:true});
 				self.addField = function(field) {
 					self.fields.push(field);
 					return self;//allow for chaining
-				}
+				};
 				return self;
 			};
 			/**
@@ -63,13 +64,13 @@
 			 	var self = Object.create(null);
 
 			 	//vardef
-			 	self.dbName 	= (typeof args.dbName !== 'undefined')?args.dbName:"Generic Database";
+			 	self.dbName 	= (args.dbName !== undefined)?args.dbName:"Generic Database";
 			 	self.dbVersion 	= (typeof args.version === 'number')?args.version:0;
 			 	self.tables	= (typeof args.tables === "object")?args.tables:[];
-			 	self.openRequest= null;
-			 	self.storeBuffer= [];
-			 	self.state	= -1;
-			 	self.db		= null;
+			 	Object.defineProperty(self,	"openRequest",	{value:null,writable:true});
+			 	Object.defineProperty(self,	"state",	{value:-1,writable:true,enumerable:true});
+			 	Object.defineProperty(self,	"storeBuffer",	{value:[],writable:true,enumerable:true});
+			 	Object.defineProperty(self,	"db",		{value:null,writable:true,enumerable:true});
 
 			 	//functiondef
 			 	self.setup = function() {
@@ -90,7 +91,7 @@
 			 		console.error([new Error("An error occured!" + (typeof error !== 'undefined')?("\n"+error.message):""),error]);
 			 	};
 			 	self.onsuccess = function(event) {
-			 		console.log(["Success!",event]);
+			 		console.log(["IndexedDB opening Success!",event]);
 			 		if (self.state == 0 && self.openRequest == "done") {
 			 			console.log("The db is open!");
 			 			self.db = event.result;
@@ -101,14 +102,14 @@
 			 		console.log("Upgrading database...");
 			 		self.db = event.target.result;
 			 		//create tables
-			 		for (var i = 0; i < self.tables.length; i++) {
+			 		for (var i = 0; i < self.tables.length; ++i) {
 			 			console.log("\tCreating table '"+self.tables[i].name+"' ("+(i+1)+"/"+self.tables.length+")...");
 			 			var table = self.tables[i];
 			 			var kpArgs={keyPath: (typeof table.keyPath === 'string')?table.keyPath:"ssn"};
 			 			if(debug)console.log(kpArgs);
 			 			table.target = self.db.createObjectStore(table.name, kpArgs);
 			 			//create fields
-			 			for(var i=0;i<table.fields.length;i++){
+			 			for(var i=0;i<table.fields.length;++i){
 			 				console.log("\t\tCreating field '"+table.fields[i].name+"' ("+(i+1)+"/"+table.fields.length+")...");
 			 				var field = table.fields[i];
 			 				var indexArgs = (((typeof field.args==='object') && (typeof field.args.unique !== 'undefined'))?field.args:{unique: false});
@@ -140,15 +141,92 @@
 			 		return obj;
 			 	};
 			 	self.get = function(callback) {
-			 		
+
 			 	};
 			 	self.put = function(callback) {
-			 		
+
 			 	}
 			 	//setup object
 			 	if((typeof args.waitForSetup==='undefined')||(!args.waitForSetup))self.setup();
 			 	return self;
 			 };
+			 window['Module'] = function(name, script, dependencies, funcName) {
+			 	var module		= Object.create(null);
+			 	module.name		= name;
+			 	module.script		= script;
+			 	module.dependencies	= dependencies;
+			 	module.funcName		= funcName;
+			 	module.isComplete	= false;
+			 	module.run = function() {
+			 		window[funcName]();
+			 		module.isComplete=true;
+			 		window['ModuleController'].onModuleCompletion();
+			 	};
+			 	return module;
+			 };
+			 window['ModuleController'] = (function() {
+			 	var self = Object.create(null);
+			 	self.canStart = false;
+			 	self.modules = [];
+			 	self.availableModules = [];
+			 	self.promises= [];
+			 	self.registerModule = function(module) {
+			 		self.modules.push(module);
+			 	};
+			 	self.onScriptLoad = function(scriptName) {
+			 		for(var i=0;i<modules.length;++i) {
+			 			var cModule = modules[i];
+			 			if(cModule.script = scriptName) {
+			 				//check validity
+			 				var requisites = cModule.dependencies;
+			 				for(var i=0;i<requisites.length;++i){
+			 					var tModule = self.getModule(requisite[i]);
+			 					if(tModule.isComplete)requisites.splice(i,1);//remove from array
+			 				}
+			 				if(requisites.length==0)cModule.run();
+			 			}
+			 		}
+			 	};
+			 	self.getModule = function(name) {
+			 		for(var i = 0; i<modules.length;++i) {
+			 			if(modules[i].name == name)return modules[i];
+			 		}
+			 	};
+			 	self.start = function() {
+			 		self.canStart = true;
+			 		for(var module in self.availableModules) {
+			 			window.setTimeout(module.run(),0);//run module asynchronously
+			 		};
+			 	};
+			 	self.isModuleLoaded = function(name) {
+			 		return self.getModule(name).isComplete;
+			 	};
+			 	self.checkPrerequisites = function(prereqs) {
+			 		for(var requisite in prereqs) {
+			 			if(!self.isModuleLoaded(requisite)) return false;
+			 		}
+			 		return true;
+			 	};
+			 	self.promiseScriptLoad = function(scripts, fn) {
+			 		var obj = Object.create(null);
+			 		obj.req = scripts;
+			 		obj.fn = fn;
+			 		self.promises.push(obj);
+			 		self.updatePromises();
+			 		return self;
+			 	};
+			 	self.updatePromises = function() {
+			 		for(var i=0;i<self.promises.length;i++) {
+			 			if(self.checkPrerequisites(self.promises[i].req)) {
+			 				setTimeout(self.promises[i].fn, 0);//run fn async
+			 				self.promises.splice(i,1);
+			 			}
+			 		}
+			 	};
+			 	self.onModuleCompletion = function() {
+			 		self.updatePromises;
+			 	};
+			 })();
 			 window['TSStorage'] = function(args) {
 			 	var self = Object.create(null);
 			 	self.put = function(name, url, data) {
@@ -157,18 +235,18 @@
 			 		scrObj.url	= url;
 			 		// scrObj.version	= version;
 			 		scrObj.data	= data;
-			 		window.localStorage.setItem("SCRIPTSTORE-"+name, JSON.stringify(scrObj));
+			 		window.localStorage.setItem("SCRIPTSTORE-" + name, JSON.stringify(scrObj));
 			 	};
 			 	self.has = function(name) {
-			 		return (typeof window.localStorage.getItem("SCRIPTSTORE-"+name) !== 'undefined');
+			 		return (window.localStorage.getItem("SCRIPTSTORE-" + name) !== null);
 			 	};
 			 	self.get = function(name, version) {
-			 		return JSON.parse(window.localStorage.getItem("SCRIPTSTORE-"+name)).data;
+			 		return JSON.parse(window.localStorage.getItem("SCRIPTSTORE-" + name)).data;
 			 	};
 			 	self.setup = function() {
 			 		return self;
 			 	};
-			 	return self;
+			 	return self.setup();
 			 };
 			/**
 			 * Loader object.
@@ -215,16 +293,31 @@
 				self.createScript = function(name, data) {
 					var sct = document.createElement("script");
 					sct.setAttribute("name",name);
-					sct.innerTest=data;
+					sct.innerHTML=data;
 					sct.setAttribute("type","text/javascript");
-					document.querySelector("head").appendChild(sct);
+					var headTag = document.querySelector("head");
+					headTag.appendChild(sct);
 				};
-				self.getFromCache = function(name, url, version, tryAJAX) {
+				self.getFromCache = function(name, url, tryAJAX, canCreateScript, tryTSS) {
 					if(typeof tryAJAX === 'undefined')tryAJAX=true;
 					if (typeof version === "undefined")version = "LATEST";
-					return (self.tsStorage.has(name))?self.tsStorage.get(name):self.getFromAJAX(name,url,false);
+					if(typeof tryTSS === 'undefined')tryTSS=true;
+					if(typeof canCreateScript === 'undefined')canCreateScript=false;
+					if(self.tsStorage.has(name) && (window['Production'] == true) && canCreateScript && tryTSS) {//only read from cache if it's production, TSS is allowed (TSStorage), and it can create a script (because why load it from the cache if it cant do anything with it).
+						if(canCreateScript)self.createScript(name, self.tsStorage.get(name));
+					} else if (tryAJAX) {
+						console.log("Getting " + name + " from " + url + " via AJAX");
+						self.getFromAjax(name, url, false, function(response, wasGood) {
+							if(!wasGood) {
+								console.error("AJAX to " + name + "Failed!");
+								return;
+							}
+							self.tsStorage.put(name, url, response.target.responseText);
+							if(canCreateScript)self.createScript(name, response.target.responseText);
+						});
+					}
 					//TODO: get db to work
-					self.db.get("Files", name, function(dbOut){
+					/*self.db.get("Files", name, function(dbOut){
 						console.log(dbOut);
 						if(typeof dbOut !== 'undefined') {
 							var element = document.createElement('script');
@@ -234,7 +327,7 @@
 						}else{
 							//do ajax
 						}
-					});
+					});*/
 				};
 				self.getFromAjax = function(name, url, directlyAdd, callback) {//callback is optional
 					var selfFn = Object.create(null);
@@ -250,12 +343,14 @@
 					selfFn.xmlhttp.onload = function(ev) {
 						self.tsStorage.put(selfFn.name, selfFn.url, selfFn.xmlhttp.responseText);
 						console.log(["XMLHTTP Success",selfFn,ev]);
+						if(typeof callback === 'function')callback(ev, true);
 					};
 					selfFn.xmlhttp.onerror = function(e) {
 						console.log(e);
-						console.log(["XMLHTTP Failure",selfFn,ev]);
+						console.log(["XMLHTTP Failure",selfFn,e]);
+						callback(e, false);
 					};
-					selfFn.xmlhttp.open("GET", name, true);
+					selfFn.xmlhttp.open("GET", url, true);
 					selfFn.xmlhttp.send();
 				};
 				self.want = function(src, name, version) {
@@ -266,24 +361,33 @@
 					obj.version = version;
 					self.waitingQueue[name] = (obj);
 					console.log("Waiting to load " + name + " from " + src);
+					//check if it exists in local storage
+					self.getFromCache(name, src, true, true);
 					return self;
 				};
 				return self;
 			})();
+			// ModuleController.
 			//register scripts to load
 			Loader.want("https://rawgit.com/mailmindlin/quantum-physics-sim/master/session.js",		"session.js",		"LATEST")
 				.want("https://rawgit.com/mailmindlin/quantum-physics-sim/master/utils.js",		"utils.js",		"LATEST")
 				.want("https://rawgit.com/mailmindlin/quantum-physics-sim/master/logger.js",		"logger.js",		"LATEST")
 				.want("https://rawgit.com/mailmindlin/quantum-physics-sim/master/help.js",		"help.js",		"LATEST")
-				.want("https://rawgit.com/mailmindlin/quantum-physics-sim/master/networking.js",	"networking.js",	"LATEST")
+				// .want("https://rawgit.com/mailmindlin/quantum-physics-sim/master/networking.js",	"networking.js",	"LATEST")
 				.want("https://rawgit.com/mailmindlin/quantum-physics-sim/master/renderer.js",		"renderer.js",		"LATEST")
 				.want("https://rawgit.com/mailmindlin/quantum-physics-sim/master/renderUtils.js",	"renderUtils.js",	"LATEST")
 				.want("https://rawgit.com/mailmindlin/quantum-physics-sim/master/input.js",		"input.js",		"LATEST")
-				.want("webworkers.js",	"webworkers.js",	"LATEST")
-				.want("https://rawgit.com/mailmindlin/quantum-physics-sim/master/jsmol.js",		"jsmol.js",		"LATEST");
-				
-				
-			var hasHadLoadError = false;
+				.want("webworkers.js",									"webworkers.js",	"LATEST")
+				.want("https://rawgit.com/mailmindlin/quantum-physics-sim/master/jsmol.js",		"jsmol.js",		"LATEST")
+				.want("https://rawgit.com/mailmindlin/quantum-physics-sim/engine/engine/numeric-1.2.6.min.js","numeric-1.2.6",	"LATEST")
+				.want("https://rawgit.com/mailmindlin/quantum-physics-sim/engine/engine/quantumchem.js","quantumchem.js",	"LATEST")
+				.want("https://rawgit.com/mailmindlin/quantum-physics-sim/engine/engine/rhf.js",	"rhf.js",		"LATEST")
+				.want("https://rawgit.com/mailmindlin/quantum-physics-sim/engine/engine/sprintf.min.js","sprintf.js",		"LATEST")
+				.want("https://rawgit.com/mailmindlin/quantum-physics-sim/engine/engine/sto1g.js"	,"sto1g.js",		"LATEST")
+				.want("main.js",									"main.js",		"LATEST");
+
+
+			var hasHadLoadError = false;//TODO: migrate functionality to Loader object
 			function loadError(ev){
 				if(hasHadLoadError)return;
 				hasHadLoadError=true;
@@ -293,7 +397,7 @@
 				if(reload)location.reload();
 			}
 		//]]></script>
-		<script type="text/javascript" src="https://rawgit.com/mailmindlin/quantum-physics-sim/master/session.js" onerror="loadError('session.js')" onload="Loader.onSuccess('https://rawgit.com/mailmindlin/quantum-physics-sim/master/session.js','session.js')"></script>
+		<!-- <script type="text/javascript" src="https://rawgit.com/mailmindlin/quantum-physics-sim/master/session.js" onerror="loadError('session.js')" onload="Loader.onSuccess('https://rawgit.com/mailmindlin/quantum-physics-sim/master/session.js','session.js')"></script>
 		<script type="text/javascript" src="https://rawgit.com/mailmindlin/quantum-physics-sim/master/utils.js" onerror="loadError('utils.js')" onload="Loader.onSuccess('https://rawgit.com/mailmindlin/quantum-physics-sim/master/utils.js','utils.js')"></script>
 		<script type="text/javascript" src="https://rawgit.com/mailmindlin/quantum-physics-sim/master/logger.js" onerror="loadError('logger.js')" onload="Loader.onSuccess('https://rawgit.com/mailmindlin/quantum-physics-sim/master/logger.js','logger.js')"></script>
 		<script type="text/javascript" src="https://rawgit.com/mailmindlin/quantum-physics-sim/master/help.js" onerror="loadError('help.js')" onload="Loader.onSuccess('https://rawgit.com/mailmindlin/quantum-physics-sim/master/help.js','help.js')"></script>
@@ -303,7 +407,7 @@
 		<script type="text/javascript" src="https://rawgit.com/mailmindlin/quantum-physics-sim/master/input.js" onerror="loadError('input.js')" onload="Loader.onSuccess('https://rawgit.com/mailmindlin/quantum-physics-sim/master/input.js','input.js')"></script>
 		<script type="text/javascript" src="https://rawgit.com/mailmindlin/quantum-physics-sim/master/jsmol.js" onerror="loadError('jsmol.js')" onload="Loader.onSuccess('https://rawgit.com/mailmindlin/quantum-physics-sim/master/jsmol.js','jsmol.js')"></script>
 		<script type="text/javascript" src="webworkers.js" onerror="loadError('webworkers.js')" onload="Loader.onSuccess('webworkers.js','webworkers.js')"></script>
-		<script type="text/javascript" src="main.js" onerror="loadError('main.js')"></script>
+		<script type="text/javascript" src="main.js" onerror="loadError('main.js')"></script>-->
 		<!--<script type="text/javascript" src="main.min.js"></script>-->
 		<!--[if lt IE 9]>
 			<script src="//html5shiv.googlecode.com/svn/trunk/html5.js" class="imp-scr13></script>
@@ -314,7 +418,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
 
 	</head>
-	<body onload="load()">
+	<body onload="load(false)">
 		<div id="header">
 			<nav>
 				<li class="fork"><a href="https://github.com/mailmindlin/quantum-physics-sim">View On GitHub</a></li>
@@ -341,9 +445,13 @@
 					//setup canvas as simulator
 					//called on body load
 					function load() {
+						if(Loader.successQueue.length > 0)window.setTimeout(this, 20);
 						var canvas = $('.simulator-canvas')[0];
 						var input = $('#input-test')[0];
 						window['inp']=new Input({name:'input-test1', dom:input});
+						//setup jsmol
+						JSmolInterface.info.j2s="http://mailmindlin.github.io/quantum-physics-sim/jsmol/jsmol/j2s";
+						JSmolInterface.start($('.simulator-canvas')[0]);
 						//TODO finish
 					}
 				</script>
