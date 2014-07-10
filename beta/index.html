@@ -260,6 +260,18 @@
 				self.successQueue = {};
 				self.waitingQueue = {};
 				self.tsStorage    = new TSStorage();
+				self.scriptCache  = [];
+				self.scriptDependencies = {
+					"utils.js":[],
+					"session.js":[],
+					"renderer.js":["utils.js"],
+					"renderUtils.js":["renderer.js"],
+					"networking.js":["utils.js"],
+					"jsmol.js":["utils.js"],
+					"input.js":["utils.js", "logger.js"],
+					"help.js":["logger.js", "utils.js"],
+					"console.js":[],
+					"communications.js":[] };
 				self.db		  = new DBInterface({
 					dbName: "ScriptDB",
 					version: 1,
