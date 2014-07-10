@@ -67,15 +67,15 @@ window['DynamicNetwork'] = function(name, setup) {
  */
 window['Encryption'] = function(Key) {
 	var self = Object.create(null);
-	self.key=Key;
 	self.xor = function(data) {
 		//thanks to http://th.atguy.com/mycode/xor_js_encryption/
 		var result="";//the result will be here
 		for(var i = 0; i < data.length; i++){
-			resilt+=String.fromCharCode(self.key^data.charCodeAt(i));
+			result+= String.fromCharCode(Key^data.charCodeAt(i));
 		}
 		return result;
 	};
+	return self;
 };
 /**
  * Basically makes a sandbox that the specified function can run in, that loses access to many external resources.
@@ -85,7 +85,7 @@ window['Sandbox'] = function(fn) {
 	var sprWinNum=Math.random().replace('.','');//make the window variable random
 	eval("{var _"+sprWinNum+"=window;\
 		var window=document=Window=Document=$=Navigator=navigator==Object.create();\
-		_"+sprWinNum+".Sandbox.rtVal=("+sfn+")();}");
+		_"+sprWinNum+".Sandbox.rtVal=("+fn+")();}");
 	return this.rtVal;
 };
 /**
@@ -115,17 +115,17 @@ window['Problem'] = function(name, origin, parts, encKey) {
 	self.stat	= -1;
 	self.parts	= parts;
 	//define functions
-	self.queue = function() {
+	self.queue = function () {
 		
 	};
 	return self;
 };
-window['Part'] = function(data) {
-	if(typeof data !== 'object')throw(new Error("Data was not an object!"));
+window['Part'] = function (data) {
+	if (typeof data !== 'object') throw(new Error("Data was not an object!"));
 	var self = Object.create(null);
 	//vardef
-	if(ISSET(data.isSerialized) && data.isSerialized) {
-		self.wasSerialized=true;
+	if (ISSET(data.isSerialized) && data.isSerialized) {
+		self.wasSerialized = true;
 		var enc = new Encryption(data.encKey);
 		//deserialize object
 		var deserialized = JSON.parse(enc.xor(data.sData));
@@ -133,12 +133,12 @@ window['Part'] = function(data) {
 		self.fn = function(){Sandbox(self.sfn);};//basically just call the function in eval. BTW: sorry for using eval.
 		self.name = data.name;
 	} else {
-		self.wasSerialized=false;
-		self.fn = data.fn;
-		self.sfn = ISSET(data.sfn)?data.sfn:(self.fn+'');
-		if(ISSET(data.origin)) {
-			self.isLocal=(data.origin==LocalOrigin);
-			self.origin=data.origin;
+		self.wasSerialized	= false;
+		self.fn			= data.fn;
+		self.sfn		= ISSET(data.sfn)?data.sfn:(self.fn+'');
+		if (ISSET(data.origin)) {
+			self.isLocal	= (data.origin==LocalOrigin);
+			self.origin	= data.origin;
 		}
 		if(ISSET(data.name)) self.name = data.name;
 	}
