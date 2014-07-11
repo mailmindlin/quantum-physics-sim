@@ -203,9 +203,9 @@
 							}
 							self.tsStorage.put(name, url, response.target.responseText);
 							if(canCreateScript)self.createScript(name, response.target.responseText);
-							self.progress.progressValue=self.successQueue.length;
-							if(self.waitingQueue.length==0) {
-								if(self.failureQueue.length==0) {
+							self.progress.progressValue=self.objLength(self.successQueue);
+							if(self.objLength(self.waitingQueue)==0) {
+								if(self.objLength(self.failureQueue.length)==0) {
 									self.progress.progressHidden=true;
 								}else{
 									self.progress.progressLabel="Please Reload!";
@@ -246,7 +246,7 @@
 					obj.version = version;
 					self.waitingQueue[name] = (obj);
 					console.log("Waiting to load " + name + " from " + src);
-					self.progress.progressMax = self.waitingQueue.length+self.successQueue.length+self.failureQueue.length;
+					self.progress.progressMax = self.objLength(self.waitingQueue)+self.objLength(self.successQueue)+self.objLength(self.failureQueue);
 					self.progress.progressLabel = "Loading Scripts...";
 					//check if it exists in local storage
 					self.getFromCache(name, src, true, true);
@@ -290,6 +290,9 @@
 						self.progress.progressObj.label=self.progress.labelQueue;
 						self.progress.progressObj.max=self.progress.progMax;
 					}
+				};
+				self.objLength = function(obj) {
+					return Object.keys(obj).length;
 				};
 				return self;
 			})();
