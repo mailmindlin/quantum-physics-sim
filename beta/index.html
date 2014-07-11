@@ -387,16 +387,19 @@
 					//setup canvas as simulator
 					//called on body load
 					function load() {
-						if(Loader.successQueue.length > 0)window.setTimeout(this, 20);
+						window['onLoadCalled']=true;
+						if(window['hideProgressbar']==true)(new ProgressLoader(0,0)).hidden=true;
+						if(Loader.successQueue.length > 0) {window.setTimeout(this, 20); return;}
 						var canvas = $('.simulator-canvas')[0];
 						var input = $('#input-test')[0];
 						window['inp']=new Input({name:'input-test1', dom:input});
 						//setup jsmol
 						JSmolInterface.info.j2s="http://mailmindlin.github.io/quantum-physics-sim/jsmol/jsmol/j2s";
 						JSmolInterface.start($('.simulator-canvas')[0]);
-						window['onLoadCalled']=true;
-						if(window['hideProgressbar']==true)(new ProgressLoader(0,0)).hidden=true;
 						//TODO finish
+					}
+					function onScriptsLoaded {
+						
 					}
 				</script>
 				<br/>
