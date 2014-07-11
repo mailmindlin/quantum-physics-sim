@@ -259,19 +259,19 @@
 				self.progress.progressObj=null;
 				self.progress.__defineSetter__("progressLabel",function(val) {
 					self.progress.labelQueue=val;
-					attemptLabelUpdate();
+					self.progress.attemptLabelUpdate();
 				});
 				self.progress.__defineSetter__("progressValue", function(val) {
 					self.progress.progVal=val;
-					attemptLabelUpdate();
+					self.progress.attemptLabelUpdate();
 				});
 				self.progress.__defineSetter__("progressMax", function(val) {
 					self.progress.progMax=val;
-					attemptLabelUpdate();
+					self.progress.attemptLabelUpdate();
 				});
 				self.progress.__defineSetter__('progressHidden', function(val) {
 					if(window['onLoadCalled']) {
-						attemptLabelUpdate();
+						self.progress.attemptLabelUpdate();
 						if(self.progress.progressObj!=null) {
 							self.progress.progressObj.hidden=true;
 						}else{
@@ -279,9 +279,11 @@
 						}
 					}
 				});
-				function attemptLabelUpdate() {
+				self.progress.attemptLabelUpdate = function() {
 					if(window['onLoadCalled']==true) {
-						if(self.progress.progressObj==null)self.progress.progressObj=new ProgressLoader(0,progress.progMax);
+						if(self.progress.progressObj==null) {
+							self.progress.progressObj=new ProgressLoader(0,progress.progMax);
+						}
 						self.progress.progressObj.progress=self.progress.progVal;
 						self.progress.progressObj.label=self.progress.labelQueue;
 						self.progress.progressObj.max=self.progress.progMax;
