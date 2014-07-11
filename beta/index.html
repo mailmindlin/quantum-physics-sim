@@ -444,7 +444,7 @@
 				<span style="height:30px;width:auto;">Loading scripts...</span>
 			</center>
 			<center style="top:calc(50% + 5px);width:100%;align:center;position:fixed;">
-				<progress style="height:20px;width:auto;"/>
+				<progress style="height:20px;"/>
 			</center>
 			<script type = "text/javascript">
 				window['ProgressLoader'] = function(min,max) {
@@ -464,6 +464,7 @@
 					self.__defineSetter__("max",function(val){self.max=val;self.domProgress.setAttribute('max',self.max-self.min);});
 					self.__defineSetter__("label",function(val){self.domLabel.innerText=val;});
 					self.__defineSetter__("progress",function(val){self.domProgress.setAttribute('value',val);});
+					self.__defineSetter__("hidden",function(val){if(typeof val !== "boolean")throw(new Error("Property must be boolean!"));document.getElementById('progressBar').setAttribute('display',val?"none":"block");});
 					return self;
 				};
 			</script>
