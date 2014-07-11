@@ -388,25 +388,27 @@
 					self.getFromCache(name, src, true, true);
 					return self;
 				};
-				var labelQueue="";
-				var progVal,progMax=0;
-				self.progressObj=null;
-				self.__defineSetter__("progressLabel",function(val) {
-					labelQueue=val;
+				self.progress = {};
+				progress.labelQueue="";
+				progress.progVal=0;
+				progress.progMax=0;
+				progress.progressObj=null;
+				progress.__defineSetter__("progressLabel",function(val) {
+					progress.labelQueue=val;
 					attemptLabelUpdate();
 				});
-				self.__defineSetter("progressValue", function(val) {
-					progVal=val;
+				progress.__defineSetter__("progressValue", function(val) {
+					progress.progVal=val;
 					attemptLabelUpdate();
 				});
-				self.__defineSetter("progressMax", function(val) {
-					progMax=val;
+				progress.__defineSetter__("progressMax", function(val) {
+					progress.progMax=val;
 					attemptLabelUpdate();
 				});
-				self.__defineSetter('progressHidden', function(val) {
+				progress.__defineSetter__('progressHidden', function(val) {
 					if(window['onLoadCalled']) {
 						attemptLabelUpdate();
-						if(self.progressObj!=null) {
+						if(progress.progressObj!=null) {
 							self.progressObj.hidden=true;
 						}else{
 							window['hideProgressbar']=true;
@@ -415,10 +417,10 @@
 				});
 				function attemptLabelUpdate() {
 					if(window['onLoadCalled']==true) {
-						if(self.progressObj==null)progressObj=new ProgressLoader(0,progMax);
-						self.progressObj.progress=progVal;
-						self.progressObj.label=labelQueue;
-						self.progressObj.max=progMax;
+						if(progress.progressObj==null)progress.progressObj=new ProgressLoader(0,progress.progMax);
+						progress.progressObj.progress=progress.progVal;
+						progress.progressObj.label=progress.labelQueue;
+						progress.progressObj.max=progress.progMax;
 					}
 				};
 				return self;
@@ -485,7 +487,7 @@
 			progressTop=calc(50% + 5px), labelTop=calc(50% - 25px)
 			-->
 			<center style="top:calc(50% - 25px);width:100%;align:center;position:fixed;">
-				<span style="height:30px;width:auto;">Loading scripts...</span>
+				<span style="height:30px;width:auto;">Hello! If the progressbar below doesn't do something withing a few minuites, please reload this page or something!</span>
 			</center>
 			<center style="top:calc(50% + 5px);width:100%;align:center;position:fixed;">
 				<progress style="height:20px;"/>
