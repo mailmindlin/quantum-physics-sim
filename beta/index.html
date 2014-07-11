@@ -181,7 +181,7 @@
 					if(time==0)location.reload();
 					self.progress.progressLabel=text+" Reloading in: "+time+"...";
 					self.progress.progressValue=time;
-					window.setInterval(this,1000,time-1,text);
+					window.setInterval(self.countdownReload,1000,time-1,text);
 				};
 				self.onFail = function(src, name) {
 					self.hasErrors=true;
@@ -205,7 +205,7 @@
 					self.progress.progressValue=self.objLength(self.successQueue)-self.objLength(self.scriptDependencies);
 					self.loadNextScript();
 					if(self.objLength(self.scriptDependencies)>0) {
-						setInterval(this,100);
+						setInterval(self.onCompleteSuccess,100);
 					} else {
 						self.progress.progressObj.hidden=true;
 					}
