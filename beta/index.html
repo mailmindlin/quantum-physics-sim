@@ -446,10 +446,10 @@
 			</center>
 			<script type = "text/javascript">
 				window['ProgressLoader'] = function(min,max) {
-					var _domProgress: document.querySelector('#progressBar>center>progress');
-					var _domLabel: document.querySelector('#progressBas>center>span');
-					var _offset: min;
-					var _max: max;
+					var _domProgress= document.querySelector('#progressBar>center>progress');
+					var _domLabe	= document.querySelector('#progressBas>center>span');
+					var _offse	= min;
+					var _max	= max;
 					var self = Object.create(null);
 					self.__defineGetter__("domProgress",function(){return _domProgress;});
 					self.__defineGetter__("domLabel",function(){return _domProgress;});
