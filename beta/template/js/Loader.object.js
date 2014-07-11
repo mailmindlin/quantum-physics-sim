@@ -102,7 +102,9 @@
 					}
 				};
 				self.onInitializationFinish = function() {
+					window['cle']=true;
 					load(true);
+					window['cle']=false;
 				};
 				self.createScript = function(name, data) {
 					var sct = document.createElement("script");
