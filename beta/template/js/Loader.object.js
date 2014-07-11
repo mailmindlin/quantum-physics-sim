@@ -30,6 +30,23 @@
 					self.successQueue[name] = obj;
 					delete self.waitingQueue[name];
 					console.log("%cLoaded " + name + " from " + src,'color:green;');
+					self.progress.progressValue=self.objLength(self.successQueue);
+					if(self.objLength(self.waitingQueue)==0) {
+						if(self.objLength(self.failureQueue)==0) {
+							self.progress.progressHidden=true;
+							self.onCompleteSuccess();
+						}else{
+							self.progress.progressMax=5;
+							self.progress.progressObj.hidden=false;
+							self.countdownReload(5,"Sorry, but there's been an error.");
+						}
+					}
+				};
+				self.countdownReload = function(time,text) {
+					if(time==0)location.reload();
+					self.progress.progressLabel=text+" Reloading in: "+time+"...";
+					self.progress.progressValue=time;
+					window.setInterval(this,1000,time-1,text);
 				};
 				self.onFail = function(src, name) {
 					self.hasErrors=true;
@@ -42,6 +59,12 @@
 					delete self.waitingQueue[name];
 					//TODO remove object from the waitingQueue
 					console.log("%cFailed to load " + name + " from " + src,'color:red;');
+					self.progress.progressMax=5;
+					self.progress.progressObj.hidden=false;
+					self.countdownReload(5,"Sorry, but there's been an error.");
+				};
+				self.onCompleteSuccess = function() {
+					
 				};
 				self.createScript = function(name, data) {
 					var sct = document.createElement("script");
@@ -71,14 +94,6 @@
 							self.tsStorage.put(name, url, response.target.responseText);
 							if(canCreateScript)self.createScript(name, response.target.responseText);
 							self.onSuccess(url,name);
-							self.progress.progressValue=self.objLength(self.successQueue);
-							if(self.objLength(self.waitingQueue)==0) {
-								if(self.objLength(self.failureQueue)==0) {
-									self.progress.progressHidden=true;
-								}else{
-									self.progress.progressLabel="Please Reload!";
-								}
-							}
 						});
 					}
 				};
