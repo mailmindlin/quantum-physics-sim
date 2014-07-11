@@ -322,10 +322,19 @@
 						self.getFromAjax(name, url, false, function(response, wasGood) {
 							if(!wasGood) {
 								console.error("AJAX to " + name + "Failed!");
+								self.failureQueue.push({name:name});
 								return;
 							}
 							self.tsStorage.put(name, url, response.target.responseText);
 							if(canCreateScript)self.createScript(name, response.target.responseText);
+							self.progressValue=successQueue.length;
+							if(waitingQueue.length==0) {
+								if(failureQueue.length==0) {
+									self.progressHidden=true;
+								}else{
+									self.progressLabel="Please Reload!";
+								}
+							}
 						});
 					}
 					//TODO: get db to work
@@ -373,9 +382,44 @@
 					obj.version = version;
 					self.waitingQueue[name] = (obj);
 					console.log("Waiting to load " + name + " from " + src);
+					self.progressMax = waitingQueue.length+successQueue.length+failureQueue.length;
+					self.progressLabel = "Loading Scripts...";
 					//check if it exists in local storage
 					self.getFromCache(name, src, true, true);
 					return self;
+				};
+				var labelQueue="";
+				var progVal,progMax=0;
+				self.progressObj=null;
+				self.__defineSetter__("progressLabel",function(val) {
+					labelQueue=val;
+					attemptLabelUpdate();
+				});
+				self.__defineSetter("progressValue", function(val) {
+					progVal=val;
+					attemptLabelUpdate();
+				});
+				self.__defineSetter("progressMax", function(val) {
+					progMax=val;
+					attemptLabelUpdate();
+				});
+				self.__defineSetter('progressHidden', function(val) {
+					if(window['onLoadCalled']) {
+						attemptLabelUpdate();
+						if(self.progressObj!=null) {
+							self.progressObj.hidden=true;
+						}else{
+							window['hideProgressbar']=true;
+						}
+					}
+				});
+				function attemptLabelUpdate() {
+					if(window['onLoadCalled']==true) {
+						if(self.progressObj==null)progressObj=new ProgressLoader(0,progMax);
+						self.progressObj.progress=progVal;
+						self.progressObj.label=labelQueue;
+						self.progressObj.max=progMax;
+					}
 				};
 				return self;
 			})();
@@ -504,6 +548,8 @@
 						//setup jsmol
 						JSmolInterface.info.j2s="http://mailmindlin.github.io/quantum-physics-sim/jsmol/jsmol/j2s";
 						JSmolInterface.start($('.simulator-canvas')[0]);
+						window['onLoadCalled']=true;
+						if(window['hideProgressbar']==true)(new ProgressLoader(0,0)).hidden=true;
 						//TODO finish
 					}
 				</script>
