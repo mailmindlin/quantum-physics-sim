@@ -431,7 +431,7 @@
 
 	</head>
 	<body onload="load(false)">
-		<div id="progressBar">
+		<div id="progressBar" style='background:rgb(53, 53, 53) url(http://mailmindlin.github.io/quantum-physics-sim/images/nav-bg.gif) repeat scroll 0% 0% / auto padding-box border-box;z-index:10001;height:100%;width:100%;opacity:0.7;'>
 			<!--
 			label top:
 			calc(50% - calc(calc(labelHeight + progressHeight)/2))
@@ -446,23 +446,23 @@
 			</center>
 			<script type = "text/javascript">
 				window['ProgressLoader'] = function(min,max) {
-					domProgress: document.querySelector('#progressBar>center>progress');
-					domLabel: document.querySelector('#progressBas>center>span');
-					_offset: min;
-					_max: max;
-					return {
-					get labelEl	{return domLabel;},
-					get progressEl	{return domProgress;},
-					get min()	{return _offset;},
-					get max()	{return _max;},
-					get size()	{return max-min;},
-					get label()	{return domLabel.innerText;},
-					get progress()	{return domProgress.getAttribute('value');},
-					set min(val)	{_offset=val;domProgress.setAttribute('max',_max-_offset);},
-					set max(val)	{_max=val;domProgress.setAttribute('max',_max-_offset);},
-					set label(val)	{domLabel.innerText=val;},
-					set progress(val){domProgress.setAttribute('value',val);}
-					};
+					var _domProgress: document.querySelector('#progressBar>center>progress');
+					var _domLabel: document.querySelector('#progressBas>center>span');
+					var _offset: min;
+					var _max: max;
+					var self = Object.create(null);
+					self.__defineGetter__("domProgress",function(){return _domProgress;});
+					self.__defineGetter__("domLabel",function(){return _domProgress;});
+					self.__defineGetter__("min",function(){return _offset;});
+					self.__defineGetter__("max",function(){return _max;});
+					self.__defineGetter__("size",function(){return self.max-self.min;});
+					self.__defineGetter__("label",function(){return _domLabel.innerText;});
+					self.__defineGetter__("progress",function(){return domProgress.getAttribute('value');});
+					self.__defineSetter__("min",function(val){self.min=val;self.domProgress.setAttribute('max',self.max-self.min);});
+					self.__defineSetter__("max",function(val){self.max=val;self.domProgress.setAttribute('max',self.max-self.min);});
+					self.__defineSetter__("label",function(val){self.domLabel.innerText=val;});
+					self.__defineSetter__("progress",function(val){self.domProgress.setAttribute('value',val);});
+					return self;
 				};
 			</script>
 		</div>
