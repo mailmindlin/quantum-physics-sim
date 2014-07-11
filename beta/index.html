@@ -206,7 +206,7 @@
 					self.progress.progressValue=self.objLength(self.successQueue)-self.objLength(self.scriptDependencies);
 					self.loadNextScript();
 					if(self.objLength(self.scriptDependencies)>0) {
-						setInterval(self.onCompleteSuccess,100);
+						setTimeout(self.onCompleteSuccess,100);
 					} else {
 						self.progress.progressObj.hidden=true;
 						self.onInitializationFinish();
