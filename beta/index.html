@@ -389,27 +389,27 @@
 					return self;
 				};
 				self.progress = {};
-				progress.labelQueue="";
-				progress.progVal=0;
-				progress.progMax=0;
-				progress.progressObj=null;
-				progress.__defineSetter__("progressLabel",function(val) {
-					progress.labelQueue=val;
+				self.progress.labelQueue="";
+				self.progress.progVal=0;
+				self.progress.progMax=0;
+				self.progress.progressObj=null;
+				self.progress.__defineSetter__("progressLabel",function(val) {
+					self.progress.labelQueue=val;
 					attemptLabelUpdate();
 				});
-				progress.__defineSetter__("progressValue", function(val) {
-					progress.progVal=val;
+				self.progress.__defineSetter__("progressValue", function(val) {
+					self.progress.progVal=val;
 					attemptLabelUpdate();
 				});
-				progress.__defineSetter__("progressMax", function(val) {
-					progress.progMax=val;
+				self.progress.__defineSetter__("progressMax", function(val) {
+					self.progress.progMax=val;
 					attemptLabelUpdate();
 				});
-				progress.__defineSetter__('progressHidden', function(val) {
+				self.progress.__defineSetter__('progressHidden', function(val) {
 					if(window['onLoadCalled']) {
 						attemptLabelUpdate();
-						if(progress.progressObj!=null) {
-							self.progressObj.hidden=true;
+						if(self.progress.progressObj!=null) {
+							self.progress.progressObj.hidden=true;
 						}else{
 							window['hideProgressbar']=true;
 						}
@@ -417,10 +417,10 @@
 				});
 				function attemptLabelUpdate() {
 					if(window['onLoadCalled']==true) {
-						if(progress.progressObj==null)progress.progressObj=new ProgressLoader(0,progress.progMax);
-						progress.progressObj.progress=progress.progVal;
-						progress.progressObj.label=progress.labelQueue;
-						progress.progressObj.max=progress.progMax;
+						if(self.progress.progressObj==null)self.progress.progressObj=new ProgressLoader(0,progress.progMax);
+						self.progress.progressObj.progress=self.progress.progVal;
+						self.progress.progressObj.label=self.progress.labelQueue;
+						self.progress.progressObj.max=self.progress.progMax;
 					}
 				};
 				return self;
