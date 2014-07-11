@@ -14,7 +14,7 @@ window['ProgressLoader'] = function(min,max) {
 					self.__defineSetter__("max",function(val){_max=val;self.domProgress.setAttribute('max',self.max-self.min);});
 					self.__defineSetter__("label",function(val){self.domLabel.innerText=val;});
 					self.__defineSetter__("progress",function(val){self.domProgress.setAttribute('value',val);});
-					self.__defineSetter__("hidden",function(val){if(typeof val !== "boolean")throw(new Error("Property must be boolean!"));document.getElementById('progressBar').setAttribute('display',val?"none":"block");});
+					self.__defineSetter__("hidden",function(val){if(typeof val !== "boolean")throw(new Error("Property must be boolean!"));document.getElementById('progressBar').style.display=(val?"none":"block");});
 					//set props
 					self.max=max;
 					self.min=min;
