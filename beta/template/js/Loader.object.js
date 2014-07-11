@@ -64,7 +64,7 @@
 					self.countdownReload(5,"Sorry, but there's been an error.");
 				};
 				self.onCompleteSuccess = function() {
-					
+					alert('yay');
 				};
 				self.createScript = function(name, data) {
 					var sct = document.createElement("script");
