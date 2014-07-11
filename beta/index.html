@@ -436,12 +436,14 @@
 			label top:
 			calc(50% - calc(calc(labelHeight + progressHeight)/2))
 			progressbar top:
-			calc(50% - calc(calc(calc(labelHeight + progressHeight)/2)-labelHeight))
+			calc(50% - calc(calc(calc(labelHeight + progressHeight)/2)-labelHeight)) 
+			labelHeight=30px,progressHeight=20px;
+			progressTop=calc(50% + 5px), labelTop=calc(50% - 25px)
 			-->
-			<center style="top:calc(50% - calc(calc(30px + 20px)/2));width:100%;align:center;position:fixed;">
+			<center style="top:calc(50% - 25px);width:100%;align:center;position:fixed;">
 				<span style="height:30px;width:auto;">Loading scripts...</span>
 			</center>
-			<center style="top:calc(50% - calc(calc(calc(30px + 20px)/2))-30px);width:100%;align:center;position:fixed;">
+			<center style="top:calc(50% + 5px);width:100%;align:center;position:fixed;">
 				<progress style="height:20px;width:auto;"/>
 			</center>
 			<script type = "text/javascript">
