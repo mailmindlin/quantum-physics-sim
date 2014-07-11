@@ -431,38 +431,46 @@
 
 	</head>
 	<body onload="load(false)">
-		<div id="header" style="overflow:hidden;">
+		<div id="progressBar">
+			<!--
+			label top:
+			calc(50% - calc(calc(labelHeight + progressHeight)/2))
+			progressbar top:
+			calc(50% - calc(calc(calc(labelHeight + progressHeight)/2)-labelHeight))
+			-->
+			<center style="top:calc(50% - calc(calc(30px + 20px)/2));width:100%;align:center;position:fixed;">
+				<span style="height:30px;width:auto;">Loading scripts...</span>
+			</center>
+			<center style="top:calc(50% - calc(calc(calc(30px + 20px)/2))-30px);width:100%;align:center;position:fixed;">
+				<progress style="height:20px;width:auto;"/>
+			</center>
+			<script type = "text/javascript">
+				window['ProgressLoader'] = function(min,max) {
+					domProgress: document.querySelector('#progressBar>center>progress');
+					domLabel: document.querySelector('#progressBas>center>span');
+					_offset: min;
+					_max: max;
+					return {
+					get labelEl	{return domLabel;},
+					get progressEl	{return domProgress;},
+					get min()	{return _offset;},
+					get max()	{return _max;},
+					get size()	{return max-min;},
+					get label()	{return domLabel.innerText;},
+					get progress()	{return domProgress.getAttribute('value');},
+					set min(val)	{_offset=val;domProgress.setAttribute('max',_max-_offset);},
+					set max(val)	{_max=val;domProgress.setAttribute('max',_max-_offset);},
+					set label(val)	{domLabel.innerText=val;},
+					set progress(val){domProgress.setAttribute('value',val);}
+					};
+				};
+			</script>
+		</div>
+		<div id="header">
 			<nav>
 				<li class="fork"><a href="https://github.com/mailmindlin/quantum-physics-sim">View On GitHub</a></li>
 				<li class="downloads"><a href="../">Back to main page</a></li>
 			</nav>
-			<div id="progressBar">
-				<center style="top:calc(50% - 27px);width:100%;align:center;position:fixed;">
-					<span>Example Label</span>
-				</center>
-				<center style="top:calc(50% - 8px);position:fixed;">
-					<progress height="16px"/>
-				</center>
-				<script type = "text/javascript">
-					window['ProgressLoader'] = function(min,max) {
-						return {
-						domProgress: document.querySelector('#progressBar>center>progress'),
-						domLabel: document.querySelector('#progressBas>center>span'),
-						_offset: min,
-						_max: max,
-						get min()	{return _offset;},
-						get max()	{return _max;},
-						get size()	{return max-min;},
-						get label()	{return domLabel.innerText;},
-						get progress()	{return domProgress.getAttribute('value');}
-						set min(val)	{_offset=val;domProgress.setAttribute('max',_max-_offset);},
-						set max(val)	{_max=val;domProgress.setAttribute('max',_max-_offset);},
-						set label(val)	{domLabel.innerText=val;},
-						set progress(val){domProgress.setAttribute('value',val);}
-						};
-					};
-				</script>
-			</div>
 		</div><!-- end header -->
 
 		<div class="wrapper">
