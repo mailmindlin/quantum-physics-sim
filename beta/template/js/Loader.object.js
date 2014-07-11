@@ -8,9 +8,9 @@
 				self.hasErrors=false;
 				self.failureQueue = {};
 				self.successQueue = {};
+				self.rtQueue	  = {};
 				self.waitingQueue = {};
 				self.tsStorage    = new TSStorage();
-				self.scriptCache  = [];
 				self.scriptDependencies = {
 					"utils.js":[],
 					"session.js":[],
@@ -33,7 +33,6 @@
 					self.progress.progressValue=self.objLength(self.successQueue);
 					if(self.objLength(self.waitingQueue)==0) {
 						if(self.objLength(self.failureQueue)==0) {
-							self.progress.progressHidden=true;
 							self.onCompleteSuccess();
 						}else{
 							self.progress.progressMax=5;
@@ -64,7 +63,41 @@
 					self.countdownReload(5,"Sorry, but there's been an error.");
 				};
 				self.onCompleteSuccess = function() {
-					alert('yay');
+					self.progress.progressLabel="Initializing scripts...";
+					self.progress.progressObj.hidden=false;
+					self.progress.progressMax=self.objLength(self.successQueue);
+					self.progress.progressValue=self.objLength(self.successQueue)-self.objLength(self.scriptDependencies);
+					self.loadNextScript();
+					if(self.objLength(self.scriptDependencies)>0) {
+						setInterval(this,100);
+					} else {
+						self.progress.progressObj.hidden=true;
+					}
+				};
+				self.loadNextScript = function() {
+					for(var script in self.scriptDependencies) {
+						if(self.scriptDependencies[script].length==0) {
+							delete self.scriptDependencies[script];
+							window['loadscript_'+script.substr(0,script.indexOf("."))]();
+							console.log("%cLoaded script " + script,"color:cyan;");
+							return;
+						} else {
+							var viable = true;
+							for(var i=0;i<self.scriptDependencies[script].length;i++) {
+								var dependency = self.scriptDependencies[script][i];
+								if(self.scriptDependencies[dependency]!=undefined) {
+									viable=false;
+									break;
+								}
+							}
+							if (viable) {
+								delete self.scriptDependencies[script];
+								window['loadscript_'+script.substr(0,script.indexOf("."))]();
+								console.log("%cLoaded script " + script,"color:cyan;");
+								return;
+							}
+						}
+					}
 				};
 				self.createScript = function(name, data) {
 					var sct = document.createElement("script");
