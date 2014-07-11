@@ -1,0 +1,165 @@
+#includeObj "Module.object.js" AS "Module";
+#includeObj "ModuleController.object.js" AS "ModuleController"
+#includeObj "TSStorage.object.js" AS "TSStorage"
+#includeObj "Loader.object.js" AS "Loader"
+#includeObj "ProgressLoader.object.js" AS "ProgressLoader"
+#includeObj "usage.object.html" AS "Usage-info"
+#templateName "index.html"
+#output "index.html"
+#beginTemplate
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta http-equiv="X-UA-Compatible" content="chrome=1"/>
+		<title>Quantum Physics Simulator by mailmindlin</title>
+		<!--Meta tags -->
+		<meta name="description" content="A simulator for the quantum properties of theoretical molecules."/>
+		<meta name="robots" content="INDEX, noimageindex"/><!--no image index is just for copyright stuff-->
+		<meta name="revisit-after" content="2 days"/><!--because of constant updates-->
+		<meta name="author" content="mailmindlin, jschrier"/>
+		<!-- github's css -->
+		<link rel="stylesheet" href="../stylesheets/styles.css" onerror="loadError('Github\'s styles.css')"/>
+		<link rel="stylesheet" href="../stylesheets/pygment_trac.css" onerror="loadError('Github\'s pygment_trac.css')"/>
+		<!-- my css -->
+		<link rel="stylesheet" href="main.css" onerror="loadError('main.css')"/>
+		<link rel="stylesheet" href="animations.css" onerror="loadError('animations.css')"/>
+		<link rel="stylesheet" href="cursor-props.css" onerror="loadError('cursor-props.css')"/>
+		<!-- jquery -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" class="imp-scr1" onerror="loadError('jquery 1.7.1')"></script>
+		<script src="../javascripts/respond.js" class="imp-scr2" onerror="loadError('Github\'s respond.js')"></script>
+		<!-- JSMol -->
+		<script type="text/javascript" src="../jsmol/jsmol/JSmol.min.js" onerror="loadError('JSmol.js')"></script>
+		<!-- my scripts -->
+		<script type="text/javascript" onerror="loadError('Main loader')">//<![CDATA[
+			//cross-compatibility
+			//indexedDB stuff
+			window.indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB;
+			window.IDBTransaction = window.IDBTransaction || window.webkitIDBTransaction || window.msIDBTransaction;
+			window.IDBKeyRange = window.IDBKeyRange || window.webkitIDBKeyRange || window.msIDBKeyRange;
+
+			//set whether this is a production build. Production builds have some features enabled/disabled
+			window['Production'] = false;
+
+			//setup std. objects
+			window.debug=false;
+			window.isWebkit = 'WebkitAppearance' in document.documentElement.style;
+			[[~~OBJECT "Module"~~]]//HI
+			[[~~OBJECT "ModuleController"~~]]
+			[[~~OBJECT "TSStorage"~~]]
+			[[~~OBJECT "Loader"~~]]
+			//register scripts to load
+			Loader.want("https://rawgit.com/mailmindlin/quantum-physics-sim/master/session.js",		"session.js",		"LATEST")
+				.want("https://rawgit.com/mailmindlin/quantum-physics-sim/master/utils.js",		"utils.js",		"LATEST")
+				.want("https://rawgit.com/mailmindlin/quantum-physics-sim/master/logger.js",		"logger.js",		"LATEST")
+				.want("https://rawgit.com/mailmindlin/quantum-physics-sim/master/help.js",		"help.js",		"LATEST")
+				// .want("https://rawgit.com/mailmindlin/quantum-physics-sim/master/networking.js",	"networking.js",	"LATEST")
+				.want("https://rawgit.com/mailmindlin/quantum-physics-sim/master/renderer.js",		"renderer.js",		"LATEST")
+				.want("https://rawgit.com/mailmindlin/quantum-physics-sim/master/renderUtils.js",	"renderUtils.js",	"LATEST")
+				.want("https://rawgit.com/mailmindlin/quantum-physics-sim/master/input.js",		"input.js",		"LATEST")
+				.want("webworkers.js",									"webworkers.js",	"LATEST")
+				.want("https://rawgit.com/mailmindlin/quantum-physics-sim/master/jsmol.js",		"jsmol.js",		"LATEST")
+				.want("https://rawgit.com/mailmindlin/quantum-physics-sim/engine/engine/numeric-1.2.6.min.js","numeric-1.2.6",	"LATEST")
+				.want("https://rawgit.com/mailmindlin/quantum-physics-sim/engine/engine/quantumchem.js","quantumchem.js",	"LATEST")
+				.want("https://rawgit.com/mailmindlin/quantum-physics-sim/engine/engine/rhf.js",	"rhf.js",		"LATEST")
+				.want("https://rawgit.com/mailmindlin/quantum-physics-sim/engine/engine/sprintf.min.js","sprintf.js",		"LATEST")
+				.want("https://rawgit.com/mailmindlin/quantum-physics-sim/engine/engine/sto1g.js"	,"sto1g.js",		"LATEST")
+				.want("main.js",									"main.js",		"LATEST");
+
+			var hasHadLoadError = false;//TODO: migrate functionality to Loader object
+			function loadError(ev){
+				if(hasHadLoadError)return;
+				hasHadLoadError=true;
+				console.log(ev);
+				Loader.onFail("GITHUB",name);
+				var reload = confirm("Sorry, but one or more of the scripts on this page failed to load ("+ev+").\nWould you like to reload?");
+				if(reload)location.reload();
+			}
+		//]]></script>
+		<!--[if lt IE 9]>
+			<script src="//html5shiv.googlecode.com/svn/trunk/html5.js" class="imp-scr13></script>
+		<![endif]-->
+		<!--[if lt IE 8]>
+			<link rel="stylesheet" href="../stylesheets/ie.css">
+		<![endif]-->
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+
+	</head>
+	<body onload="load(false)">
+		<div id="progressBar" style='position:fixed;top:0px;left:0px;margin:0px;padding:0px;background:rgb(53, 53, 53) url(http://mailmindlin.github.io/quantum-physics-sim/images/nav-bg.gif) repeat scroll 0% 0% / auto padding-box border-box;z-index:10001;height:100%;width:100%;opacity:0.9;'>
+			<center style="top:calc(50% - 25px);width:100%;align:center;position:fixed;">
+				<span style="height:30px;width:auto;">Hello! If the progressbar below doesn't do something withing a few minuites, please reload this page or something!</span>
+			</center>
+			<center style="top:calc(50% + 5px);width:100%;align:center;position:fixed;">
+				<progress style="height:20px;"/>
+			</center>
+			<script type = "text/javascript">
+				[[~~OBJECT "ProgressLoader"~~]]
+			</script>
+		</div>
+		<div id="header">
+			<nav>
+				<li class="fork"><a href="https://github.com/mailmindlin/quantum-physics-sim">View On GitHub</a></li>
+				<li class="downloads"><a href="../">Back to main page</a></li>
+			</nav>
+		</div><!-- end header -->
+
+		<div class="wrapper">
+
+			<section>
+				<div id="title">
+					<h1>Quantum Physics Simulator</h1>
+					<p>Free online simulator</p>
+					<hr>
+					<span class="credits left">Project maintained by <a href="https://github.com/mailmindlin">mailmindlin</a></span>
+					<span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></span>
+				</div>
+		
+				<h3><a name="demo" class="anchor" href="#demo-main"><span class="octicon octicon-link"></span></a>Use, and be amazed.</h3>
+		
+				<div class="simulator-canvas"></div>
+				<div id="input-test">If you are seeing this, something is wrong. (seriously)</div>
+				<script type="text/javascript">
+					//setup canvas as simulator
+					//called on body load
+					function load() {
+						window['onLoadCalled']=true;
+						if(window['hideProgressbar']==true)(new ProgressLoader(0,0)).hidden=true;
+						if(Loader.successQueue.length > 0) {window.setTimeout(this, 20); return;}
+						var canvas = $('.simulator-canvas')[0];
+						var input = $('#input-test')[0];
+						window['inp']=new Input({name:'input-test1', dom:input});
+						//setup jsmol
+						JSmolInterface.info.j2s="http://mailmindlin.github.io/quantum-physics-sim/jsmol/jsmol/j2s";
+						JSmolInterface.start($('.simulator-canvas')[0]);
+						//TODO finish
+					}
+				</script>
+				<br/>
+				
+				<h3><a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>How to use</h3>
+				<p>
+					[[~~OBJECT "Usage-info" ~~]]
+				</p>
+				<h3><a name="faq" class="anchor" href="#faq"><span class="octicon octicon-link"></span></a>FAQ</h3>
+				<p>
+					<ul>
+						<li>
+							<a href="#usage>$" name="usage>$" class="anchor"><span class="octicon octicon-link"></span></a>
+							<!-- add something here -->
+						</li>
+					</ul>
+				</p>
+				
+			</section>
+		</div>
+		<div id="help-div"></div>
+		<center id="btm-arrow">&#8978;</center>
+		<center id="footer-wrapper">
+			<!--<table border="0px"><tr><td><button>Show/Hide console</button><!--</td></tr></table>-->
+		</center>
+		<!--[if !IE]><script>fixScale(document);</script><![endif]-->
+    
+	</body>
+</html>
+#end

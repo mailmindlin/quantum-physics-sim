@@ -28,10 +28,8 @@
 			window.indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB;
 			window.IDBTransaction = window.IDBTransaction || window.webkitIDBTransaction || window.msIDBTransaction;
 			window.IDBKeyRange = window.IDBKeyRange || window.webkitIDBKeyRange || window.msIDBKeyRange;
-			
 			//set whether this is a production build. Production builds have some features enabled/disabled
 			window['Production'] = false;
-			
 			//setup std. objects
 			window.debug=false;
 			window.isWebkit = 'WebkitAppearance' in document.documentElement.style;
@@ -49,7 +47,8 @@
 			 	};
 			 	return module;
 			 };
-			 window['ModuleController'] = (function() {
+//HI
+			window['ModuleController'] = (function() {
 			 	var self = Object.create(null);
 			 	self.canStart = false;
 			 	self.modules = [];
@@ -112,7 +111,8 @@
 			 		self.updatePromises;
 			 	};
 			 })();
-			 window['TSStorage'] = function(args) {
+
+			window['TSStorage'] = function(args) {
 			 	var self = Object.create(null);
 			 	self.put = function(name, url, data) {
 			 		var scrObj = Object.create(null);
@@ -133,6 +133,7 @@
 			 	};
 			 	return self.setup();
 			 };
+
 			/**
 			 * Loader object.
 			 * Basically handles scripts that load or fail to load, and smooths it out.
@@ -164,7 +165,6 @@
 					obj.name = name;
 					self.successQueue[name] = obj;
 					delete self.waitingQueue[name];
-					delete self.waitingQueue[name];
 					console.log("%cLoaded " + name + " from " + src,'color:green;');
 				};
 				self.onFail = function(src, name) {
@@ -172,8 +172,9 @@
 					var obj = Object.create(null);
 					obj.src = src;
 					obj.name = name;
-					self.failureQueue = obj;
-					if((typeof self.waitingQueue[name] !== 'undefined')/* && (self.waitingQueue[name].cachable)*/)self.createScript(name, self.getFromCache(name, self.waitingQueue[name].url,0,true));
+					self.failureQueue[name] = obj;
+					//TODO: figure out what this line does
+// 					if((typeof self.waitingQueue[name] !== 'undefined')/* && (self.waitingQueue[name].cachable)*/)self.createScript(name, self.getFromCache(name, self.waitingQueue[name].url,0,true));
 					delete self.waitingQueue[name];
 					//TODO remove object from the waitingQueue
 					console.log("%cFailed to load " + name + " from " + src,'color:red;');
@@ -181,6 +182,8 @@
 				self.createScript = function(name, data) {
 					var sct = document.createElement("script");
 					sct.setAttribute("name",name);
+					//generate wrapper
+					data = "window['loadscript_"+name.substr(0,name.indexOf("."))+"']=function(){\n"+data+"\n};";
 					sct.innerHTML=data;
 					sct.setAttribute("type","text/javascript");
 					var headTag = document.querySelector("head");
@@ -198,14 +201,15 @@
 						self.getFromAjax(name, url, false, function(response, wasGood) {
 							if(!wasGood) {
 								console.error("AJAX to " + name + "Failed!");
-								self.failureQueue.push({name:name});
+								self.onFail(url,name);
 								return;
 							}
 							self.tsStorage.put(name, url, response.target.responseText);
 							if(canCreateScript)self.createScript(name, response.target.responseText);
+							self.onSuccess(url,name);
 							self.progress.progressValue=self.objLength(self.successQueue);
 							if(self.objLength(self.waitingQueue)==0) {
-								if(self.objLength(self.failureQueue.length)==0) {
+								if(self.objLength(self.failureQueue)==0) {
 									self.progress.progressHidden=true;
 								}else{
 									self.progress.progressLabel="Please Reload!";
@@ -290,11 +294,16 @@
 					}
 				};
 				self.objLength = function(obj) {
-					return Object.keys(obj).length;
+					try {
+						return Object.keys(obj).length;
+					}catch(e) {
+						console.error(e);
+						console.log(obj);
+					}
 				};
 				return self;
 			})();
-			// ModuleController.
+
 			//register scripts to load
 			Loader.want("https://rawgit.com/mailmindlin/quantum-physics-sim/master/session.js",		"session.js",		"LATEST")
 				.want("https://rawgit.com/mailmindlin/quantum-physics-sim/master/utils.js",		"utils.js",		"LATEST")
@@ -312,8 +321,6 @@
 				.want("https://rawgit.com/mailmindlin/quantum-physics-sim/engine/engine/sprintf.min.js","sprintf.js",		"LATEST")
 				.want("https://rawgit.com/mailmindlin/quantum-physics-sim/engine/engine/sto1g.js"	,"sto1g.js",		"LATEST")
 				.want("main.js",									"main.js",		"LATEST");
-
-
 			var hasHadLoadError = false;//TODO: migrate functionality to Loader object
 			function loadError(ev){
 				if(hasHadLoadError)return;
@@ -331,7 +338,6 @@
 			<link rel="stylesheet" href="../stylesheets/ie.css">
 		<![endif]-->
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
-
 	</head>
 	<body onload="load(false)">
 		<div id="progressBar" style='position:fixed;top:0px;left:0px;margin:0px;padding:0px;background:rgb(53, 53, 53) url(http://mailmindlin.github.io/quantum-physics-sim/images/nav-bg.gif) repeat scroll 0% 0% / auto padding-box border-box;z-index:10001;height:100%;width:100%;opacity:0.9;'>
@@ -364,6 +370,7 @@
 					self.min=min;
 					return self;
 				};
+
 			</script>
 		</div>
 		<div id="header">
@@ -372,9 +379,7 @@
 				<li class="downloads"><a href="../">Back to main page</a></li>
 			</nav>
 		</div><!-- end header -->
-
 		<div class="wrapper">
-
 			<section>
 				<div id="title">
 					<h1>Quantum Physics Simulator</h1>
@@ -417,6 +422,7 @@
 					-->
 					Good question. As of the time of this being written, it wasn't functional at all (makes these instructions hard to write)! If the simulator is functional
 					or semi-functional when you read this, then please submit an issue <a href="https://github.com/mailmindlin/quantum-physics-sim/issues/new">here</a>, so I remember.
+
 				</p>
 				<h3><a name="faq" class="anchor" href="#faq"><span class="octicon octicon-link"></span></a>FAQ</h3>
 				<p>
