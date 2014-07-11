@@ -72,6 +72,7 @@
 						setInterval(self.onCompleteSuccess,100);
 					} else {
 						self.progress.progressObj.hidden=true;
+						self.onInitializationFinish();
 					}
 				};
 				self.loadNextScript = function() {
@@ -98,6 +99,9 @@
 							}
 						}
 					}
+				};
+				self.onInitializationFinish = function() {
+					load(true);
 				};
 				self.createScript = function(name, data) {
 					var sct = document.createElement("script");
