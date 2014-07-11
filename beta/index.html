@@ -280,6 +280,8 @@
 					}
 				});
 				self.progress.attemptLabelUpdate = function() {
+					console.log('updating...');
+					console.log([self,self.progress]);
 					if(window['onLoadCalled']==true) {
 						if(self.progress.progressObj==null) {
 							self.progress.progressObj=new ProgressLoader(0,progress.progMax);
