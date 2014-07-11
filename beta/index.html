@@ -327,7 +327,7 @@
 							}
 							self.tsStorage.put(name, url, response.target.responseText);
 							if(canCreateScript)self.createScript(name, response.target.responseText);
-							self.progressValue=successQueue.length;
+							self.progress.progressValue=self.successQueue.length;
 							if(self.waitingQueue.length==0) {
 								if(self.failureQueue.length==0) {
 									self.progress.progressHidden=true;
