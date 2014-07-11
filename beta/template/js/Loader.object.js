@@ -21,7 +21,8 @@
 					"input.js":["utils.js", "logger.js"],
 					"help.js":["logger.js", "utils.js"],
 					"console.js":[],
-					"communications.js":[] };
+					"communications.js":[],
+					"logger.js":[] };
 				//functiondef
 				self.onSuccess = function(src, name) {
 					var obj = Object.create(null);
