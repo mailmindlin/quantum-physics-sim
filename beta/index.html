@@ -450,7 +450,7 @@
 				window['ProgressLoader'] = function(min,max) {
 					console.log("a");
 					var _domProgress= document.querySelector('#progressBar>center>progress');
-					var _domLabel	= document.querySelector('#progressBas>center>span');
+					var _domLabel	= document.querySelector('#progressBar>center>span');
 					console.log("b");
 					var _offset	= min;
 					var _max	= max;
@@ -458,7 +458,7 @@
 					var self = {};
 					console.log("d");
 					self.__defineGetter__("domProgress",function(){return _domProgress;});
-					self.__defineGetter__("domLabel",function(){return _domProgress;});
+					self.__defineGetter__("domLabel",function(){return _domLabel;});
 					self.__defineGetter__("min",function(){return _offset;});
 					self.__defineGetter__("max",function(){return _max;});
 					self.__defineGetter__("size",function(){return self.max-self.min;});
