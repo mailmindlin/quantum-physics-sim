@@ -124,3 +124,6 @@ window.JSmolInterface = {
 		JSmol1._script(cmd);
 	}
 };
+window.QCIterface = function() {
+	
+};
