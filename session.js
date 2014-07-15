@@ -1,7 +1,7 @@
 /*
   Stores data to be session-independent
 */
-var Session = (function() {
+window.Session = (function() {
   var iData={};
   iData['session-name']="Session";
   iData['autosave']=true;
