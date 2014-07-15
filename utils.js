@@ -41,7 +41,7 @@ String.prototype.pushLn = function(newLn) {
 	return this +  newLn + "\n";
 };
 
-var FileDownloader = function(data, MIME) {
+window.FileDownloader = function(data, MIME) {
 	var self = Object.create(null);
 	self.data = encodeURIComponent(data);
 	self.mime = MIME;
