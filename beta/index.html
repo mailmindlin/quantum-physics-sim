@@ -215,10 +215,11 @@
 				self.loadNextScript = function() {
 					for(var script in self.scriptDependencies) {
 						if(self.scriptDependencies[script].length==0) {
-							delete self.scriptDependencies[script];
-							window['loadscript_'+script.substr(0,script.indexOf("."))]();
-							console.log("%cLoaded script " + script,"color:cyan;");
-							return;
+							var scriptname='loadscript_'+script.substr(0,script.indexOf("."));
+								console.log("%cLoading script " + script + "("+scriptname+")","color:cyan;");
+								delete self.scriptDependencies[script];
+								window[scriptname]();
+								console.log("%c\t...done ","color:green;");
 						} else {
 							var viable = true;
 							for(var i=0;i<self.scriptDependencies[script].length;i++) {
@@ -229,9 +230,11 @@
 								}
 							}
 							if (viable) {
+								var scriptname='loadscript_'+script.substr(0,script.indexOf("."));
+								console.log("%cLoading script " + script + "("+scriptname+")","color:cyan;");
 								delete self.scriptDependencies[script];
-								window['loadscript_'+script.substr(0,script.indexOf("."))]();
-								console.log("%cLoaded script " + script,"color:cyan;");
+								window[scriptname]();
+								console.log("%c\t...done ","color:green;");
 								return;
 							}
 						}
