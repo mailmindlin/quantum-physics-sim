@@ -218,7 +218,7 @@
 							var scriptname='loadscript_'+script.substr(0,script.indexOf("."));
 								console.log("%cLoading script " + script + "("+scriptname+")","color:cyan;");
 								delete self.scriptDependencies[script];
-								window[scriptname]();
+								if(typeof window[scriptname] === 'function')window[scriptname]();
 								console.log("%c\t...done ","color:green;");
 						} else {
 							var viable = true;
@@ -233,7 +233,7 @@
 								var scriptname='loadscript_'+script.substr(0,script.indexOf("."));
 								console.log("%cLoading script " + script + "("+scriptname+")","color:cyan;");
 								delete self.scriptDependencies[script];
-								window[scriptname]();
+								if(typeof window[scriptname] === 'function')window[scriptname]();
 								console.log("%c\t...done ","color:green;");
 								return;
 							}
