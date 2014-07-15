@@ -2,7 +2,7 @@
 console.js
 allow scripting
 */
-var Console = function(data){
+window.Console = function(data){
 	var self = this;
 	self.data = data;
 	self.exec = function() {
