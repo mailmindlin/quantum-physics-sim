@@ -31,16 +31,16 @@ window['Atom'] = function(type,x,y,z,charge,vectorX,vectorY,vectorZ) {
 /**
  * typedef XYZFile
  */
-window['XYZFile'] = function(objectOrigin) {
+window['XYZFile'] = function (objectOrigin) {
 	"use strict";
 	var self = new Object();
 	self.atomRegistry = [];
-	self.pushAtom = function(atom) {
+	self.pushAtom = function (atom) {
 		//make sure atom is an atom
 		if(atom.type!="Atom")throw(new Error("argument[0] was not an atom!"));
 		self.atomRegistry.push(atom);
 	};
-	self.getXYZData = function(comment) {
+	self.getXYZData = function (comment) {
 		if(!ISSET(comment))comment = "This file was automatically generated.";//IDK what to put...
 		var output = ("").pushLn(self.atomRegistry.length);
 		output = output.pushLn(ISSET(comment)?comment:"");
@@ -54,7 +54,7 @@ window['XYZFile'] = function(objectOrigin) {
 	 * Loads XYZFile from parameter origin
 	 * @required origin: 
 	 */
-	self.loadFrom = function(origin) {
+	self.loadFrom = function (origin) {
 		for(var i = 0; i < origin.len; i++) {
 			var tempAtom = new Atom(origin[i]['element'],origin[i]['X'],origin[i]['Y'],origin[i]['Z']);
 			self.pushAtom(tempAtom);
@@ -63,7 +63,7 @@ window['XYZFile'] = function(objectOrigin) {
 	if(ISSET(objectOrigin))self.loadFrom(objectOrigin);
 	return self;
 };
-var Translator = function(obj) {
+window.Translator = function (obj) {
 	var self = Object.create(null);
 	self.molObj = obj;
 	self.translateX = function(amt) {
@@ -97,7 +97,7 @@ var Translator = function(obj) {
 	};
 	return self;
 };
-var JSmolInterface = {
+window.JSmolInterface = {
 	/**
 	 * Info object for creation of the JSmol object.
 	 * Contains standard properties (i.e., background color, size, path to native code).
@@ -111,11 +111,11 @@ var JSmolInterface = {
 		use:			"HTML5 WebGl Java",
 		readyFunction:	function(ev){"use strict"; console.log(["Ready!",ev]);}
 	},
-	start: function(domEl) {
+	start: function (domEl) {
 		"use strict";
 		$(domEl).html(Jmol.getAppletHtml("JSmol1",JSmolInterface.info));
 	},
-	showXYZ: function(xyz) {
+	showXYZ: function (xyz) {
 		var cmd = 'data "model example"\n';
 		cmd+=(xyz)+"\n";
 		cmd+=('end "model example";'+"\n");
