@@ -1,0 +1,13 @@
+#begin
+
+#defmod "LOAD"
+	UNLOAD ".*"
+	LOAD TEMPLATE FROM "index-template.template" RELATIVETO ME AS "INDEX"
+	LOAD DEPENDENCIES FROM "js/*" RELATIVETO TEMPLATE:"INDEX"
+	LOAD DEPENDENCY FROM "usage.object.html" RELATIVETO TEMPLATE:"INDEX"
+#enddef
+exec "LOAD"
+BUILD TEMPLATE ASYNC "INDEX"
+complete
+exit 0
+#end
