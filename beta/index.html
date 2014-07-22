@@ -173,19 +173,19 @@
 						if(self.objLength(self.failureQueue)==0) {
 							self.onCompleteSuccess();
 						}else{
-							self.progress.progressMax=500;
-							self.progress.progressObj.hidden=false;
-							self.countdownReload(5,"Sorry, but there's been an error.");
+							self.countdownReload(5,5,"Sorry, but there's been an error.");
 						}
 					}
 				};
-				self.countdownReload = function(time,text) {
+				self.countdownReload = function(max,time,text) {
 					if(time<=0) {
 						location.reload();
 					} else {
+						self.progress.progressObj.hidden=false;
+						self.progress.progressMax=max*100;
 						self.progress.progressLabel=text+" Reloading in: "+(time).toFixed(0)+"...";
 						self.progress.progressValue=time;
-						window.setTimeout(self.countdownReload,10,time-.01,text);
+						window.setTimeout(self.countdownReload,10,max,time-.01,text);
 					}
 				};
 				self.onFail = function(src, name) {
