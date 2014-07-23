@@ -124,7 +124,7 @@ window.JSmolInterface = {
 		JSmol1._script(cmd);
 	}
 };
-window['QCIterface'] = function() {
+window['QCInterface'] = function() {
 	var self = Object.create(null);
 	self.__defineGetter__("bohrAngstromRatio",function(){return .52917721092;});
 	self.angstromsToBohr = function(angstroms) {
