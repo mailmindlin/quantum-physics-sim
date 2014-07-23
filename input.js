@@ -196,6 +196,7 @@ window['Input'] = function(args) {
 	 * @return self (for chaining)
 	 */
 	self.loadFromSession = function() {
+		Session.load();
 		var data = Session.get("input");
 		if(ISSET(data) && ISSET(data[self.name])) {
 			self.loadFromData(JSON.parse(data[self.name]));

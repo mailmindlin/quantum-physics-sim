@@ -2,7 +2,8 @@
   Stores data to be session-independent
 */
 window.Session = (function() {
-  var iData={};
+  var iData;
+  iData = {};
   iData['session-name']="Session";
   iData['autosave']=true;
   function update() {
@@ -17,7 +18,7 @@ window.Session = (function() {
     setName: function(n){iData['session-name']=n;},
     getName: function(){return iData['session-name'];},
     getAll: function(){return iData;},
-    load: function(n) {iData=JSON.parse(window.localStorage.getItem(n));iData['session-name']=n;},
+    load: function(n) {iData=JSON.parse(window.localStorage.getItem((typeof n !== 'undefined')?n:(n='Session')));iData['session-name']=n;},
     save: function(n) {iSave(n);}
   };
 })();
