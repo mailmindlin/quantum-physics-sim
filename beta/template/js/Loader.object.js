@@ -83,6 +83,7 @@
 					for(var script in self.scriptDependencies) {
 						if(self.scriptDependencies[script].length==0) {
 							delete self.scriptDependencies[script];
+							console.log("Loading script "+script);
 							window['loadscript_'+script.substr(0,script.indexOf("."))]();
 							console.log("%cLoaded script " + script,"color:cyan;");
 							return;
