@@ -316,7 +316,7 @@
 					self.progress.progressMax = self.objLength(self.waitingQueue)+self.objLength(self.successQueue)+self.objLength(self.failureQueue);
 					self.progress.progressLabel = "Loading Scripts...";
 					//check if it exists in local storage
-					self.getFromCache(name, src, true, true);
+					self.getFromCache(name, src, true, true, Production);
 					return self;
 				};
 				self.progress = {};
