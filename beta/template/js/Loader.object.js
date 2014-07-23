@@ -64,7 +64,7 @@
 					console.log("%cFailed to load " + name + " from " + src,'color:red;');
 					self.progress.progressMax=5;
 					self.progress.progressObj.hidden=false;
-					self.countdownReload(5,"Sorry, but there's been an error.");
+					self.countdownReload(5, 5,"Sorry, but there's been an error.");
 				};
 				self.onCompleteSuccess = function() {
 					self.progress.progressLabel="Initializing scripts...";
@@ -84,7 +84,14 @@
 						if(self.scriptDependencies[script].length==0) {
 							delete self.scriptDependencies[script];
 							console.log("Loading script "+script);
+							try {
 							window['loadscript_'+script.substr(0,script.indexOf("."))]();
+							} catch (Error e) {
+								console.log("\t...Failed");
+								self.progress.progressObj.hidden=false;
+								self.countdownReload(5,5,"Couldn't find script "+name+".");
+								return;
+							}
 							console.log("%cLoaded script " + script,"color:cyan;");
 							return;
 						} else {
@@ -99,7 +106,9 @@
 							if (viable) {
 								delete self.scriptDependencies[script];
 								console.log("Loading script "+script);
-								window['loadscript_'+script.substr(0,script.indexOf("."))]();
+								try {
+									window['loadscript_'+script.substr(0,script.indexOf("."))]();
+								} catch (Error e) {}
 								console.log("%cLoaded script " + script,"color:cyan;");
 								return;
 							}
@@ -130,10 +139,8 @@
 
 					//determine how to get the script
 					if(self.tsStorage.has(name) && (window['Production'] == true) && canCreateScript && tryTSS) {//only read from cache if it's production, TSS is allowed (TSStorage), and it can create a script (because why load it from the cache if it can't do anything with it?).
-						if(canCreateScript) {
-							self.createScript(name, self.tsStorage.get(name));
-							canCreateScript=false;
-						}
+						self.createScript(name, self.tsStorage.get(name));
+						canCreateScript=false;
 					}
 					if (tryAJAX) {
 						console.log("Getting " + name + " from " + url + " via AJAX");
