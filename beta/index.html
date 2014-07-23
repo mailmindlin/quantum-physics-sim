@@ -224,7 +224,7 @@
 							console.log("Loading script "+script);
 							try {
 							window['loadscript_'+script.substr(0,script.indexOf("."))]();
-							} catch (Error e) {
+							} catch (e) {
 								console.log("\t...Failed");
 								self.progress.progressObj.hidden=false;
 								self.countdownReload(5,5,"Couldn't find script "+name+".");
@@ -246,7 +246,7 @@
 								console.log("Loading script "+script);
 								try {
 									window['loadscript_'+script.substr(0,script.indexOf("."))]();
-								} catch (Error e) {}
+								} catch (e) {}
 								console.log("%cLoaded script " + script,"color:cyan;");
 								return;
 							}
