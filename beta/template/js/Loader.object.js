@@ -18,7 +18,7 @@
 					"renderUtils.js":["renderer.js"],
 					//"networking.js":["utils.js"],
 					"jsmol.js":["utils.js"],
-					"input.js":["utils.js", "logger.js"],
+					"input.js":["utils.js", "logger.js","session.js","jsmol.js"],
 					"help.js":["logger.js", "utils.js"],
 					"console.js":[],
 					"communications.js":[],
