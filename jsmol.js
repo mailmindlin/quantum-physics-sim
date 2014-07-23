@@ -1,5 +1,5 @@
 /*
-	Interfaces with jsmol
+	Interfaces with jsmol & engine v1
 */
 /**
  * typedef Atom
@@ -124,6 +124,34 @@ window.JSmolInterface = {
 		JSmol1._script(cmd);
 	}
 };
-window.QCIterface = function() {
-	
-};
+window.QCIterface = (function() {
+	var self = Object.create(null);
+	self.__defineGetter__("bohrAngstromRatio",function(){return .52917721092;});
+	self.angstromsToBohr = function(angstroms) {
+		return angstroms/self.bohrAngstromRatio;
+	};
+	self.bohrToAngstrom = function(bohr) {
+		return bohr*self.bohrAngstromRatio;
+	};
+	self.lookup = function(chemSymbol) {
+		for(var i=1;i<=118;i++) {
+			if(elements[i].symbol == chemSymbol) {
+				return i;
+			}
+		}
+		return -1;
+	};
+	self.update = function(data) {
+		//restructure data
+		var atomTypes = [];
+		var atomCoord = [];
+		for(var i=0;i<data.length;i++) {
+			atomTypes[i]=self.lookup(data[i].element);
+			atomCoord[i]=[data[i].X, data[i].Y, data[i].Z];
+		}
+		console.log({atomTypes:atomTypes,atomCoord:atomCoord});
+		var jobResult = runQC(geometry,0,1,"RHF","STO-1G","SP");
+		console.log(jobResult);
+	};
+	return self;
+})();

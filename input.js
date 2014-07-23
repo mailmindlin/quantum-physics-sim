@@ -212,6 +212,7 @@ window['Input'] = function(args) {
 	};
 	self.updateLive = function(comment) {
 		JSmolInterface.showXYZ(self.getXYZData());
+		QCInterface.update(self.getData());
 	};
 	/*
 	 Determines whether to insert an input inside the DOM (as specified in args.dom)
