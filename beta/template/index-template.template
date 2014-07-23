@@ -46,8 +46,8 @@
 			window.debug=window.location.hash.contains("debug=true");
 			window.useBeta = window.location.pathname.endsWith("/beta/") && (!window.location.hash.contains("use=") || window.location.hash.contains("use=beta"));
 			window.isWebkit = 'WebkitAppearance' in document.documentElement.style;
-			[[~~OBJECT "Module"~~]]//HI
-			[[~~OBJECT "ModuleController"~~]]
+##			[[~~OBJECT "Module"~~]]//HI
+##			[[~~OBJECT "ModuleController"~~]]
 			[[~~OBJECT "TSStorage"~~]]
 			[[~~OBJECT "Loader"~~]]
 			//register scripts to load
