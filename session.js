@@ -22,3 +22,4 @@ window.Session = (function() {
     save: function(n) {iSave(n);}
   };
 })();
+window.addEventListener("beforeunload",function() {Session.save();}, true); 

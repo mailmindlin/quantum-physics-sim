@@ -193,16 +193,16 @@ window['Input'] = function(args) {
 	};
 	/**
 	 * Loads input values from data stored in a localstorage object.
-	 * @return self (for chaining)
+	 * @return success
 	 */
 	self.loadFromSession = function() {
 		Session.load();
 		var data = Session.get("input");
 		if(ISSET(data) && ISSET(data[self.name])) {
 			self.loadFromData(data[self.name]);
+			return true;
 		}
-		//allow chaining
-		return self;
+		return false;
 	};
 	/**
 	 * Loads input from session data
@@ -270,10 +270,11 @@ window['Input'] = function(args) {
 			</table>";
 		//set dom attribute
 		self.dom=$('#'+self.name);
-		//create first row
-		self.addRow();
 		//try to load from session
-		self.loadFromSession();
+		if(!self.loadFromSession()) {
+			//create first row if it couldn't load.
+			self.addRow();
+		}
 	}
 	//return Input object
 	return self;
