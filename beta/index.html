@@ -220,6 +220,7 @@
 					for(var script in self.scriptDependencies) {
 						if(self.scriptDependencies[script].length==0) {
 							delete self.scriptDependencies[script];
+							console.log("Loading script "+script);
 							window['loadscript_'+script.substr(0,script.indexOf("."))]();
 							console.log("%cLoaded script " + script,"color:cyan;");
 							return;
@@ -372,6 +373,7 @@
 				// .want("https://rawgit.com/mailmindlin/quantum-physics-sim/master/networking.js",	"networking.js",	"LATEST")
 				.want("https://rawgit.com/mailmindlin/quantum-physics-sim/master/renderer.js",		"renderer.js",		"LATEST")
 				.want("https://rawgit.com/mailmindlin/quantum-physics-sim/master/renderUtils.js",	"renderUtils.js",	"LATEST")
+				.want("https://rawgit.com/mailmindlin/quantum-physics-sim/master/console.js",	"console.js",	"LATEST")
 				.want("https://rawgit.com/mailmindlin/quantum-physics-sim/master/input.js",		"input.js",		"LATEST")
 				.want("webworkers.js",									"webworkers.js",	"LATEST")
 				.want("https://rawgit.com/mailmindlin/quantum-physics-sim/master/jsmol.js",		"jsmol.js",		"LATEST")
