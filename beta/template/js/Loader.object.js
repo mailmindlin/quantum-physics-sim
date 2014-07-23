@@ -122,15 +122,25 @@
 					headTag.appendChild(sct);
 				};
 				self.getFromCache = function(name, url, tryAJAX, canCreateScript, tryTSS) {
+					//fix variables
 					if(typeof tryAJAX === 'undefined')tryAJAX=true;
 					if (typeof version === "undefined")version = "LATEST";
 					if(typeof tryTSS === 'undefined')tryTSS=true;
-					console.log("getFromCache("+name+", "+url+", "+tryAJAX+", "+canCreateScript+", "+tryTSS+");");
 					if(typeof canCreateScript === 'undefined')canCreateScript=false;
+					
+					//debugging
+					console.log("getFromCache("+name+", "+url+", "+tryAJAX+", "+canCreateScript+", "+tryTSS+");");
+					
+					//determine how to get the script
 					if(self.tsStorage.has(name) && (window['Production'] == true) && canCreateScript && tryTSS) {//only read from cache if it's production, TSS is allowed (TSStorage), and it can create a script (because why load it from the cache if it can't do anything with it?).
 						console.log("Pulling stript "+name+" from storage.");
-						if(canCreateScript)self.createScript(name, self.tsStorage.get(name));
-					} else if (tryAJAX) {
+						if(canCreateScript) {
+							console.log("Creating script "+name+"...");
+							self.createScript(name, self.tsStorage.get(name));
+							canCreateScript=false;
+						}
+					}
+					if (tryAJAX) {
 						console.log("Getting " + name + " from " + url + " via AJAX");
 						self.getFromAjax(name, url, false, function(response, wasGood) {
 							if(!wasGood) {
