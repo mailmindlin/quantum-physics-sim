@@ -158,10 +158,51 @@ window['Input'] = function(args) {
 	 * Loads input from data object. The data object is basically generated from the Input#getData()
 	 * @param data: the data to load from
 	 * @throws error if data isn't an object
+	 * @returns self (for chaining)
 	 */
 	self.loadFromData = function(data) {
 		if(!ISSET(data, 'object'))throw(new Error('Data is not an object!'));
-		//TODO finish
+		var td=$(this).parent();
+			var tr=$(td).parent();
+			if($($(tr).parent()).children().size()>1)tr.remove();
+			self.updateData();
+		//make sure self.dom is defined
+		if(!ISSET(self.dom)) {
+			//get table element
+			self.dom = $('table#'+self.name)[0];
+		}
+		var tbody = $(self.dom).find('tbody');
+		//clear
+		var len = $(tbdy).children().size();
+		for(var i = 0; i < len; ++i) {
+			$(tbody).find('tr').eq(0).remove();
+		}
+		len=data.length;
+		for(var i = 0; i < len; ++i) {
+			self.addRow();
+		}
+		for(var i = 0; i < len; ++i) {
+			var temp = $(tbody).children().eq(i);
+			$(temp).find('.input-element').val(data[i].element);
+			$(temp).find('.input-X').val(""+data[i].X);
+			$(temp).find('.input-Y').val(""+data[i].Y);
+			$(temp).find('.input-Z').val(""+data[i].Z);
+		}
+		//allow chaining
+		return self;	
+	};
+	/**
+	 * Loads input values from data stored in a localstorage object.
+	 * @return self (for chaining)
+	 */
+	self.loadFromSession = function() {
+		Session.load();
+		var data = Session.get("input");
+		if(ISSET(data) && ISSET(data[self.name])) {
+			self.loadFromData(JSON.parse(data[self.name]));
+		}
+		//allow chaining
+		return self;
 	};
 	/**
 	 * Loads input from session data
@@ -193,7 +234,7 @@ window['Input'] = function(args) {
 		}
 		var tbody = $(self.dom).find('tbody');
 		obj.len=$(tbody).children().size();
-		for(var i = 0; i < obj.len; i++) {
+		for(var i = 0; i < obj.len; ++i) {
 			var temp = $(tbody).children().eq(i);
 			var rowObj = {}
 			rowObj.element=$(temp).find('.input-element').val();
@@ -231,6 +272,8 @@ window['Input'] = function(args) {
 		self.dom=$('#'+self.name);
 		//create first row
 		self.addRow();
+		//try to load from session
+		self.loadFromSession();
 	}
 	//return Input object
 	return self;
