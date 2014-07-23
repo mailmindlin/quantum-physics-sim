@@ -478,7 +478,7 @@
 						window['onLoadCalled']=true;
 						if(window['hideProgressbar']==true)(new ProgressLoader(0,0)).hidden=true;
 						console.error("MARKER");
-						if(Loader.successQueue.length > 0 || typeof(Input)==='undefined') {window.setTimeout(this, 20); return;}
+						if(typeof(Loader)==='undefined' || Loader.successQueue.length > 0 || typeof(Input)==='undefined') {window.setTimeout(this, 20); return;}
 						var canvas = $('.simulator-canvas')[0];
 						var input = $('#input-test')[0];
 						window['inp']=new Input({name:'input-test1', dom:input});
