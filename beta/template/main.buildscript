@@ -13,11 +13,16 @@
 	#enddef
 	#defmod "ListenToJs"
 		WATCH "JS_@var[js_file]" "BUILD"
-		incr js_file
 	#enddef
 	exec "BUILD"
+	echo
+	echo
+	echo Watching files...
 	watch "DP_0" "BUILD"
+	watch "INDEX" "BUILD"
 	echo Max JS files: @var[js_total]
 	repeat "ListenToJs" js_file 0 @var[js_total] 1
 	Echo "Done."
+	echo
+	echo
 #end

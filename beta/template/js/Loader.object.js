@@ -73,7 +73,7 @@
 					self.progress.progressValue=self.objLength(self.successQueue)-self.objLength(self.scriptDependencies);
 					self.loadNextScript();
 					if(self.objLength(self.scriptDependencies)>0) {
-						setTimeout(self.onCompleteSuccess,100);
+						setTimeout(self.onCompleteSuccess,1);
 					} else {
 						self.progress.progressObj.hidden=true;
 						self.onInitializationFinish();
@@ -86,7 +86,7 @@
 							console.log("Loading script "+script);
 							try {
 							window['loadscript_'+script.substr(0,script.indexOf("."))]();
-							} catch (Error e) {
+							} catch (e) {
 								console.log("\t...Failed");
 								self.progress.progressObj.hidden=false;
 								self.countdownReload(5,5,"Couldn't find script "+name+".");
@@ -108,7 +108,7 @@
 								console.log("Loading script "+script);
 								try {
 									window['loadscript_'+script.substr(0,script.indexOf("."))]();
-								} catch (Error e) {}
+								} catch (e) {}
 								console.log("%cLoaded script " + script,"color:cyan;");
 								return;
 							}
