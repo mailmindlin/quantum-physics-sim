@@ -198,7 +198,7 @@ window['Input'] = function(args) {
 	self.loadFromSession = function() {
 		Session.load();
 		var data = Session.get("input");
-		if(ISSET(data) && ISSET(data[self.name])) {
+		if(ISSET(data) && ISSET(data[self.name]) && data[self.name].length > 0) {
 			self.loadFromData(data[self.name]);
 			return true;
 		}
