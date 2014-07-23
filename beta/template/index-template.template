@@ -40,10 +40,11 @@
 			window.IDBKeyRange = window.IDBKeyRange || window.webkitIDBKeyRange || window.msIDBKeyRange;
 
 			//set whether this is a production build. Production builds have some features enabled/disabled
-			window['Production'] = false;
+			window['Production'] = (!window.location.hash.contains("production=false")) && (window.location.hash.contains("production=true")||window.location.pathname.endsWith("/demo/"));
 
 			//setup std. objects
-			window.debug=false;
+			window.debug=window.location.hash.contains("debug=true");
+			window.useBeta = window.location.pathname.endsWith("/beta/") && (!window.location.hash.contains("use=") || window.location.hash.contains("use=beta"));
 			window.isWebkit = 'WebkitAppearance' in document.documentElement.style;
 			[[~~OBJECT "Module"~~]]//HI
 			[[~~OBJECT "ModuleController"~~]]
