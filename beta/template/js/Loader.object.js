@@ -89,7 +89,7 @@
 					}
 				};
 				self.getScriptName = function(name) {
-					var output = "'loadscript_"+name.substr(0,name.contains('.')?name.indexOf("."):name.length)+"'";
+					var output = "loadscript_"+name.substr(0,name.contains('.')?name.indexOf("."):name.length);
 					while(output.contains('-')) {
 						output = output.replace('-','_');
 					}
@@ -156,7 +156,7 @@
 					var scriptName = self.getScriptName(name);"'loadscript_"+name.substr(0,name.indexOf(".")).substr(0,name.indexOf('-'))+"'";
 					console.log("Storing script "+name+" as "+scriptName+".");
 					//generate wrapper
-					data = "window["+scriptName+"]=function(){\n"+data+"\n};";
+					data = "window['"+scriptName+"']=function(){\n"+data+"\n};";
 					sct.innerHTML=data;
 					sct.setAttribute("type","text/javascript");
 					var headTag = document.querySelector("head");
