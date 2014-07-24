@@ -90,9 +90,10 @@
 				};
 				self.loadNextScript = function() {
 					for(var script in self.scriptDependencies) {
+						var scriptName = "'loadscript_"+name.substr(0,name.indexOf(".")).substr(0,name.indexOf('-'))+"'";
 						if(self.scriptDependencies[script].length==0) {
 							delete self.scriptDependencies[script];
-							console.log("Loading script "+script);
+							console.log("Loading script "+script+" ("+scriptName+")");
 							try {
 							window['loadscript_'+script.substr(0,script.indexOf(".")).substr(0,name.indexOf('-'))]();
 							} catch (e) {
@@ -114,10 +115,14 @@
 							}
 							if (viable) {
 								delete self.scriptDependencies[script];
-								console.log("Loading script "+script);
+								console.log("Loading script "+script+" ("+scriptName+")");
 								try {
 									window['loadscript_'+script.substr(0,script.indexOf("."))]();
-								} catch (e) {}
+								} catch (e) {
+									console.log("\t...Failed");
+									self.progress.progressObj.hidden=false;
+									self.countdownReload(5,5,"Couldn't find script "+name+".");
+								}
 								console.log("%cLoaded script " + script,"color:cyan;");
 								return;
 							}
