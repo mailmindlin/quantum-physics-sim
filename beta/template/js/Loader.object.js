@@ -88,14 +88,21 @@
 						self.onInitializationFinish();
 					}
 				};
+				self.getScriptName = function(fileName) {
+					var output = "'loadscript_"+fileName.substr(0,name.indexOf("."))+"'";
+					while(output.contains('-')) {
+						output = output.replace('-','_');
+					}
+					return output;
+				};
 				self.loadNextScript = function() {
 					for(var script in self.scriptDependencies) {
-						var scriptName = "'loadscript_"+name.substr(0,name.indexOf(".")).substr(0,name.indexOf('-'))+"'";
+						var scriptName = self.getScriptName(name);//"'loadscript_"+name.substr(0,name.indexOf(".")).substr(0,name.indexOf('-'))+"'";
 						if(self.scriptDependencies[script].length==0) {
 							delete self.scriptDependencies[script];
 							console.log("Loading script "+script+" ("+scriptName+")");
 							try {
-							window['loadscript_'+script.substr(0,script.indexOf(".")).substr(0,name.indexOf('-'))]();
+							window[scriptName]();
 							} catch (e) {
 								console.log("\t...Failed");
 								self.progress.progressObj.hidden=false;
@@ -117,7 +124,7 @@
 								delete self.scriptDependencies[script];
 								console.log("Loading script "+script+" ("+scriptName+")");
 								try {
-									window['loadscript_'+script.substr(0,script.indexOf("."))]();
+									window[scriptName]();
 								} catch (e) {
 									console.log("\t...Failed");
 									self.progress.progressObj.hidden=false;
@@ -137,7 +144,7 @@
 				self.createScript = function(name, data) {
 					var sct = document.createElement("script");
 					sct.setAttribute("name",name);
-					var scriptName = "'loadscript_"+name.substr(0,name.indexOf(".")).substr(0,name.indexOf('-'))+"'";
+					var scriptName = self.getScriptName(name);"'loadscript_"+name.substr(0,name.indexOf(".")).substr(0,name.indexOf('-'))+"'";
 					console.log("Storing script "+name+" as "+scriptName+".");
 					//generate wrapper
 					data = "window["+scriptName+"]=function(){\n"+data+"\n};";
