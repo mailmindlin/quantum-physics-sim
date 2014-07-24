@@ -104,6 +104,7 @@
 							console.log("Loading script "+script+" ("+scriptName+")");
 							try {
 								window[scriptName]();
+								console.log('Success');
 								//move script object
 								self.rtQueue.push(self.successQueue[script]);
 								delete self.successQueue[script];
@@ -129,6 +130,7 @@
 								console.log("Loading script "+script+" ("+scriptName+")");
 								try {
 									window[scriptName]();
+									console.log('Success');
 									//move script object
 									self.rtQueue.push(self.successQueue[script]);
 									delete self.successQueue[script];
