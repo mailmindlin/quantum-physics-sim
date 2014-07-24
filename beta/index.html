@@ -111,7 +111,7 @@
 						self.progress.progressObj.hidden=false;
 						self.progress.progressMax=max*100;
 						self.progress.progressLabel=text+" Reloading in: "+(time).toFixed(0)+"...";
-						self.progress.progressValue=time;
+						self.progress.progressValue=time*100;
 						if(!window.location.hash.contains("noreload=true")) {
 							window.setTimeout(self.countdownReload,10,max,time-.01,text);
 						} else {
