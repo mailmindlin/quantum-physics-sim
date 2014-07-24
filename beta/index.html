@@ -157,7 +157,7 @@
 				};
 				self.loadNextScript = function() {
 					for(var script in self.scriptDependencies) {
-						var scriptName = self.getScriptName(name);//"'loadscript_"+name.substr(0,name.indexOf(".")).substr(0,name.indexOf('-'))+"'";
+						var scriptName = self.getScriptName(script);//"'loadscript_"+name.substr(0,name.indexOf(".")).substr(0,name.indexOf('-'))+"'";
 						if(self.scriptDependencies[script].length==0) {
 							delete self.scriptDependencies[script];
 							console.log("Loading script "+script+" ("+scriptName+")");
