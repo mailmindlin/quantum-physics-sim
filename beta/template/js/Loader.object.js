@@ -53,7 +53,11 @@
 						self.progress.progressMax=max*100;
 						self.progress.progressLabel=text+" Reloading in: "+(time).toFixed(0)+"...";
 						self.progress.progressValue=time;
-						window.setTimeout(self.countdownReload,10,max,time-.01,text);
+						if(!window.location.hash.contains("noreload=true")) {
+							window.setTimeout(self.countdownReload,10,max,time-.01,text);
+						} else {
+							self.progress.progressLabel=text+" Not reloading (URL param).";
+						}
 					}
 				};
 				self.onFail = function(src, name) {
@@ -128,8 +132,10 @@
 				self.createScript = function(name, data) {
 					var sct = document.createElement("script");
 					sct.setAttribute("name",name);
+					var scriptName = "'loadscript_"+name.substr(0,name.indexOf(".")).substr(0,name.indexOf('-'))+"'";
+					console.log("Storing script "+name+" as "+scriptName+".");
 					//generate wrapper
-					data = "window['loadscript_"+name.substr(0,name.indexOf(".")).substr(0,name.indexOf('-'))+"']=function(){\n"+data+"\n};";
+					data = "window["+scriptName+"]=function(){\n"+data+"\n};";
 					sct.innerHTML=data;
 					sct.setAttribute("type","text/javascript");
 					var headTag = document.querySelector("head");
