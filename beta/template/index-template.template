@@ -128,14 +128,22 @@
 					//called on body load
 					function load() {
 						window['onLoadCalled']=true;
+						console.log("1");
 						if(window['hideProgressbar']==true)(new ProgressLoader(0,0)).hidden=true;
+						console.log("1");
 						if(typeof(Loader)==='undefined' || Loader.successQueue.length > 0 || typeof(Input)==='undefined') {window.setTimeout(this, 20); return;}
+						console.log("1");
 						var canvas = $('.simulator-canvas')[0];
+						console.log("1");
 						var input = $('#input-test')[0];
+						console.log("1");
 						window['inp']=new Input({name:'input-test1', dom:input});
+						console.log("1");
 						//setup jsmol
 						JSmolInterface.info.j2s="http://mailmindlin.github.io/quantum-physics-sim/jsmol/jsmol/j2s";
+						console.log("1");
 						JSmolInterface.start($('.simulator-canvas')[0]);
+						console.log("1");
 						//TODO finish
 					}
 				</script>
