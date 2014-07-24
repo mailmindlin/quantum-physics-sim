@@ -81,7 +81,12 @@
 					"help.js":["logger.js", "utils.js"],
 					"console.js":[],
 					"communications.js":[],
-					"logger.js":[] };
+					"logger.js":[],
+					"sprintf.min.js":[],
+					"numeric-1.2.6.min.js":[],
+					"quantumchem.js":["sprintf.min.js","numeric-1.2.6.min.js"],
+					"sto1g.js":["quantumchem.js"],
+					"rhf.js":["sto1g.js"] };
 				//functiondef
 				self.onSuccess = function(src, name) {
 					var obj = Object.create(null);
@@ -144,7 +149,7 @@
 							delete self.scriptDependencies[script];
 							console.log("Loading script "+script);
 							try {
-							window['loadscript_'+script.substr(0,script.indexOf("."))]();
+							window['loadscript_'+script.substr(0,script.indexOf(".")).substr(0,name.indexOf('-'))]();
 							} catch (e) {
 								console.log("\t...Failed");
 								self.progress.progressObj.hidden=false;
@@ -183,7 +188,7 @@
 					var sct = document.createElement("script");
 					sct.setAttribute("name",name);
 					//generate wrapper
-					data = "window['loadscript_"+name.substr(0,name.indexOf("."))+"']=function(){\n"+data+"\n};";
+					data = "window['loadscript_"+name.substr(0,name.indexOf(".")).substr(0,name.indexOf('-'))+"']=function(){\n"+data+"\n};";
 					sct.innerHTML=data;
 					sct.setAttribute("type","text/javascript");
 					var headTag = document.querySelector("head");
