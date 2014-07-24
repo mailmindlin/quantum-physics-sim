@@ -102,7 +102,10 @@
 							delete self.scriptDependencies[script];
 							console.log("Loading script "+script+" ("+scriptName+")");
 							try {
-							window[scriptName]();
+								window[scriptName]();
+								//move script object
+								self.rtQueue.push(self.successQueue[script]);
+								delete self.successQueue[script];
 							} catch (e) {
 								console.log("\t...Failed");
 								self.progress.progressObj.hidden=false;
@@ -125,6 +128,9 @@
 								console.log("Loading script "+script+" ("+scriptName+")");
 								try {
 									window[scriptName]();
+									//move script object
+									self.rtQueue.push(self.successQueue[script]);
+									delete self.successQueue[script];
 								} catch (e) {
 									console.log("\t...Failed");
 									self.progress.progressObj.hidden=false;
