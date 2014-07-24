@@ -88,7 +88,7 @@
 						self.onInitializationFinish();
 					}
 				};
-				self.getScriptName = function(fileName) {
+				self.getScriptName = function(name) {
 					var output = "'loadscript_"+fileName.substr(0,name.indexOf("."))+"'";
 					while(output.contains('-')) {
 						output = output.replace('-','_');
