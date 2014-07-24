@@ -89,7 +89,7 @@
 					}
 				};
 				self.getScriptName = function(name) {
-					var output = "'loadscript_"+fileName.substr(0,name.indexOf("."))+"'";
+					var output = "'loadscript_"+name.substr(0,name.indexOf("."))+"'";
 					while(output.contains('-')) {
 						output = output.replace('-','_');
 					}
