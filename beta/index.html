@@ -73,8 +73,8 @@
 				self.scriptDependencies = {
 					"utils.js":[],
 					"session.js":[],
-					//"renderer.js":["utils.js"],
-					//"renderUtils.js":["renderer.js"],
+					"renderer.js":["utils.js"],
+					"renderUtils.js":["renderer.js"],
 					//"networking.js":["utils.js"],
 					"jsmol.js":["utils.js"],
 					"input.js":["utils.js", "logger.js","session.js","jsmol.js"],
@@ -152,12 +152,11 @@
 					while(output.contains('-')) {
 						output = output.replace('-','_');
 					}
-					console.log(name+'->'+output);
 					return output;
 				};
 				self.loadNextScript = function() {
 					for(var script in self.scriptDependencies) {
-						var scriptName = self.getScriptName(script);//"'loadscript_"+name.substr(0,name.indexOf(".")).substr(0,name.indexOf('-'))+"'";
+						var scriptName = self.getScriptName(script);
 						if(self.scriptDependencies[script].length==0) {
 							delete self.scriptDependencies[script];
 							console.log("Loading script "+script+" ("+scriptName+")");
@@ -210,8 +209,7 @@
 				self.createScript = function(name, data) {
 					var sct = document.createElement("script");
 					sct.setAttribute("name",name);
-					var scriptName = self.getScriptName(name);"'loadscript_"+name.substr(0,name.indexOf(".")).substr(0,name.indexOf('-'))+"'";
-					console.log("Storing script "+name+" as "+scriptName+".");
+					var scriptName = self.getScriptName(name);
 					//generate wrapper
 					data = "window['"+scriptName+"']=function(){\n"+data+"\n};";
 					sct.innerHTML=data;
