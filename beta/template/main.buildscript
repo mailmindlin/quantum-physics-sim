@@ -2,10 +2,10 @@
 	#defmod "BUILD"
 		UNLOAD ".*"
 		echo Unloaded @var[RESULT] files.
-		LOAD TEMPLATE FROM "index-template.template" RELATIVETO ME AS "INDEX"
-		LOAD DEPENDENCIES FROM "js/*" RELATIVETO TEMPLATE:"INDEX" AS "JS_%i"
+		reference TEMPLATE FROM "index-template.template" RELATIVETO ME AS "INDEX"
+		reference DEPENDENCIES FROM "js/*" RELATIVETO TEMPLATE:"INDEX" AS "JS_%i"
 		SET js_total TO @var[RESULT]
-		LOAD DEPENDENCY FROM "usage.object.html" RELATIVETO TEMPLATE:"INDEX" AS "DP_0"
+		reference DEPENDENCY FROM "usage.object.html" RELATIVETO TEMPLATE:"INDEX" AS "DP_0"
 		echo Loaded @var[js_total] js files.
 		BUILD TEMPLATE ASYNC "INDEX"
 		complete
@@ -14,6 +14,20 @@
 	#defmod "ListenToJs"
 		WATCH "JS_@var[js_file]" "BUILD"
 	#enddef
+	#defmod "Compress"
+		compress "JS_@var[i]" to "JS_@var[i]"
+//		echo @r[JS_@var[i]] 
+	#enddef
+	#defmod "Test"
+		reference dependencies from "js/*" relativeto me as "JS_%i"
+		for "Compress" i 0 @var[RESULT]
+		reference template from "index-template.template" relativeto me as "INDEX"
+		reference dependency from "usage.object.html" relativeto template:"INDEX" as "DP_0"
+		build template async "INDEX"
+		complete
+	#enddef
+	exec "Test"
+	exit 0
 	exec "BUILD"
 	echo
 	echo

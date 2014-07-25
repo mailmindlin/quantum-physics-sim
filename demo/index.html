@@ -35,85 +35,6 @@
 			window.debug=window.location.hash.contains("debug=true");
 			window.useBeta = window.location.pathname.endsWith("/beta/") && (!window.location.hash.contains("use=") || window.location.hash.contains("use=beta"));
 			window.isWebkit = 'WebkitAppearance' in document.documentElement.style;
-			window['Module'] = function(name, script, dependencies, funcName) {
-			 	var module		= Object.create(null);
-			 	module.name		= name;
-			 	module.script		= script;
-			 	module.dependencies	= dependencies;
-			 	module.funcName		= funcName;
-			 	module.isComplete	= false;
-			 	module.run = function() {
-			 		window[funcName]();
-			 		module.isComplete=true;
-			 		window['ModuleController'].onModuleCompletion();
-			 	};
-			 	return module;
-			 };
-//HI
-			window['ModuleController'] = (function() {
-			 	var self = Object.create(null);
-			 	self.canStart = false;
-			 	self.modules = [];
-			 	self.availableModules = [];
-			 	self.promises= [];
-			 	self.registerModule = function(module) {
-			 		self.modules.push(module);
-			 	};
-			 	self.onScriptLoad = function(scriptName) {
-			 		for(var i=0;i<modules.length;++i) {
-			 			var cModule = modules[i];
-			 			if(cModule.script = scriptName) {
-			 				//check validity
-			 				var requisites = cModule.dependencies;
-			 				for(var i=0;i<requisites.length;++i){
-			 					var tModule = self.getModule(requisite[i]);
-			 					if(tModule.isComplete)requisites.splice(i,1);//remove from array
-			 				}
-			 				if(requisites.length==0)cModule.run();
-			 			}
-			 		}
-			 	};
-			 	self.getModule = function(name) {
-			 		for(var i = 0; i<modules.length;++i) {
-			 			if(modules[i].name == name)return modules[i];
-			 		}
-			 	};
-			 	self.start = function() {
-			 		self.canStart = true;
-			 		for(var module in self.availableModules) {
-			 			window.setTimeout(module.run(),0);//run module asynchronously
-			 		};
-			 	};
-			 	self.isModuleLoaded = function(name) {
-			 		return self.getModule(name).isComplete;
-			 	};
-			 	self.checkPrerequisites = function(prereqs) {
-			 		for(var requisite in prereqs) {
-			 			if(!self.isModuleLoaded(requisite)) return false;
-			 		}
-			 		return true;
-			 	};
-			 	self.promiseScriptLoad = function(scripts, fn) {
-			 		var obj = Object.create(null);
-			 		obj.req = scripts;
-			 		obj.fn = fn;
-			 		self.promises.push(obj);
-			 		self.updatePromises();
-			 		return self;
-			 	};
-			 	self.updatePromises = function() {
-			 		for(var i=0;i<self.promises.length;i++) {
-			 			if(self.checkPrerequisites(self.promises[i].req)) {
-			 				setTimeout(self.promises[i].fn, 0);//run fn async
-			 				self.promises.splice(i,1);
-			 			}
-			 		}
-			 	};
-			 	self.onModuleCompletion = function() {
-			 		self.updatePromises;
-			 	};
-			 })();
-
 			window['TSStorage'] = function(args) {
 			 	var self = Object.create(null);
 			 	self.put = function(name, url, data) {
@@ -156,11 +77,16 @@
 					"renderUtils.js":["renderer.js"],
 					//"networking.js":["utils.js"],
 					"jsmol.js":["utils.js"],
-					"input.js":["utils.js", "logger.js"],
+					"input.js":["utils.js", "logger.js","session.js","jsmol.js"],
 					"help.js":["logger.js", "utils.js"],
 					"console.js":[],
 					"communications.js":[],
-					"logger.js":[] };
+					"logger.js":[],
+					"sprintf.min.js":[],
+					"numeric-1.2.6.min.js":[],
+					"quantumchem.js":["sprintf.min.js","numeric-1.2.6.min.js"],
+					"sto1g.js":["quantumchem.js"],
+					"rhf.js":["sto1g.js"] };
 				//functiondef
 				self.onSuccess = function(src, name) {
 					var obj = Object.create(null);
@@ -185,8 +111,12 @@
 						self.progress.progressObj.hidden=false;
 						self.progress.progressMax=max*100;
 						self.progress.progressLabel=text+" Reloading in: "+(time).toFixed(0)+"...";
-						self.progress.progressValue=time;
-						window.setTimeout(self.countdownReload,10,max,time-.01,text);
+						self.progress.progressValue=time*100;
+						if(!window.location.hash.contains("noreload=true")) {
+							window.setTimeout(self.countdownReload,10,max,time-.01,text);
+						} else {
+							self.progress.progressLabel=text+" Not reloading (URL param).";
+						}
 					}
 				};
 				self.onFail = function(src, name) {
@@ -217,13 +147,24 @@
 						self.onInitializationFinish();
 					}
 				};
+				self.getScriptName = function(name) {
+					var output = "loadscript_"+name.substr(0,name.contains('.')?name.indexOf("."):name.length);
+					while(output.contains('-')) {
+						output = output.replace('-','_');
+					}
+					return output;
+				};
 				self.loadNextScript = function() {
 					for(var script in self.scriptDependencies) {
+						var scriptName = self.getScriptName(script);
 						if(self.scriptDependencies[script].length==0) {
 							delete self.scriptDependencies[script];
-							console.log("Loading script "+script);
+							console.log("Loading script "+script+" ("+scriptName+")");
 							try {
-							window['loadscript_'+script.substr(0,script.indexOf("."))]();
+								window[scriptName]();
+								//move script object
+								self.rtQueue[script] = self.successQueue[script];
+								delete self.successQueue[script];
 							} catch (e) {
 								console.log("\t...Failed");
 								self.progress.progressObj.hidden=false;
@@ -243,10 +184,17 @@
 							}
 							if (viable) {
 								delete self.scriptDependencies[script];
-								console.log("Loading script "+script);
+								console.log("Loading script "+script+" ("+scriptName+")");
 								try {
-									window['loadscript_'+script.substr(0,script.indexOf("."))]();
-								} catch (e) {}
+									window[scriptName]();
+									//move script object
+									self.rtQueue[script] = self.successQueue[script];
+									delete self.successQueue[script];
+								} catch (e) {
+									console.log("\t...Failed");
+									self.progress.progressObj.hidden=false;
+									self.countdownReload(5,5,"Couldn't find script "+name+".");
+								}
 								console.log("%cLoaded script " + script,"color:cyan;");
 								return;
 							}
@@ -261,8 +209,9 @@
 				self.createScript = function(name, data) {
 					var sct = document.createElement("script");
 					sct.setAttribute("name",name);
+					var scriptName = self.getScriptName(name);
 					//generate wrapper
-					data = "window['loadscript_"+name.substr(0,name.indexOf("."))+"']=function(){\n"+data+"\n};";
+					data = "window['"+scriptName+"']=function(){\n"+data+"\n};";
 					sct.innerHTML=data;
 					sct.setAttribute("type","text/javascript");
 					var headTag = document.querySelector("head");
