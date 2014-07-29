@@ -18,7 +18,7 @@ window.Session = (function() {
     setName: function(n){iData['session-name']=n;},
     getName: function(){return iData['session-name'];},
     getAll: function(){return iData;},
-    load: function(n) {iData=JSON.parse(window.localStorage.getItem((typeof n !== 'undefined')?n:(n='Session')));iData['session-name']=n;},
+    load: function(n) {iData=JSON.parse(window.localStorage.getItem((typeof n !== 'undefined')?n:(n='Session')));if(iData==undefined||iData==null){iData={};}iData['session-name']=n;},
     save: function(n) {iSave(n);}
   };
 })();
