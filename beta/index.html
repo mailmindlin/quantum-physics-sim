@@ -25,6 +25,7 @@
 		<!-- my scripts -->
 		<script type="text/javascript" onerror="loadError('Main loader')">//<![CDATA[
 			if(String.prototype.contains==undefined){String.prototype.contains=function(n){return this.indexOf(n)>-1;}}
+			if(String.prototype.endsWith==undefined){String.prototype.endsWith=function(n){return this.lastIndexOf(n)==this.length-n.length;}}
 			//cross-compatibility
 			//indexedDB stuff
 			window.indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB;
