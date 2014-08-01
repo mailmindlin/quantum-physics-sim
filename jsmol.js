@@ -151,7 +151,9 @@ window['QCInterface'] = function() {
 			atomCoord[i]=[data[i].X, data[i].Y, data[i].Z];
 		}
 		console.log({atomTypes:atomTypes,atomCoord:atomCoord});
-		var jobResult = runQC(geometry,0,1,"RHF","STO-1G","SP");
+		try {
+			var jobResult = runQC(geometry,0,1,"RHF","STO-1G","SP");
+		} catch (e) {}
 		console.log(jobResult);
 	};
 	return self;
