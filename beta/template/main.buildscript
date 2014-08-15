@@ -19,8 +19,10 @@
 //		echo @r[JS_@var[i]] 
 	#enddef
 	#defmod "Test"
-		reference dependencies from "js/*" relativeto me as "JS_%i"
-		for "Compress" i 0 @var[RESULT]
+		reference dependencies from "js/*" relativeto me as "%n"
+		echo Boop
+		echo @m[$resources] : @m[filename_JS_0]
+//		for "Compress" i 0 @var[RESULT]
 		reference template from "index-template.template" relativeto me as "INDEX"
 		reference dependency from "usage.object.html" relativeto template:"INDEX" as "DP_0"
 		build template async "INDEX"

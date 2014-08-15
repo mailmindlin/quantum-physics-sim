@@ -77,7 +77,7 @@
 				};
 				self.onCompleteSuccess = function() {
 					self.progress.progressLabel="Initializing scripts...";
-					self.progress.progressObj.hidden=false;
+					self.progress.progressHidden=false;
 					self.progress.progressMax=self.objLength(self.successQueue);
 					self.progress.progressValue=self.objLength(self.successQueue)-self.objLength(self.scriptDependencies);
 					self.loadNextScript();
@@ -249,6 +249,9 @@
 						}else{
 							window['hideProgressbar']=true;
 						}
+						try {
+							self.progress.progressObj.hidden=val;
+						} catch(e) {}
 					}
 				});
 				self.progress.attemptLabelUpdate = function() {
