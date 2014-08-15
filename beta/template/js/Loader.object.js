@@ -84,7 +84,9 @@
 					if(self.objLength(self.scriptDependencies)>0) {
 						setTimeout(self.onCompleteSuccess,1);
 					} else {
-						self.progress.progressObj.hidden=true;
+						try {
+							self.progress.progressObj.hidden=true;
+						} catch (e) {}
 						self.onInitializationFinish();
 					}
 				};
