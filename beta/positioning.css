@@ -33,11 +33,14 @@ and (max-width : 320px) {
 	.input {
 		position: relative;
 	}
-	.input-element {
+	/*.input-element {
 		left:-18px;
 	}
 	.input-X {
 		left:-58px;
+	}*/
+	.input-numeric, .input-element {
+		left: -20px;
 	}
 	.input-numeric {
 		width: 50px;
