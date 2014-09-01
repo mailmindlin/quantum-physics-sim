@@ -18,6 +18,8 @@ and (max-width : 320px) {
 	.wrapper > section {
 		position: relative;
 		left: -15px;
+	}
+	body {
 		width: 100%;
 		overflow-x: hidden;
 	}
