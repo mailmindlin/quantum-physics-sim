@@ -26,6 +26,22 @@ and (max-width : 320px) {
 	#footer-wrapper {
 		display: none;
 	}
+	.wrapper > section > div {
+		position: relative;
+		left:-5px;
+	}
+	.input {
+		position: relative;
+	}
+	.input-element {
+		left:-18px;
+	}
+	.input-X {
+		left:-58px;
+	}
+	.input-numeric {
+		width: 50px;
+	}
 }
 
 /* iPads (portrait and landscape) ----------- */
