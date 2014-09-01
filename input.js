@@ -12,11 +12,11 @@ window['Input'] = function(args) {
 	self.tRow="<tr>\
 		<td><font style='color:white;background:red;' class='input-delete'>X</font></td>\
 		<td><input type='text' class='input-element input'/></td>\
-		<td><input type='text' class='input-X input input-numeric'/></td>\
-		<td><input type='text' class='input-Y input input-numeric'/></td>\
-		<td><input type='text' class='input-Z input input-numeric'/></td>\
+		<td><input type='text' class='input-X input input-numeric' pattern=\"\\d*\"/></td>\
+		<td><input type='text' class='input-Y input input-numeric' pattern=\"\\d*\"/></td>\
+		<td><input type='text' class='input-Z input input-numeric' pattern=\"\\d*\"/></td>\
 		</tr>"
-		.replace('\t','');//remove all tabs
+		.split('\t').join('');//remove all tabs
 	self.updateListeners = function() {
 		//remove old listener(s)
 		$('.input-Z').off('keydown');
@@ -46,7 +46,8 @@ window['Input'] = function(args) {
 		$('.input-delete').click(function() {
 			var td=$(this).parent();
 			var tr=$(td).parent();
-			if($($(tr).parent()).children().size()>1)tr.remove();
+			tr.remove();
+			if($($(tr).parent()).children().size()<1)self.addRow();//add a row if there isn't one
 			self.updateData();
 		});
 		$('.input-element').bind('keyup blur', function(ev) {
