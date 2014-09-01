@@ -147,8 +147,8 @@ window['QCInterface'] = function() {
 		//restructure data
 		var atomTypes = [];
 		var atomCoord = [];
-		console.log("Data len: "+data.length+".");
-		for(var i=0;i<data.length;i++) {
+		console.log("Data len: "+data.len+".");
+		for(var i=0;i<data.len;i++) {
 			console.log("Iterating through element "+i+".");
 			atomTypes[i]=self.lookup(data[i].element);
 			atomCoord[i]=[data[i].X, data[i].Y, data[i].Z];
