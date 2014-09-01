@@ -148,14 +148,15 @@ window['QCInterface'] = function() {
 		var atomTypes = [];
 		var atomCoord = [];
 		for(var i=0;i<data.length;i++) {
+			console.log("Iterating through element "+i+".");
 			atomTypes[i]=self.lookup(data[i].element);
 			atomCoord[i]=[data[i].X, data[i].Y, data[i].Z];
 		}
 		console.log({atomTypes:atomTypes,atomCoord:atomCoord});
 		try {
 			var jobResult = runQC(geometry,0,1,"RHF","STO-1G","SP");
+			console.log(jobResult);
 		} catch (e) {}
-		console.log(jobResult);
 	};
 	return self;
 };
