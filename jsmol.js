@@ -104,8 +104,8 @@ window.JSmolInterface = {
 	 */
 	info: {
 		color:			"#252525",
-		height: 		300,
-		width:			300,
+		height: 		400,
+		width:			400,
 		//j2s:			"http://mailmindlin.github.io/quantum-physics-sim/jsmol/jsmol/j2s",
 		j2s:			"/j2s",
 		use:			"HTML5 WebGl Java",
