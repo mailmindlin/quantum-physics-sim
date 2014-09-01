@@ -18,10 +18,13 @@ and (max-width : 320px) {
 	.wrapper > section {
 		position: relative;
 		left: -15px;
+<<<<<<< HEAD
 	}
 	body {
 		width: 100%;
 		overflow-x: hidden;
+=======
+>>>>>>> parent of 4a01954... Fixed horizontal scrolling problem
 	}
 	.wrapper > section > p {
 		position: relative;
