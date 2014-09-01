@@ -105,7 +105,7 @@ window.JSmolInterface = {
 	info: {
 		color:			"#252525",
 		height: 		document.querySelector('body > div.wrapper > section').getBoundingClientRect().left,
-		width:			document.querySelector('body > div.wrapper > section').getBoundingClientRect().left,
+		width:			document.querySelector('body > div.wrapper > section').getBoundingClientRect().left-5,
 		//j2s:			"http://mailmindlin.github.io/quantum-physics-sim/jsmol/jsmol/j2s",
 		j2s:			"/j2s",
 		use:			"HTML5 WebGl Java",
