@@ -34,6 +34,7 @@
 			window.IDBKeyRange = window.IDBKeyRange || window.webkitIDBKeyRange || window.msIDBKeyRange;
 			//set whether this is a production build. Production builds have some features enabled/disabled
 			window['Production'] = (!window.location.hash.contains("production=false")) && (window.location.hash.contains("production=true")||window.location.pathname.endsWith("/demo/"));
+			window['isMobile'] = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 			//setup std. objects
 			window.debug=window.location.hash.contains("debug=true");
 			window.useBeta = window.location.pathname.endsWith("/beta/") && (!window.location.hash.contains("use=") || window.location.hash.contains("use=beta"));
@@ -146,7 +147,9 @@
 					if(self.objLength(self.scriptDependencies)>0) {
 						setTimeout(self.onCompleteSuccess,1);
 					} else {
-						self.progress.progressObj.hidden=true;
+						try {
+							self.progress.progressObj.hidden=true;
+						} catch (e) {}
 						self.onInitializationFinish();
 					}
 				};
@@ -360,7 +363,7 @@
 				hasHadLoadError=true;
 				console.log(ev);
 				Loader.onFail("GITHUB",name);
-				var reload = confirm("Sorry, but one or more of the scripts on this page failed to load ("+ev+").\nWould you like to reload?");
+				var reload = confirm("Sorry, but one or more of the stylesheets on this page failed to load ("+ev+").\nWould you like to reload?");
 				if(reload)location.reload();
 			}
 		//]]></script>
