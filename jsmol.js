@@ -156,7 +156,9 @@ window['QCInterface'] = function() {
 		try {
 			var jobResult = runQC(geometry,0,1,"RHF","STO-1G","SP");
 			console.log(jobResult);
-		} catch (e) {}
+		} catch (e) {
+			console.log("Job failed");
+		}
 	};
 	return self;
 };
