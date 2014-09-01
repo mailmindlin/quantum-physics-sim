@@ -18,6 +18,8 @@ and (max-width : 320px) {
 	.wrapper > section {
 		position: relative;
 		left: -15px;
+		width: 100%;
+		overflow-x: hidden;
 	}
 	.wrapper > section > p {
 		position: relative;
