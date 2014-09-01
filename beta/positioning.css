@@ -15,6 +15,14 @@ and (min-width : 321px) {
 @media only screen 
 and (max-width : 320px) {
 /* Styles */
+	.wrapper > section {
+		position: relative;
+		left: -15px;
+	}
+	.wrapper > section > p {
+		position: relative;
+		left:10px;
+	}
 }
 
 /* iPads (portrait and landscape) ----------- */
