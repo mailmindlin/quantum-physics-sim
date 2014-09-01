@@ -153,7 +153,8 @@ window['QCInterface'] = function() {
 			atomTypes[i]=self.lookup(data[i].element);
 			atomCoord[i]=[data[i].X, data[i].Y, data[i].Z];
 		}
-		console.log({atomTypes:atomTypes,atomCoord:atomCoord});
+		var geometry = {atomTypes:atomTypes, atomCoord:atomCoord};
+		console.log(geometry);
 		try {
 			var jobResult = runQC(geometry,0,1,"RHF","STO-1G","SP");
 			console.log(jobResult);
