@@ -47,7 +47,7 @@ window['Input'] = function(args) {
 			var td=$(this).parent();
 			var tr=$(td).parent();
 			tr.remove();
-			if($($(tr).parent()).children().size()<1)self.addRow();//add a row if there isn't one
+			if(!($($(tr).parent()).children().size()>1))self.addRow();//add a row if there isn't one
 			self.updateData();
 		});
 		$('.input-element').bind('keyup blur', function(ev) {
