@@ -143,6 +143,7 @@ window['QCInterface'] = function() {
 		return -1;
 	};
 	self.update = function(data) {
+		console.log(['Recieved data:',data]);
 		//restructure data
 		var atomTypes = [];
 		var atomCoord = [];
