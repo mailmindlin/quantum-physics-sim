@@ -47,7 +47,7 @@ and (min-width : 1224px) {
 	.simulator-canvas {
 		position: fixed;
 		left: 0px;
-		top: 100px;
+		top: 305px;
 	}
 }
 
