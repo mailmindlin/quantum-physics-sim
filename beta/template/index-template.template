@@ -25,6 +25,7 @@
 		<link rel="stylesheet" href="main.css" onerror="loadError('main.css')"/>
 		<link rel="stylesheet" href="animations.css" onerror="loadError('animations.css')"/>
 		<link rel="stylesheet" href="cursor-props.css" onerror="loadError('cursor-props.css')"/>
+		<link rel="stylesheet" href="positioning.css"/>
 		<!-- jquery -->
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" class="imp-scr1" onerror="loadError('jquery 1.7.1')"></script>
 		<script src="../javascripts/respond.js" class="imp-scr2" onerror="loadError('Github\'s respond.js')"></script>
@@ -43,7 +44,7 @@
 
 			//set whether this is a production build. Production builds have some features enabled/disabled
 			window['Production'] = (!window.location.hash.contains("production=false")) && (window.location.hash.contains("production=true")||window.location.pathname.endsWith("/demo/"));
-
+			window['isMobile'] = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 			//setup std. objects
 			window.debug=window.location.hash.contains("debug=true");
 			window.useBeta = window.location.pathname.endsWith("/beta/") && (!window.location.hash.contains("use=") || window.location.hash.contains("use=beta"));
@@ -78,7 +79,7 @@
 				hasHadLoadError=true;
 				console.log(ev);
 				Loader.onFail("GITHUB",name);
-				var reload = confirm("Sorry, but one or more of the scripts on this page failed to load ("+ev+").\nWould you like to reload?");
+				var reload = confirm("Sorry, but one or more of the stylesheets on this page failed to load ("+ev+").\nWould you like to reload?");
 				if(reload)location.reload();
 			}
 		//]]></script>
