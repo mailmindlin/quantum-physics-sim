@@ -48,6 +48,10 @@ and (min-width : 1224px) {
 		position: relative;
 		left: -325px;
 	}
+	#input-test, section>p, section>h3 {
+		position: relative;
+		top: -300px;
+	}
 }
 
 /* Large screens ----------- */
