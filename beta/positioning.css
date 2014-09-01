@@ -23,6 +23,9 @@ and (max-width : 320px) {
 		position: relative;
 		left:10px;
 	}
+	#footer-wrapper {
+		display: none;
+	}
 }
 
 /* iPads (portrait and landscape) ----------- */
